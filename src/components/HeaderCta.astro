@@ -1,0 +1,10 @@
+---
+// Override of Starlight's SocialIcons slot: injects the "Book a call" CTA —
+// the site's single monetisation pathway — into the header on every page,
+// then renders the default social icons after it.
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+import { SITE } from '../../site.config.mjs';
+---
+
+<a class="header-cta" href={SITE.bookCall}>{SITE.bookCallLabel}</a>
+<Default />

@@ -1,0 +1,37 @@
+---
+// Email capture, provider-agnostic and zero-JS.
+// With SITE.newsletterAction set: a plain HTML form POST (no fetch, no CORS
+// preflight, works with JS disabled). Without it: a mailto capture that still
+// collects the lead. Configure in site.config.mjs.
+import { SITE } from '../../site.config.mjs';
+
+const action = SITE.newsletterAction;
+const mailtoHref = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
+  `Subscribe: ${SITE.newsletterName}`
+)}&body=${encodeURIComponent('Add me to the list.')}`;
+---
+
+<aside class="email-capture not-content" aria-label="Newsletter signup">
+  <div class="ec-copy">
+    <strong>{SITE.newsletterName}</strong>
+    <p>{SITE.newsletterPitch}</p>
+  </div>
+  {
+    action ? (
+      <form action={action} method="post">
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="you@fund.com"
+          aria-label="Email address"
+        />
+        <button type="submit">Subscribe</button>
+      </form>
+    ) : (
+      <a class="ec-mailto" href={mailtoHref}>
+        Subscribe by email &rarr;
+      </a>
+    )
+  }
+</aside>

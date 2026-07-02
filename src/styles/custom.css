@@ -1,0 +1,341 @@
+/* ============================================================================
+   80x Docs — Revolut-style design system over Starlight.
+   Monochrome: pure white surface / pure black dark mode, near-black ink,
+   one accent = ink itself. Type: Inter (variable, via @fontsource) for body
+   and navigation; General Sans (variable, self-hosted, Fontshare free
+   license) for headings and the wordmark. Shapes: pill buttons, 12–16px
+   card radii, hairline list dividers, generous whitespace. No external
+   requests: fonts ship with the site.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('/docs/fonts/GeneralSans-Variable.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'General Sans';
+  src: url('/docs/fonts/GeneralSans-VariableItalic.woff2') format('woff2');
+  font-weight: 200 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* --- Color system ----------------------------------------------------------
+   Dark theme (root): Revolut dark — true black, white ink, graphite surfaces.
+   Light theme: paper white, near-black ink, cool gray surfaces.
+   The "accent" IS the ink: black in light, white in dark. ------------------ */
+
+:root {
+  --sl-color-accent-low: #1a1d21;
+  --sl-color-accent: #ffffff;
+  --sl-color-accent-high: #ffffff;
+
+  --sl-color-bg: #000000;
+  --sl-color-bg-nav: #000000;
+  --sl-color-bg-sidebar: #000000;
+  --sl-color-bg-inline-code: #16181c;
+  --sl-color-hairline: #212429;
+  --sl-color-hairline-light: #212429;
+  --sl-color-hairline-shade: #212429;
+
+  /* 80x design tokens */
+  --x-ink: #ffffff;
+  --x-ink-secondary: #9aa1a9;
+  --x-surface: #121417;
+  --x-surface-edge: #212429;
+  --x-pill-bg: #ffffff;
+  --x-pill-ink: #0a0c0e;
+
+  --x-radius-card: 1rem;
+  --x-radius-block: 0.75rem;
+  --x-radius-pill: 999px;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #f2f3f5;
+  --sl-color-accent: #14171a;
+  --sl-color-accent-high: #000000;
+
+  --sl-color-bg: #ffffff;
+  --sl-color-bg-nav: #ffffff;
+  --sl-color-bg-sidebar: #ffffff;
+  --sl-color-bg-inline-code: #f4f5f7;
+  --sl-color-hairline: #e9ebee;
+  --sl-color-hairline-light: #e9ebee;
+  --sl-color-hairline-shade: #e9ebee;
+
+  --sl-color-text: #14171a;
+
+  --x-ink: #14171a;
+  --x-ink-secondary: #6b7278;
+  --x-surface: #f4f5f7;
+  --x-surface-edge: #e9ebee;
+  --x-pill-bg: #14171a;
+  --x-pill-ink: #ffffff;
+}
+
+/* --- Typography ------------------------------------------------------------ */
+:root {
+  --sl-font: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
+  --x-font-display: 'General Sans', 'Inter Variable', system-ui, sans-serif;
+  --sl-text-base: 1rem;
+  --sl-line-height: 1.65;
+  --sl-content-width: 48rem;
+}
+
+.sl-markdown-content {
+  font-size: var(--sl-text-base);
+}
+
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+h1[data-page-title] {
+  font-family: var(--x-font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  border: 0; /* whitespace, not rules, separates sections */
+}
+h1[data-page-title] {
+  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem);
+}
+.sl-markdown-content h2 {
+  margin-top: 2.5em;
+}
+
+/* Links: ink-colored, underlined (monochrome needs the affordance) */
+.sl-markdown-content a {
+  color: var(--x-ink);
+  font-weight: 550;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--x-ink) 30%, transparent);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 120ms ease;
+}
+.sl-markdown-content a:hover {
+  color: var(--x-ink);
+  text-decoration-color: var(--x-ink);
+}
+
+/* --- Tables: Revolut list style (horizontal hairlines only) ----------------- */
+.sl-markdown-content table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.sl-markdown-content th,
+.sl-markdown-content td {
+  border: 0;
+  border-bottom: 1px solid var(--x-surface-edge);
+  padding: 0.65rem 1rem 0.65rem 0;
+  background: transparent;
+}
+.sl-markdown-content th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--x-ink-secondary);
+  text-align: left;
+}
+.sl-markdown-content tr:nth-child(2n) {
+  background: transparent;
+}
+
+/* --- Code, diagrams, asides: soft cards ------------------------------------- */
+.sl-markdown-content pre {
+  border: 0;
+  border-radius: var(--x-radius-block);
+  background: var(--x-surface) !important;
+}
+.sl-markdown-content code:not(pre code) {
+  border-radius: 0.375rem;
+  padding: 0.15em 0.4em;
+}
+.sl-markdown-content pre:has(code.language-text) {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--x-ink-secondary);
+}
+.sl-markdown-content .starlight-aside {
+  border: 0;
+  border-radius: var(--x-radius-block);
+  background: var(--x-surface);
+  color: var(--sl-color-text);
+}
+.sl-markdown-content blockquote {
+  border-inline-start: 2px solid var(--x-ink);
+  color: var(--x-ink-secondary);
+}
+
+/* --- Chrome ------------------------------------------------------------------ */
+header.header {
+  border-bottom: 1px solid var(--x-surface-edge);
+}
+/* Wordmark: plain-text "80x" in the display face */
+.site-title {
+  font-family: var(--x-font-display);
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--x-ink);
+}
+.sidebar-pane {
+  border-inline-end: 1px solid var(--x-surface-edge);
+}
+.sidebar-content {
+  font-size: var(--sl-text-sm);
+}
+nav.sidebar .top-level > li > details > summary {
+  font-weight: 600;
+}
+/* Current page: solid ink pill (Revolut selected state) */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+  background: var(--x-pill-bg);
+  color: var(--x-pill-ink);
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+.right-sidebar {
+  border-inline-start: 1px solid var(--x-surface-edge);
+}
+starlight-toc a {
+  font-size: 0.8125rem;
+}
+
+/* Search bar: soft pill */
+button[data-open-modal] {
+  border-radius: var(--x-radius-pill);
+  background: var(--x-surface);
+  border: 1px solid transparent;
+}
+
+/* --- Buttons: pills, ink-on-paper / paper-on-ink ----------------------------- */
+.sl-link-button {
+  border-radius: var(--x-radius-pill);
+  font-weight: 600;
+  border: 0;
+}
+.sl-link-button.primary {
+  background: var(--x-pill-bg);
+  color: var(--x-pill-ink);
+}
+.sl-link-button.primary:hover {
+  opacity: 0.85;
+}
+.sl-link-button.minimal {
+  color: var(--x-ink);
+}
+
+/* --- Header CTA (Book a call) ------------------------------------------------ */
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--x-radius-pill);
+  background: var(--x-pill-bg);
+  color: var(--x-pill-ink);
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 120ms ease;
+}
+.header-cta:hover {
+  opacity: 0.85;
+  color: var(--x-pill-ink);
+}
+@media (max-width: 40rem) {
+  .header-cta {
+    display: none; /* header space is scarce on mobile; footer CTA remains */
+  }
+}
+
+/* --- Email capture card ------------------------------------------------------ */
+.email-capture {
+  margin-top: 3rem;
+  padding: 1.25rem 1.5rem;
+  border: 0;
+  border-radius: var(--x-radius-card);
+  background: var(--x-surface);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.email-capture .ec-copy {
+  flex: 1 1 18rem;
+}
+.email-capture .ec-copy strong {
+  color: var(--x-ink);
+  font-size: var(--sl-text-base);
+  font-weight: 600;
+}
+.email-capture .ec-copy p {
+  margin: 0.25rem 0 0;
+  color: var(--x-ink-secondary);
+  font-size: var(--sl-text-sm);
+}
+.email-capture form {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1 1 16rem;
+}
+.email-capture input[type='email'] {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--x-surface-edge);
+  border-radius: var(--x-radius-pill);
+  background: var(--sl-color-bg);
+  color: var(--x-ink);
+  font-size: var(--sl-text-sm);
+}
+.email-capture button,
+.email-capture .ec-mailto {
+  padding: 0.5rem 1.1rem;
+  border: 0;
+  border-radius: var(--x-radius-pill);
+  background: var(--x-pill-bg);
+  color: var(--x-pill-ink);
+  font-weight: 600;
+  font-size: var(--sl-text-sm);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 120ms ease;
+}
+.email-capture button:hover,
+.email-capture .ec-mailto:hover {
+  opacity: 0.85;
+  color: var(--x-pill-ink);
+}
+
+/* --- Footer consult line ------------------------------------------------------ */
+.footer-consult {
+  margin: 0.75rem 0 1.5rem;
+  font-size: var(--sl-text-sm);
+  color: var(--x-ink-secondary);
+}
+.footer-consult a {
+  color: var(--x-ink);
+  font-weight: 600;
+}
+
+/* --- Landing page -------------------------------------------------------------- */
+[data-has-hero] .hero h1 {
+  font-family: var(--x-font-display);
+  letter-spacing: -0.03em;
+  font-weight: 650;
+  font-size: clamp(1.9rem, 1.3rem + 2vw, 3.1rem);
+}
+[data-has-hero] .hero .tagline {
+  font-size: var(--sl-text-base);
+  color: var(--x-ink-secondary);
+}

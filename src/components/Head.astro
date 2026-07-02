@@ -1,0 +1,42 @@
+---
+// Override of Starlight's Head: default head + JSON-LD structured data so
+// search engines and LLM crawlers get typed metadata on every page.
+import Default from '@astrojs/starlight/components/Head.astro';
+import { SITE } from '../../site.config.mjs';
+
+const route = Astro.locals?.starlightRoute;
+const entry = route?.entry;
+const isArticle = entry && entry.id && entry.id !== 'index';
+
+const org = {
+  '@type': 'Organization',
+  name: SITE.title,
+  url: SITE.docsUrl,
+  email: SITE.contactEmail,
+  sameAs: Object.values(SITE.social),
+};
+
+const jsonLd = isArticle
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      headline: entry.data.title,
+      description: entry.data.description ?? SITE.description,
+      url: new URL(Astro.url.pathname, SITE.url).href,
+      isAccessibleForFree: true,
+      license: 'https://creativecommons.org/licenses/by-sa/4.0/',
+      author: { '@type': 'Person', name: SITE.author.name },
+      publisher: org,
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: SITE.name,
+      description: SITE.description,
+      url: SITE.docsUrl,
+      publisher: org,
+    };
+---
+
+<Default />
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

@@ -1,0 +1,88 @@
+---
+title: 80x Docs
+description: Free, practical documentation for VCs who want to build and use technology inside their firm. Plain-English lessons from systems that actually run.
+template: splash
+hero:
+  title: Learn to build and use technology inside your fund
+  tagline: |
+    80x Docs is the open standard for agentic engineering and frontier
+    technology in venture capital: free, plain-English documentation for
+    investors and fund operators. Every page starts from a workflow you
+    already run (sourcing, screening, meeting notes, pipeline, portfolio
+    monitoring, LP fundraising), assumes no engineering background, and
+    comes from a system that actually runs.
+  # Hero action links bypass the base-prefix remark plugin, so they carry
+  # the /docs base explicitly.
+  actions:
+    - text: Start here
+      link: /docs/start-here/what-is-80x-docs/
+      icon: right-arrow
+    - text: Browse the reference
+      link: /docs/reference/
+      variant: minimal
+    - text: Use with your LLM
+      link: /docs/start-here/for-llms/
+      variant: minimal
+---
+
+## Choose your path
+
+- **"I want my pipeline to stay clean."** Start with
+  [pipeline hygiene](/playbooks/pipeline-hygiene/): every deal has a stage,
+  every stage change has a date, and a scheduled job does the remembering.
+  [The one-file cron sync](/guides/one-file-cron-sync/) is the smallest
+  build that enforces it.
+- **"I want screening notes to stop dying in inboxes."**
+  [Meeting notes to CRM](/guides/meeting-notes-to-crm/) gets what was said
+  onto the deal record, and the
+  [deal-qualification agent](/guides/medic-qualification-agent/) reads
+  those notes and files cited screening signals for your team to review.
+  Before the next call, [valentine](/projects/valentine/) briefs you on
+  your fund's prior contact with the company.
+- **"I want sourcing to be more than referrals and luck."**
+  [Sourcing and signals](/playbooks/sourcing-and-signals/) argues that your
+  durable edge is the interaction data your fund captures and owns, and
+  [WhatsApp to CRM](/guides/whatsapp-to-crm/) is one capture pipeline you
+  can build.
+- **"I want portfolio and pipeline numbers I don't assemble by hand."**
+  [The self-updating KPI dashboard](/guides/kpi-dashboard-from-crm/)
+  generates a fresh page from your CRM every morning, with no server to
+  run and no analyst on the hook.
+- **"I want one system every tool reads and writes."**
+  [The CRM as your fund's database](/reference/crm-as-database/) explains
+  the single-source-of-truth pattern, the
+  [CRM migration playbook](/playbooks/crm-migration/) covers getting there
+  from wherever your data lives now, and the same pipeline patterns run
+  your LP fundraising tracking too.
+- **"I want to understand the concepts before building."** Start with
+  [What is an agent?](/reference/agents/) and work through the
+  [reference](/reference/). Every term is defined in plain English the
+  first time it appears.
+- **"I'm pointing an AI assistant at this site."** Read
+  [Use this site with an LLM](/start-here/for-llms/). The whole site is
+  built to be pasted into a model.
+
+## What's in the library
+
+| Section | What it gives you |
+|---|---|
+| [Start here](/start-here/what-is-80x-docs/) | What the site is, [why it exists](/start-here/manifesto/), how to use it |
+| [Reference](/reference/) | The concepts, defined precisely: agents, tool use, MCP, safety |
+| [Guides](/guides/) | Step-by-step builds you can follow, from shipped systems |
+| [VC playbooks](/playbooks/) | What to run in your fund, in fund terms |
+| [Projects](/projects/) | Open-source tools you can install today |
+| [Field notes](/notes/) | Dated essays and measured benchmarks |
+| [Glossary](/glossary/) | Every term on the site, defined in one paragraph |
+
+## Why you can trust it
+
+Every page comes from a system that actually shipped and ran in production
+for a real fund or company: real schedules, real failure modes, real code.
+Nothing is invented. Numbers are only quoted when they were measured, and
+client systems appear anonymized. Where a page documents a tool, the tool
+is open source and linked, so you (or your engineer, or your AI assistant)
+can read the implementation behind the explanation.
+
+Everything is free, with no login and no gated tier. If you want these
+systems built for you instead of building them yourself, there is exactly
+one paid thing on this site: a call, via the button in the header.

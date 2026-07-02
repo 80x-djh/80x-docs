@@ -1,0 +1,14 @@
+---
+// Override of Starlight's Footer: email capture + consult CTA at the end of
+// every article ("email capture throughout the site"), then the default
+// footer (edit link, last updated, prev/next pagination).
+import Default from '@astrojs/starlight/components/Footer.astro';
+import EmailCapture from './EmailCapture.astro';
+import { SITE } from '../../site.config.mjs';
+---
+
+<EmailCapture />
+<p class="footer-consult">
+  Building this inside your fund? <a href={SITE.bookCall}>Book a call &rarr;</a>
+</p>
+<Default />
