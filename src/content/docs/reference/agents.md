@@ -13,19 +13,11 @@ An **agent** is a large language model (an LLM, the kind of AI behind Claude or 
 
 The diagram below shows one full cycle: the model decides, your program executes, the result feeds back in, and the loop repeats until the model finishes.
 
-```text
-   ┌───────────────────────────────────────────────────┐
-   │                                                   │
-   ▼                                                   │
-┌───────────────┐  tool call  ┌──────────────────┐     │
-│ model decides │────────────▶│ program executes │     │
-└──────┬────────┘             └────────┬─────────┘     │
-       │                               │ result        │
-       │ verdict / no tool call        │ appended      │
-       ▼                               └───────────────┘
-┌───────────┐
-│ terminate │
-└───────────┘
+```mermaid
+flowchart TB
+  model["model decides"] -->|tool call| exec["program executes"]
+  exec -->|result appended| model
+  model -->|verdict / no tool call| done["terminate"]
 ```
 
 The thing to notice: the model never touches the world directly. It only asks. Your program does the doing, which is why you stay in control of what an agent can and cannot do.

@@ -802,3 +802,115 @@ a.co-link:hover .co-title {
     text-align: left;
   }
 }
+
+/* ============================================================================
+   Branded diagrams — ```mermaid fences pre-rendered to SVG by
+   scripts/render-diagrams.mjs and inlined by scripts/remark-diagrams.mjs.
+   The <figure> is a hairline card with a mac-style top bar + Copy button; the
+   .mm class on the <svg> lets us re-colour Mermaid's baked-in palette with our
+   --x-* tokens, which flip automatically between light and dark. Mermaid writes
+   per-#gid colours inline, so the node/edge overrides MUST use !important to win.
+   ========================================================================== */
+.sl-markdown-content .diagram {
+  margin: 1.75rem 0;
+  border: 1px solid var(--x-surface-edge);
+  border-radius: var(--x-radius-card);
+  background: var(--x-surface);
+  overflow: hidden;
+}
+.diagram__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--x-surface-edge);
+  background: var(--x-surface-2);
+}
+.diagram__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: var(--x-edge-2);
+}
+.diagram__copy {
+  margin-left: auto;
+  font-family: var(--__sl-font-mono);
+  font-size: var(--sl-text-xs);
+  line-height: 1;
+  color: var(--x-ink-secondary);
+  background: transparent;
+  border: 1px solid var(--x-edge-2);
+  border-radius: 0.375rem;
+  padding: 0.28rem 0.6rem;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+.diagram__copy:hover {
+  border-color: var(--sl-color-gray-3);
+  color: var(--x-ink);
+}
+.diagram__body {
+  padding: 1.5rem 1.25rem;
+  overflow-x: auto;
+  text-align: center;
+}
+.diagram__body svg.mm {
+  max-width: 100%;
+  height: auto;
+}
+.diagram__caption {
+  margin: 0;
+  padding: 0 1.25rem 1rem;
+  font-size: var(--sl-text-sm);
+  color: var(--x-ink-secondary);
+  text-align: center;
+}
+
+/* --- Brand-colour the rendered SVG (both themes, via --x-* tokens) ----------- */
+.mm .node rect,
+.mm .node polygon,
+.mm .node circle,
+.mm .node path,
+.mm .node ellipse {
+  fill: var(--x-surface) !important;
+  stroke: var(--x-edge-2) !important;
+}
+.mm .cluster rect {
+  fill: var(--x-surface-2) !important;
+  stroke: var(--x-surface-edge) !important;
+}
+/* Labels: rendered as SVG <text>/<tspan> (htmlLabels:false); span/p kept for
+   resilience if HTML labels are ever re-enabled */
+.mm .nodeLabel,
+.mm .node .label,
+.mm .label,
+.mm span,
+.mm p,
+.mm text,
+.mm .node text {
+  color: var(--x-ink) !important;
+  fill: var(--x-ink) !important;
+  background: transparent !important;
+}
+/* Edge labels sit on a chip so they stay legible over lines */
+.mm .edgeLabel,
+.mm .edgeLabel p,
+.mm .edgeLabel rect,
+.mm .edgeLabel foreignObject div {
+  color: var(--x-ink-secondary) !important;
+  fill: var(--x-surface) !important;
+  background: var(--x-surface) !important;
+}
+/* Edges + arrowheads in brand blue */
+.mm .edgePath .path,
+.mm .flowchart-link,
+.mm path.path,
+.mm .relation {
+  stroke: var(--x-blue) !important;
+}
+.mm marker path,
+.mm .arrowheadPath,
+.mm .marker {
+  fill: var(--x-blue) !important;
+  stroke: var(--x-blue) !important;
+}

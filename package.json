@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "diagrams": "node scripts/render-diagrams.mjs",
     "astro": "astro"
   },
   "license": "MIT",
@@ -16,5 +17,9 @@
     "astro": "^7.0.5",
     "sharp": "^0.35.3",
     "starlight-llms-txt": "^0.11.0"
+  },
+  "devDependencies": {
+    "mermaid": "^11.16.0",
+    "puppeteer-core": "^23.11.1"
   }
 }

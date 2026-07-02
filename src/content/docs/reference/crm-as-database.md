@@ -21,22 +21,12 @@ The alternative: accept the CRM's data model as your structure and make every ma
 
 The diagram below shows the whole architecture: outside systems and scheduled jobs all write into the CRM, and the dashboard reads out of it once a day.
 
-```text
- external sources                  crons (derived fields)
- ┌────────┐  ┌─────────┐           ┌───────────────────────┐
- │ Stripe │  │ logos … │           │ stage dates, display  │
- └───┬────┘  └────┬────┘           │ mirrors: diff → PATCH │
-     │ upsert     │ patch          └───────────┬───────────┘
-     ▼            ▼                            │ read + write
- ┌───────────────────────────────┐◀────────────┘
- │ CRM (single source of truth)  │
- └───────────────┬───────────────┘
-                 │ full list payload, once a day
-                 ▼
- ┌───────────────────────────────┐
- │ static dashboard (metrics     │
- │ computed from the rows)       │
- └───────────────────────────────┘
+```mermaid
+flowchart TB
+  stripe["Stripe"] -->|upsert| crm
+  logos["logos …"] -->|patch| crm
+  jobs["crons, derived fields<br/>stage dates, display mirrors<br/>diff → PATCH"] <-->|read + write| crm
+  crm["CRM — single source of truth"] -->|full list payload, once a day| dash["static dashboard<br/>metrics computed from the rows"]
 ```
 
 Notice that every arrow points into or out of one box. The CRM is the only place data lives; everything else computes and passes through.

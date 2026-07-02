@@ -27,26 +27,12 @@ The trade is freshness: the dashboard is only as current as its last run, which 
 
 Here is the whole pipeline in one picture:
 
-```text
-+----------------------------+
-| GitHub Actions cron        |
-| (weekday mornings)         |
-+-------------+--------------+
-              v
-+----------------------------+  reads   +---------------------+
-| Python generator           |<---------| CRM list payloads   |
-| renders one HTML report    |          | (entries/query)     |
-+-------------+--------------+          +---------------------+
-              v
-+----------------------------+
-| encrypted static HTML      |
-| (one self-contained file)  |
-+-------------+--------------+
-              v
-+----------------------------+
-| static host (GitHub Pages) |
-| no backend, no server      |
-+----------------------------+
+```mermaid
+flowchart TB
+  cron["GitHub Actions cron<br/>(weekday mornings)"] --> gen["Python generator<br/>renders one HTML report"]
+  payloads["CRM list payloads<br/>entries/query"] -->|reads| gen
+  gen --> html["encrypted static HTML<br/>one self-contained file"]
+  html --> host["static host, GitHub Pages<br/>no backend, no server"]
 ```
 
 ## Step 1 — pull the list entries from the CRM

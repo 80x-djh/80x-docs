@@ -46,27 +46,10 @@ The reasoning behind the first four: ban risk is **behavioral, not technological
 
 Here is the whole pipeline in one picture:
 
-```text
-+-------------------------------------+
-| user's machine                      |
-|   Mac app / browser extension       |
-|   wrapping official WhatsApp Web    |
-|   reads only the open chat,         |
-|   only on an explicit click         |
-+------------------+------------------+
-                   | Bearer x80_ token
-                   v
-+-------------------------------------+
-| backend contract (/api/ext/*)       |
-|   privacy gate, enforced            |
-|   server-side: Private stays        |
-|   on the user's machine             |
-+------------------+------------------+
-                   v
-+-------------------------------------+
-| Attio / Affinity record             |
-|   transcript note + logged activity |
-+-------------------------------------+
+```mermaid
+flowchart TB
+  machine["user's machine<br/>Mac app / browser extension<br/>wrapping official WhatsApp Web<br/>reads the open chat, only on a click"] -->|Bearer x80_ token| backend
+  backend["backend contract, /api/ext/*<br/>privacy gate enforced server-side<br/>Private stays on the user's machine"] --> record["Attio / Affinity record<br/>transcript note + logged activity"]
 ```
 
 ## Step 1 — capture at the client, on the user's machine

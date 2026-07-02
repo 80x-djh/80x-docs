@@ -138,6 +138,30 @@ Optional: `sidebar: { order: N }` to pin position (lower = higher).
 - **Link generously** between pages using root-relative paths with trailing
   slashes: `[agents](/reference/agents/)`. Link to repos with full URLs.
 
+## Diagrams
+
+Author every diagram as a **```mermaid** fenced block, never as hand-drawn
+ASCII. A build step (`npm run diagrams`) pre-renders each fence to a branded,
+content-hashed SVG under `src/diagrams/`, which is committed and inlined into a
+framed `<figure>` (top bar + Copy button) that re-colours itself for light and
+dark. This keeps diagrams legible, on-brand, copy-pasteable, and readable to
+LLMs (the Mermaid source ships in the page markdown).
+
+- Prefer `flowchart TB` (top-to-bottom) or `LR` (left-to-right); label edges
+  with the verb (`-->|upsert|`).
+- Keep each node-label line under ~46 mono characters. Use `<br/>` for
+  deliberate line breaks; avoid box-drawing glyphs (`└─`, `▶`) in labels —
+  plain words instead.
+- Add a caption with meta: ` ```mermaid caption="…" `.
+- Workflow: edit the fence, run `npm run diagrams`, then `npm run build`.
+  Changing only render config (not the fence) needs a cache clear
+  (`rm -rf node_modules/.astro dist`) before the rebuild picks up new SVGs.
+- A missing SVG never breaks the build — the fence degrades to a plain source
+  block with a build warning until you run `npm run diagrams`.
+
+Genuine literal text (a command trace, an API call) stays a normal
+` ```text ` block; only actual diagrams become `mermaid`.
+
 ## Section conventions
 
 | Section | Directory | Shape |

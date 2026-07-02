@@ -11,17 +11,11 @@ This is the workhorse pattern for pipeline hygiene and portfolio monitoring in a
 
 Here is the shape as a diagram: a schedule fires a runner, the runner executes the script, the script talks to the CRM, and then everything shuts down until the next tick.
 
-```text
-┌───────────────────┐    ┌───────────────────┐    ┌───────────────┐
-│ scheduled trigger │───▶│ runner (GitHub    │───▶│ script/agent: │
-│ (cron expression) │    │ Actions, launchd) │    │ gather, decide│
-└───────────────────┘    └───────────────────┘    │ act, log, exit│
-                                                  └───────┬───────┘
-      no always-on process: nothing                       │
-      runs between ticks                                  ▼
-                                                  ┌───────────────┐
-                                                  │    CRM API    │
-                                                  └───────────────┘
+```mermaid caption="No always-on process — nothing runs between ticks."
+flowchart LR
+  trigger["scheduled trigger<br/>(cron expression)"] --> runner["runner<br/>GitHub Actions, launchd"]
+  runner --> script["script / agent<br/>gather, decide, act, log, exit"]
+  script --> crm["CRM API"]
 ```
 
 Two names from the diagram, defined: a **cron expression** is the compact text code that encodes a schedule (one appears later in this page), and **GitHub Actions** is GitHub's free service for running scripts on a schedule; launchd is the equivalent built into Macs. The CRM API is the doorway programs use to read and write your CRM's data. If [an agent](/reference/agents/) is a loop of *model → tool → model*, a cron agent inverts the ratio: it is mostly a fixed pipeline, with the model as one optional step inside it.

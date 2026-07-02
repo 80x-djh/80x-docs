@@ -29,13 +29,10 @@ The single most useful design decision for an MCP server: keep it thin. All busi
 
 Here is the shape as a diagram. The guarantees live in the rightmost box; the MCP server in the middle only passes messages through.
 
-```text
-┌──────────────────┐            ┌────────────┐        ┌────────────┐
-│ host application │  JSON-RPC  │ MCP server │ calls  │   engine   │
-│ (Claude Desktop, │◀──────────▶│   (thin    │◀──────▶│ all logic, │
-│  Cursor, …)      │ stdio/HTTP │  adapter,  │        │   every    │
-│  └── MCP client  │            │  no logic) │        │ guarantee  │
-└──────────────────┘            └────────────┘        └────────────┘
+```mermaid
+flowchart LR
+  host["host application<br/>(Claude Desktop, Cursor, …)<br/>includes MCP client"] <-->|"JSON-RPC · stdio / HTTP"| server["MCP server<br/>thin adapter, no logic"]
+  server <-->|calls| engine["engine<br/>all logic, every guarantee"]
 ```
 
 ### Example: one read-only tool over an agent loop

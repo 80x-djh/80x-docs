@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightLlmsTxt from 'starlight-llms-txt';
+import remarkDiagrams from './scripts/remark-diagrams.mjs';
 import { SITE } from './site.config.mjs';
 
 // Prefix root-relative links in markdown content with the base path, so
@@ -29,7 +30,9 @@ export default defineConfig({
   site: SITE.url,
   base: SITE.base,
   markdown: {
-    remarkPlugins: [prefixInternalLinks],
+    // remarkDiagrams first: it swaps ```mermaid fences for a branded <figure>
+    // before Expressive Code / the syntax highlighter ever sees them as code.
+    remarkPlugins: [remarkDiagrams, prefixInternalLinks],
   },
   integrations: [
     starlight({

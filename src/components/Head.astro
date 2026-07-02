@@ -45,3 +45,27 @@ if (entry) {
     }
   })();
 </script>
+<script is:inline>
+  // Copy buttons on branded diagrams (src/components/... -> remark-diagrams.mjs).
+  // Delegated so it covers every .diagram figure on the page with one listener.
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-diagram-copy]');
+    if (!btn) return;
+    var src = btn.getAttribute('data-src') || '';
+    var restore = function (label) {
+      var prev = btn.textContent;
+      btn.textContent = label;
+      setTimeout(function () {
+        btn.textContent = prev === label ? 'Copy' : prev;
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(src).then(
+        function () { restore('Copied ✓'); },
+        function () { restore('Copy failed'); }
+      );
+    } else {
+      restore('Copy failed');
+    }
+  });
+</script>
