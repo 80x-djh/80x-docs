@@ -1,42 +1,47 @@
 ---
 // Override of Starlight's Head: default head + JSON-LD structured data so
-// search engines and LLM crawlers get typed metadata on every page.
+// search engines and LLM crawlers get typed metadata on every page. The graph
+// (article + breadcrumb + section-specific nodes) is built in structured-data.mjs.
 import Default from '@astrojs/starlight/components/Head.astro';
+import { getCollection } from 'astro:content';
 import { SITE } from '../../site.config.mjs';
+import { buildGraph } from '../lib/structured-data.mjs';
 
 const route = Astro.locals?.starlightRoute;
 const entry = route?.entry;
-const isArticle = entry && entry.id && entry.id !== 'index';
+const url = new URL(Astro.url.pathname, SITE.url).href;
 
-const org = {
-  '@type': 'Organization',
-  name: SITE.title,
-  url: SITE.docsUrl,
-  email: SITE.contactEmail,
-  sameAs: Object.values(SITE.social),
-};
-
-const jsonLd = isArticle
-  ? {
-      '@context': 'https://schema.org',
-      '@type': 'TechArticle',
-      headline: entry.data.title,
-      description: entry.data.description ?? SITE.description,
-      url: new URL(Astro.url.pathname, SITE.url).href,
-      isAccessibleForFree: true,
-      license: 'https://creativecommons.org/licenses/by-sa/4.0/',
-      author: { '@type': 'Person', name: SITE.author.name },
-      publisher: org,
-    }
-  : {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: SITE.name,
-      description: SITE.description,
-      url: SITE.docsUrl,
-      publisher: org,
-    };
+let jsonLd = null;
+if (entry) {
+  // route.entry may not carry the raw markdown body; read it from the docs
+  // collection so the HowTo / glossary parsers have real content to work with.
+  let body = typeof entry.body === 'string' ? entry.body : '';
+  if (!body) {
+    const docs = await getCollection('docs');
+    body = docs.find((d) => d.id === entry.id)?.body ?? '';
+  }
+  jsonLd = buildGraph({ entry, body, url, SITE });
+}
 ---
 
 <Default />
-<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+{/* Shared consent + analytics loader, served from the apex (80x.ai). /docs is
+    reverse-proxied under 80x.ai, so this is same-origin and shares one consent
+    choice with the rest of the site. No-op on the standalone preview domain. */}
+<script is:inline defer src="/consent-analytics.js"></script>
+<script is:inline>
+  // Honor ?theme=light|dark (screenshot verification): apply to <html> only,
+  // never persisted — Starlight's own theme toggle keeps working as before.
+  (() => {
+    var theme = new URLSearchParams(window.location.search).get('theme');
+    if (theme === 'light' || theme === 'dark') {
+      var apply = function () {
+        document.documentElement.setAttribute('data-theme', theme);
+      };
+      apply(); // before first paint
+      // Starlight's theme provider script runs later in <head>; re-assert.
+      document.addEventListener('DOMContentLoaded', apply, { once: true });
+    }
+  })();
+</script>

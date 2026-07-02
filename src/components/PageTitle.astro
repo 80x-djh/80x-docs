@@ -1,0 +1,91 @@
+---
+// Override of Starlight's PageTitle: renders the default H1, then a small row of
+// agent affordances under it. Every page is already available as raw markdown
+// (append .md — see src/pages/[...slug].md.ts); this surfaces that to the human
+// AND to any agent scraping the DOM, plus one-click hand-off into Claude/ChatGPT
+// pre-loaded with the page's markdown URL.
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import { SITE } from '../../site.config.mjs';
+
+const route = Astro.locals?.starlightRoute;
+const id = route?.entry?.id;
+const showActions = id && id !== 'index';
+
+// The raw-markdown URL for this page: page path with the trailing slash → `.md`.
+const path = Astro.url.pathname.replace(/\/$/, '');
+const mdPath = `${path}.md`;
+const mdAbs = new URL(mdPath, SITE.url).href;
+const prompt = `Read ${mdAbs} — a page from 80x Docs (agentic engineering for VC funds). Help me apply it to my fund's setup.`;
+const claudeUrl = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
+const chatgptUrl = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
+---
+
+<Default />
+{
+  showActions && (
+    <div class="agent-actions" role="group" aria-label="Use this page with an AI agent">
+      <button type="button" class="agent-action" data-copy-md data-md-url={mdPath}>
+        <span class="agent-action__label">Copy as Markdown</span>
+      </button>
+      <a class="agent-action" href={claudeUrl} target="_blank" rel="noopener">
+        Open in Claude
+      </a>
+      <a class="agent-action" href={chatgptUrl} target="_blank" rel="noopener">
+        Open in ChatGPT
+      </a>
+    </div>
+  )
+}
+
+<style>
+  .agent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+  }
+  .agent-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--sl-text-xs);
+    line-height: 1.2;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    color: var(--sl-color-gray-2);
+    background: var(--sl-color-gray-6, transparent);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .agent-action:hover {
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-white);
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-copy-md]').forEach((btn) => {
+    const label = btn.querySelector('.agent-action__label');
+    if (!label) return;
+    const original = label.textContent ?? 'Copy as Markdown';
+    btn.addEventListener('click', async () => {
+      const url = btn.getAttribute('data-md-url');
+      if (!url) return;
+      try {
+        const res = await fetch(url, { headers: { accept: 'text/markdown' } });
+        const text = await res.text();
+        await navigator.clipboard.writeText(text);
+        label.textContent = 'Copied ✓';
+      } catch {
+        label.textContent = 'Copy failed';
+      }
+      setTimeout(() => {
+        label.textContent = original;
+      }, 2000);
+    });
+  });
+</script>

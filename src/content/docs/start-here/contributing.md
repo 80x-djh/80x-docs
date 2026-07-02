@@ -9,7 +9,7 @@ All contributions go through the [GitHub repo](https://github.com/80x-djh/80x-do
 
 ## Fix a page
 
-Every page has an **Edit page** link in the footer that opens the exact source file on GitHub. Click it, make the change, and submit it. GitHub walks you through the steps and packages your change as a pull request, which is simply a proposed edit the site's author reviews before it goes live. This is the right path for typos, broken links, outdated API details, and clarifications.
+Open the [GitHub repo](https://github.com/80x-djh/80x-docs), find the page's source file under `src/content/docs/`, and click GitHub's pencil (edit) icon at the top of the file. Make the change and submit it. GitHub walks you through the steps and packages your change as a pull request, which is simply a proposed edit the site's author reviews before it goes live. This is the right path for typos, broken links, outdated API details, and clarifications.
 
 :::tip[No GitHub account yet?]
 Creating one is free and takes a minute, and GitHub's web editor handles all the mechanics for you. You never need to install anything to fix a page.

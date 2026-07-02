@@ -42,12 +42,10 @@ export default defineConfig({
           ? [{ icon: 'youtube', label: 'YouTube', href: SITE.social.youtube }]
           : []),
       ],
-      editLink: {
-        baseUrl: `${SITE.repo}/edit/main/`,
-      },
       lastUpdated: true,
       components: {
         Head: './src/components/Head.astro',
+        PageTitle: './src/components/PageTitle.astro',
         Footer: './src/components/Footer.astro',
         SocialIcons: './src/components/HeaderCta.astro',
       },

@@ -26,7 +26,14 @@ export const GET: APIRoute = ({ props }) => {
   // Raw markdown bypasses the remark pipeline, so apply the base prefix to
   // root-relative links here too.
   const body = doc.body.replaceAll('](/', `](${SITE.base}/`);
-  return new Response(header + body, {
-    headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
+  const md = header + body;
+  // Rough token estimate (~4 chars/token) so an agent can budget context
+  // before pulling the page. See also x-markdown-tokens on Cloudflare's docs.
+  const tokens = Math.ceil(md.length / 4);
+  return new Response(md, {
+    headers: {
+      'Content-Type': 'text/markdown; charset=utf-8',
+      'x-markdown-tokens': String(tokens),
+    },
   });
 };
