@@ -72,6 +72,12 @@ export default defineConfig({
             { label: 'Course overview', slug: 'learn' },
             { label: '1 · What is the 80x method?', slug: 'learn/what-is-the-80x-method' },
             { label: '2 · Your CRM is the database', slug: 'learn/crm-as-your-database' },
+            { label: '3 · What an agent actually is', slug: 'learn/what-an-agent-is' },
+            { label: '4 · How agents act: tools and MCP', slug: 'learn/how-agents-act-tools-and-mcp' },
+            { label: '5 · Read-only before write', slug: 'learn/read-only-before-write' },
+            { label: '6 · Run it on a schedule', slug: 'learn/run-it-on-a-schedule' },
+            { label: '7 · Spec-first, and verify', slug: 'learn/spec-first-and-verify' },
+            { label: '8 · Your first system', slug: 'learn/your-first-system' },
           ],
         },
         {

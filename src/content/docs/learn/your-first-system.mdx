@@ -1,0 +1,99 @@
+---
+title: "Your first system, end to end"
+description: "The capstone of the 80x method — the one-file cron sync ties all five patterns together in about 190 lines: a script that keeps one CRM field correct forever, safely, on a free schedule."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../components/course/CourseNav.astro';
+import Quiz from '../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={8} total={8} />
+
+:::note[In this chapter]
+- One small script that keeps a CRM field correct forever
+- The six moves: derive, fetch, compare, gated write, log, schedule
+- How this one build uses all five patterns of the method
+- How to prove it is safe: run it twice
+:::
+
+If you build one thing from this course, build this. By the end you will have a single small program that keeps one field in your CRM correct, forever, without anyone thinking about it. A free scheduler runs it every day. It fixes only the values that are wrong, prints a one-line summary, and turns red where you can see it when something fails. Re-running it is always safe. There is no AI in this build, and no framework, server, or database. Most fund automation should look like this before it is anything else.
+
+The build is grounded in [artemis-lp-logo-sync](https://github.com/80x-djh/artemis-lp-logo-sync), a shipped, public sync of about 190 lines that fills a `logo_url` field on a fund's LPs (limited partners, the investors in a fund) in Attio.
+
+## A derived field
+
+The field this keeps correct is a **derived field**: one whose value can be computed from other data you can read. A logo URL from a company, a display string from a currency amount, a "days in stage" from a timestamp. Because the correct value is computable, the script never remembers anything between runs. Every run recomputes the truth from scratch and nudges the CRM toward it. There is no saved position to corrupt, no queue of changes to lose, no missed event to replay. That is what makes the pattern so robust.
+
+If you cannot write your rule as a plain function of data you can read, you do not have a derived field. You have an agent problem, and this is the wrong build. Telling those apart is [pattern two](/learn/what-an-agent-is/).
+
+## The six moves
+
+The whole skeleton is six steps, and it carries unchanged across very different fields.
+
+1. **Write the rule as one sentence, then a function.** For the logo sync: *"an LP's logo is its linked company's logo; failing that, a favicon for the company's domain; failing that, an initials avatar from the LP's name."* That sentence becomes a small function that tries the three sources in order. This is [spec-first](/learn/spec-first-and-verify/) at its smallest: the sentence is the spec.
+2. **Fetch all the records.** Ask the CRM for a page of records, then the next, until a page comes back short. The API key comes from an environment setting the script reads at startup, so it never appears in the code.
+3. **Compare before writing.** For each record, compute the desired value, read the current value, and plan a write *only when they differ*. Sort each record into needs-update, already-correct, or no-source-data. A run over a healthy dataset plans zero writes and touches nothing.
+4. **Put a safety switch on the writes.** The write path checks one setting. In dry-run mode it prints a sample of what it would change and changes nothing. In live mode it applies the changes a few at a time, catching each record's errors individually so one bad record cannot kill the run.
+5. **Log one line and fail loudly.** End every run with a summary like `updated=4 skipped=213 no_source=0 errors=0`, and exit with an error code when anything failed. That one line is your entire monitoring system: on a schedule, a failure shows up red with a notification instead of rotting silently.
+6. **Schedule it.** A small workflow file runs the script on a timer (an odd minute, to dodge the dropped-slot trap), gives you a manual "run now" button with a dry-run checkbox, queues overlapping runs, and sets a timeout. The API key lives only in the scheduler's locked secrets, never on a laptop.
+
+## Every pattern, in one build
+
+This is why it is the capstone. One ~190-line file uses all five patterns of the method at once:
+
+| Pattern | Where it shows up here |
+|---|---|
+| **CRM is the database** | The sync reads and writes one field on the CRM; nothing lives in a second system |
+| **Agents do the work** | Recognizing this needs *no* agent, because the rule is fully writable in advance |
+| **Read-only before write** | It writes only a machine-owned derived field, behind a dry-run gate, never a human's field |
+| **Run it on a schedule** | A free scheduler runs it daily; the job wakes, reconciles, logs, and exits |
+| **Spec-first, and verify** | The rule is written as one sentence first, then checked with a dry run and a re-run |
+
+## Prove it is safe: run it twice
+
+The test of a safe sync is simple. In order:
+
+1. `DRY_RUN=1 node sync.mjs` — a practice run. Every planned update should be explainable.
+2. `node sync.mjs` — the real run. Note the `updated=` count.
+3. `node sync.mjs` again, immediately. This run **must** report `planned updates: 0`. Every record now matches its desired value, so the run reads everything and writes nothing.
+
+If the second live run keeps writing, your comparison in step 3 is broken, almost always a formatting mismatch (a trailing slash, upper versus lower case). Fix the comparison, not the symptom. That third run is [pattern five](/learn/spec-first-and-verify/) in one command, and passing it means your sync now runs itself.
+
+## You have finished the course
+
+That is the whole method. Five patterns, and one small build that uses all of them:
+
+1. Your CRM is the database.
+2. Agents do the work, and knowing when *not* to use one.
+3. Read-only before write.
+4. Run it on a schedule.
+5. Spec-first, and verify.
+
+You can now read any "AI for your fund" pitch and place it inside these patterns, and you can direct a build of your own, whether you write it or hire it written. The reference library goes deeper on every pattern when you need it, and the guides walk through larger systems (meeting notes to CRM, a qualification agent, a self-updating dashboard) built from these same five ideas.
+
+<Quiz
+  question="On the third run of a correct one-file cron sync, immediately after a successful live run, what should the summary show?"
+  options={[
+    'The same number of updates as the second run',
+    'planned updates: 0 and updated=0 — every record already matches its desired value',
+    'An error, because you cannot run it twice',
+    'Twice as many updates as the first run',
+  ]}
+  answer={1}
+  explain="A correct derived-field sync is idempotent: after one live run, every value already matches, so the next run reads everything and writes nothing. A second run that keeps writing means the compare step has a formatting mismatch — the bug the 'run it twice' check is designed to catch."
+/>
+
+## Go deeper
+
+- [The one-file cron sync](/guides/one-file-cron-sync/) — the full guide, every code sample, and the failure modes
+- [Learn the 80x Method](/learn/) — back to the course overview and the full chapter list
+- [Guides](/guides/) — larger builds from the same five patterns, step by step
+- [Reference](/reference/) — the concept-by-concept library behind the whole method
+
+<CourseNav
+  prev={{ slug: '/learn/spec-first-and-verify', title: 'Spec-first, and verify everything' }}
+  next={{ slug: '/learn/', title: 'Back to the course overview' }}
+  nextLabel="Course complete"
+/>

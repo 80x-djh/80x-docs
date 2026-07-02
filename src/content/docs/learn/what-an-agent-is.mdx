@@ -1,0 +1,83 @@
+---
+title: What an agent actually is
+description: Pattern two of the 80x method — an agent is a model in a loop with tools, a goal, and a stopping rule, and knowing the definition tells you when a plain script is the better buy.
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../components/course/CourseNav.astro';
+import Quiz from '../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={3} total={8} />
+
+:::note[In this chapter]
+- The precise definition of an agent, in four parts
+- Why a loop, and not a fixed sequence of steps
+- How an agent's run ends safely, with more than one exit
+- The most valuable skill: knowing when a plain script is cheaper
+:::
+
+Pattern one gave the machines a place to stand: the [CRM as your fund's database](/learn/crm-as-your-database/). **Pattern two is the worker you place on it: agents do the work.** "Agent" is the most overloaded word in AI sales, applied to chatbots, to fixed automations, and to almost anything with a model inside. Hold the precise definition and you can question any pitch that uses the word, and you can tell when a cheaper tool would do the same job.
+
+An **agent** is a large language model (an LLM, the kind of AI behind Claude or ChatGPT) run in a loop, with tools it can use, a goal, and a rule for when to stop. On each pass through the loop, the model looks at everything that has happened so far and decides what to do next: call a tool, or finish. Your program runs the tool call, adds the result to the conversation, and hands control back to the model. Everything else you will hear about (planning, memory, multi-agent systems) is built on top of this loop.
+
+## The four parts, and what breaks without them
+
+An agent needs all four parts below. A system missing any one of them is something else, and often something cheaper, which may be exactly what you want.
+
+| Part | What it is | What breaks without it |
+|---|---|---|
+| **A model** | An LLM that can decide *which* tool to call, with *what* inputs | You have a script, not an agent |
+| **Tools** | Functions your program runs on the model's behalf, its only way to touch the world | You have a chatbot: it can talk, not act |
+| **A loop** | Feed each tool result back and let the model choose the next step | You have a chain: one fixed sequence, no adaptation |
+| **A stopping rule** | A defined way for the run to end, ideally several | You have a bill and a hung process |
+
+The key thing to notice: the model never touches the world directly. It only asks. Your program does the doing, which is why you stay in control of what an agent can and cannot do. That single fact is the foundation of [pattern three](/learn/read-only-before-write/), and of every safety pattern on this site.
+
+## Why a loop, and not a chain
+
+A chain is a fixed pipeline: search, then fetch notes, then summarize, in that order, every time. Chains are fine when you know the path through the problem in advance. They fail when the path depends on what you find.
+
+Consider the job [valentine](/projects/valentine/) solves: "before this founder call, has anyone at the fund touched this company before?" The right sequence of lookups depends entirely on what turns up. Search by domain (the company's web address, like acme.com) and get one clean match: pull its notes and you are done in two steps. Get zero matches: retry by name, then maybe search people instead of companies. Get three near-matches: inspect each before deciding. A chain would have to encode every one of those branches in advance. In a loop, the model makes each branching decision as it goes, using what it has already found, and the code stays small.
+
+## How the run ends
+
+The most common defect in homemade agents is a loop with exactly one exit: "the model will say when it is done." Models sometimes do not. They stall, they narrate instead of acting, or they keep calling tools. A production loop needs several exits, each with a defined meaning. Valentine's loop has three.
+
+| Exit | Trigger | Result |
+|---|---|---|
+| **Answer submitted** | Model calls `submit_verdict` | The structured verdict, the happy path |
+| **Early text stop** | Model returns a turn with no tool calls | Its prose is wrapped as an "ambiguous" verdict, not trusted as an answer |
+| **Step cap** | 10 turns elapse with no verdict | An explicit "ambiguous" result: could not decide within the limit |
+
+Two decisions here are worth copying. First, every exit returns the same type of answer, so the caller never gets a crash or raw prose, only a verdict. A run that goes wrong degrades into an honest "ambiguous" rather than a made-up success. Second, the step cap doubles as a budget: ten turns puts a known ceiling on the worst-case cost and waiting time, and it catches runaway loops. Pick the cap by asking how many round trips a competent run should ever need, then add slack.
+
+## The skill is knowing when not to use one
+
+A large part of the method is *not* reaching for an agent. An agent earns its extra cost (waiting time, token spend, less predictable behavior) only when the right next step genuinely depends on what the previous step found. If you can write the exact sequence of steps down before running the job, write a plain script instead. It will be cheaper, faster, and more predictable.
+
+This is the boundary that separates the two halves of the method. Agents (pattern two) handle work that needs judgment on each step, like reading a messy note and deciding what it means. Scheduled scripts ([pattern four](/learn/run-it-on-a-schedule/)) handle work whose rule you can write down in advance, like "stamp today's date if this field is empty." Most fund automation is the second kind, and Chapter 8 builds one. Telling the two apart is the whole game.
+
+<Quiz
+  question="A partner wants to 'stamp the date a deal entered each pipeline stage.' Agent or plain script?"
+  options={[
+    'An agent, because it involves the CRM',
+    'A plain script, because the rule can be written down in advance and needs no judgment',
+    'An agent, because dates are complicated',
+    'Neither is possible without a data team',
+  ]}
+  answer={1}
+  explain="You can state the rule completely before running it: read the stage history, fill the date field if empty. No step depends on a judgment call, so a script is cheaper, faster, and more predictable. Save agents for work where the next step genuinely depends on what the last step found."
+/>
+
+## Go deeper
+
+- [What is an agent?](/reference/agents/) — the full reference, grounded in valentine's real 60-line loop
+- [Tool use](/reference/tool-use/) — how the model calls tools at all, which the next chapter teaches
+- [valentine](/projects/valentine/) — the open-source pre-call checker this chapter is drawn from
+
+<CourseNav
+  prev={{ slug: '/learn/crm-as-your-database', title: 'Your CRM is the database' }}
+  next={{ slug: '/learn/how-agents-act-tools-and-mcp', title: 'How agents act: tools and MCP' }}
+/>

@@ -1,0 +1,84 @@
+---
+title: Run it on a schedule
+description: Pattern four of the 80x method — most fund software is a small job that wakes on a timer, reconciles the truth, and sleeps, with no server to maintain and no run that a repeat can break.
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../components/course/CourseNav.astro';
+import Quiz from '../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={6} total={8} />
+
+:::note[In this chapter]
+- The cron agent: a job that wakes, works, logs, and exits
+- Why most of it is not AI, and why that is the point
+- Idempotency: designing every write for the run that happens twice
+- The scheduling traps that make a job silently stop
+:::
+
+Most fund software is not a live app that someone logs into. **Pattern four is the shape almost all of it takes: run it on a schedule.** A scheduler fires, an ordinary script gathers the current state, makes its decisions, acts, writes a log, and exits. Nothing is left switched on between runs. This is the workhorse of pipeline hygiene and portfolio monitoring: the pipeline is already clean before the Monday meeting starts, instead of being tidied during it.
+
+The name for this is a **cron agent** (cron is the decades-old convention for running a program on a timer). The word "agent" is generous, because the model from [pattern two](/learn/what-an-agent-is/) is now just one optional step. A cron agent inverts the agent's ratio: it is mostly a fixed pipeline, and it calls an LLM only for the steps that genuinely need judgment. Most of the time it calls no LLM at all.
+
+## Why a scheduled script beats an always-on agent
+
+An AI session that never ends is expensive, hard to audit, and drifts as its memory fills with old results. For recurring operational work, none of that buys you anything.
+
+- **Cost.** A sync that runs twice an hour costs a few free scheduler-minutes, not AI tokens. One production qualification system runs its daily pass in a no-agent mode: a plain script that calls the model only when a deal has fresh notes.
+- **Auditability.** A run that prints a summary and exits produces a bounded log. You can read exactly what happened at 07:37 on Tuesday.
+- **Failure isolation.** A crashed run affects one run. The next tick starts clean, from the CRM's current state, with no memory of the failure.
+
+The judgment call is per-step, not per-system: extracting signals from a free-text note needs the model, but "is this date field empty" does not. This is [pattern two's lesson](/learn/what-an-agent-is/) applied to scheduling, and it is why these jobs are so cheap to run.
+
+## Design for the run that happens twice
+
+Here is the one habit that makes scheduled writes safe. A cron agent *will* run twice on the same state: the scheduler retries, someone triggers a manual run, schedules overlap, or a re-run follows a partial failure. So before every write, ask: **what happens if this runs again immediately?** The correct answer is "nothing." The engineering word for that property is **idempotent**: a second run changes nothing.
+
+Three techniques cover almost every case, and you met the first two in [pattern one](/learn/crm-as-your-database/).
+
+| Technique | How it works | Use for |
+|---|---|---|
+| **Diff-then-write** | Compute the desired value, compare to the current, skip if equal | Derived and mirror fields |
+| **Fill-only-if-empty** | Write a field only when it currently has no value | Backfills, date stamping |
+| **Match-key upsert** | Match on a unique ID and update instead of create | Bringing in external records |
+
+Idempotency buys you a second thing for free: it makes a *missed* run harmless. If a run is safe to repeat, then a skipped run costs nothing either, because the next tick backfills everything. This is why the [reconcile-don't-catch](/learn/crm-as-your-database/) approach from Chapter 2 beats catching every event. The job converges on correct rather than depending on any single run happening.
+
+## The scheduling traps
+
+The usual free scheduler for this pattern is GitHub Actions (GitHub's built-in service for running scripts on a timer). It has sharp edges worth knowing before you depend on one.
+
+- **Scheduled runs are best-effort.** Under load, GitHub delays or silently drops jobs, and it sheds on-the-hour and on-the-half-hour jobs first, because that is when everyone schedules. Use an odd minute like `:07` or `:37`.
+- **Prevent overlap.** If a slow run is still going when the next tick arrives, two copies write at once. A `concurrency` setting queues the second instead of running it alongside the first.
+- **Set a timeout.** The default job timeout is six hours. One hung network call can burn your minutes and block the queue all day. Set an explicit limit (ten minutes is plenty for a small sync).
+- **Always ship a dry-run mode.** A rehearsal that prints intended writes without making them is how you verify a change before the schedule runs it unattended. Every safe writer has one.
+- **Private repos can die silently.** Scheduled jobs in private repos spend paid minutes, and if billing lapses, GitHub stops running the schedule with nothing turning red. Keep these repos public where the code and IDs allow it.
+
+:::caution[A missed run is not always harmless if the job is not idempotent]
+Idempotency and scheduling reliability are the same insurance policy viewed from two sides. Get the "safe to run twice" design right and the scheduler's occasional dropped run stops mattering. Skip it and every retry is a chance to duplicate data.
+:::
+
+<Quiz
+  question="A scheduled sync sometimes runs twice on the same records because of a retry. What design makes that harmless?"
+  options={[
+    'Running it less often so retries are rare',
+    'Making every write idempotent — compute the desired value and change nothing if it already matches',
+    'Turning off retries in the scheduler',
+    'Emailing an admin after every run',
+  ]}
+  answer={1}
+  explain="If a second run changes nothing, retries, overlaps, and even missed runs all become safe: the next tick reconciles the truth. Idempotency (diff-then-write, fill-only-if-empty, match-key upsert) is what lets these jobs run unattended on a best-effort scheduler."
+/>
+
+## Go deeper
+
+- [Cron agents](/reference/cron-agents/) — the full reference, with four live systems and every GitHub Actions gotcha
+- [Automation safety](/reference/automation-safety/) — loops, idempotency, and blast-radius thinking as general doctrine
+- [The one-file cron sync](/guides/one-file-cron-sync/) — the build you will walk through in the final chapter
+
+<CourseNav
+  prev={{ slug: '/learn/read-only-before-write', title: 'Read-only before write' }}
+  next={{ slug: '/learn/spec-first-and-verify', title: 'Spec-first, and verify everything' }}
+/>

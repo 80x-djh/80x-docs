@@ -1,0 +1,72 @@
+---
+title: "Spec-first, and verify everything"
+description: Pattern five of the 80x method — when an AI writes the code, the written spec becomes the real engineering work, and a dry run plus a re-run is how you trust the result.
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../components/course/CourseNav.astro';
+import Quiz from '../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={7} total={8} />
+
+:::note[In this chapter]
+- Why the written spec, not the code, is now the engineering work
+- What a good spec fixes: behavior, constraints, and non-goals
+- The decision log as an agent's working memory
+- Verifying before you trust: dry-run, smallest scope, run it twice
+:::
+
+The first four patterns are about *what* to build. **The fifth is about how to build it so you can trust it: spec-first, and verify.** It has two halves. Spec-first is how you get correct software out of an AI. Verify is how you confirm it before it touches live data. Both matter more, not less, now that a model writes the code.
+
+## When the AI writes the code, the spec is the work
+
+For most of software history the code was the thing that mattered, and the spec was scaffolding: half-written, quickly out of date, read by nobody after the first week. AI coding assistants reverse that. When a capable model writes the implementation, code becomes cheap to produce and cheap to regenerate. The document that says what the code must do becomes the place where the real engineering happens. It is the thing you think in, the thing you review, and the thing that lasts.
+
+[attio-cli](/projects/attio-cli/), the command-line tool measured back in [Chapter 4](/learn/how-agents-act-tools-and-mcp/), was generated in one pass from a single specification of about 1,200 lines. Almost none of those lines are code. What they contain is the lesson:
+
+- **What the tool is, and is not, stated first.** The spec opens by describing the tool and naming one explicit non-goal ("not a replacement for the Attio UI"). One sentence of intent plus one fence settles hundreds of small decisions later, because the agent resolves every ambiguous choice against that opening.
+- **Where the truth lives.** The spec points the agent at Attio's published API description as the authority on request and response shapes, and only adds what that source cannot say. Pointing at the source of truth beats copying it, because copies drift.
+- **Behavior and constraints, not implementation.** The spec fixes what the tool must do (which commands exist, what they print, the exit codes) and leaves how to write the code to the agent.
+
+The human review then happened where it is most useful: on the document before generation, and on the tool's behavior after. A person can genuinely review 1,200 lines of intent. A person cannot genuinely review several thousand lines of generated code. And when a design turns out wrong, fixing a paragraph and regenerating is cheaper than reworking finished code.
+
+## The decision log is the project's memory
+
+Agents make this a requirement, not just good taste, for one structural reason: **an agent gets its context from documents, not from memory.** A human teammate remembers yesterday's discussion. An agent session starts blank every time, and the next session might be five minutes later after the model's working memory has filled up. Whatever is not written down does not exist for the next session.
+
+So the best of these projects keep a numbered decision log, where every entry has three parts: the choice, the reason, and how to reverse it. When an agent (or a new human) asks "why is this a `PUT` and not a `PATCH`?", the answer costs one file read instead of being re-derived from scratch, perhaps to a different and inconsistent conclusion. The "how to reverse it" field matters because agents make changing code cheap, so the expensive thing becomes changing your mind safely. And non-goals get written down because an agent asked to "improve" a system expands it in every direction the spec fails to fence off.
+
+## Verify before you trust
+
+A spec gets you correct code. Verification confirms the running system does what the spec says, before it touches data you cannot regenerate. Three habits do almost all the work, and you have already met the first.
+
+- **Dry-run first.** A dry run is a rehearsal that logs what the job *would* write without writing anything. A preview that exactly matches live behavior is the strongest check you can get before touching data. Every writer on this site ships one.
+- **Smallest scope.** Test on one record before letting anything run against the whole object. Cap wide loops at a low limit while you are still watching.
+- **Run it twice.** For any sync, the real test is running it a second time immediately. A correct, idempotent job reports zero changes on the second run, because everything already matches. If it keeps writing, your comparison is broken, and you have found the bug before the schedule did.
+
+The through-line of the whole method: turn every "will this behave?" into a "does this contain what it claims?" that a person can check. The spec makes intent reviewable. The dry-run and the second run make behavior checkable. Neither depends on trusting the model.
+
+<Quiz
+  question="You've built a daily sync. What's the simplest strong check that it's safe before scheduling it?"
+  options={[
+    'Read the generated code line by line',
+    'Run it once and see if it errors',
+    'Dry-run it, then run it for real twice — a correct sync writes zero changes on the second run',
+    'Ask the model whether the code is correct',
+  ]}
+  answer={2}
+  explain="The dry run previews every intended write; the second live run proves idempotency, because a correct sync finds nothing left to change. Both are checks a non-engineer can read, which is the point of the pattern: verify behavior, don't trust it."
+/>
+
+## Go deeper
+
+- [Spec-first agentic engineering](/notes/spec-first-agentic-engineering/) — the full essay, from two real builds
+- [Automation safety](/reference/automation-safety/) — dry-run gates, smallest scope, and checkpoints in depth
+- [Context engineering](/reference/context-engineering/) — deciding what an agent gets to read, which spec-first is a case of
+
+<CourseNav
+  prev={{ slug: '/learn/run-it-on-a-schedule', title: 'Run it on a schedule' }}
+  next={{ slug: '/learn/your-first-system', title: 'Your first system, end to end' }}
+/>

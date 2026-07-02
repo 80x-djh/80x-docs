@@ -1,0 +1,77 @@
+---
+title: "How agents act: tools and MCP"
+description: Tools are an agent's only way to touch the world, which is what makes it controllable — plus how a tool schema forces a fixed answer, and when MCP earns its cost.
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../components/course/CourseNav.astro';
+import Quiz from '../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={4} total={8} />
+
+:::note[In this chapter]
+- What a tool is, and why the tool list is your control surface
+- How a tool schema forces a model to answer in a fixed, checkable shape
+- MCP: how a capability reaches AI apps your team already uses
+- The one question to ask any vendor proposing an MCP integration
+:::
+
+The last chapter said an agent touches the world only through tools. This chapter is about that interface, because it is where the method's control and safety actually live. A **tool** is a function you describe to a model so the model can ask your program to run it. The model never executes anything itself: it emits a structured request ("call `search_crm` for acme.com"), your code runs the real function, and you feed the result back for the model to read. In fund terms, tools are how an agent reads your pipeline and how it writes a screening note back into it.
+
+## The tool list is your control surface
+
+Everything an agent can do, it does through the tools you hand it, and everything it *cannot* do is defined by the tools you withhold. That is the whole safety story in one sentence, and the next chapter builds on it. A tool is three things: a name, a description, and a schema for its input (a machine-readable rulebook, written as JSON Schema, saying which fields are allowed and which are required).
+
+Most of a tool definition is written for the model to read, not for the computer. The description is the piece people underinvest in: the model reads it the way it reads its standing instructions, so sequencing hints ("use this first to find prior contact") and examples ("e.g. acme.com") belong there. Two consequences follow, and both are practical:
+
+- **Selection quality tracks description quality.** Two tools whose descriptions overlap ("search records" versus "find records") get chosen roughly at random between. If you cannot say in one sentence when tool A beats tool B, the model cannot either.
+- **The tool result is just more text the model reads.** The model has no privileged access to it, so return the fields it needs to reason with, not a raw API payload with forty keys of wrapper noise. Trimming results saves money on every remaining turn of the run.
+
+## Forcing a fixed answer
+
+Here is the most useful non-obvious pattern, and the one that makes agents safe to build workflows on. By default the model decides whether to call a tool. But you can also *force* it to respond with exactly one call to a tool you name. This flips the feature's purpose: you are no longer offering a capability, you are demanding output in a fixed shape.
+
+This is the most dependable way to get structured data out of a model, because the tool's input schema becomes an output contract. When [cereal-milk](/guides/meeting-notes-to-crm/) turns a raw meeting note into filed CRM fields, it forces one extraction tool and receives already-parsed data, with no prose preamble to clean up. Three details make it production-grade rather than a demo:
+
+- **The schema only asks for what is wanted.** If a field is not in the schema, the model structurally cannot invent that section. The schema is the guardrail.
+- **Nullable fields and required citations fight made-up answers.** An owner field that accepts "not stated" gives the model a legitimate way to decline instead of guessing, and a required word-for-word citation lets a human check the extraction in seconds. You will meet citations again as a write-safety rule.
+- **Matching the schema is not the same as being correct.** Forced tool use guarantees shape, not sense, so the output is still validated before anything downstream trusts it. Treat the model's output like data from an outside service: usually right, always checked.
+
+## MCP, in one section
+
+You will hear about **MCP** (the Model Context Protocol), so here is what it is and when it matters. MCP is an open standard, introduced by Anthropic in late 2024, for connecting AI apps to outside systems. Think of it as a universal plug: write one small **server** that exposes your CRM as a tool, and every MCP-capable app (Claude Desktop, Claude Code, Cursor) can use it without custom integration work. That is how a partner prepping a call can ask Claude Desktop "have we talked to this founder before?" and get an answer from your live CRM.
+
+One scoping note that saves confusion: MCP is a *distribution* mechanism, not a requirement for agents. If you are building your own agent loop, you define tools directly in the API call and do not need MCP at all. You reach for MCP when you want a capability available *inside someone else's AI app*.
+
+## The one question to ask
+
+MCP is not free, and the cost is the thing vendors skip. Every tool's full schema is sent to the model **on every single request**, whether or not the tool gets called. So the sharp question to ask anyone proposing an MCP integration is: *"what does the tool schema cost us per request?"*
+
+The numbers are large enough to decide architecture. In a live benchmark of [attio-cli](/projects/attio-cli/), an Attio MCP server exposing 30 tools cost roughly **13,660 tokens per request** (tokens are the units AI usage is priced in). A command-line tool driven through an agent's shell pays for one shell tool's schema, about **200 tokens**, no matter how many commands it supports. Across a five-step CRM workflow the gap compounded to **3,400 tokens for the CLI against 85,860 for MCP**. Modeled at 1,000 operations a day, the schema overhead alone runs about **$1,360 a month versus $0** when the same work runs as direct scripts.
+
+So the decision rule is simple. If the agent can type commands (coding agents, scheduled jobs) and hits the same system repeatedly, give it a command line. If the host has no terminal (Claude Desktop), or the tool is a one-off, use MCP. Production systems often ship both over one engine: MCP for the edges, a CLI for the core.
+
+<Quiz
+  question="Why does an MCP server with 30 tools cost tokens even when the agent calls only one of them?"
+  options={[
+    'MCP is billed per server, not per call',
+    'Every tool’s full schema is sent to the model on every request, whether or not it is called',
+    'The unused tools run in the background',
+    'It does not — you only pay for the tool you call',
+  ]}
+  answer={1}
+  explain="The model needs to see every tool it might use, so all 30 schemas travel with each request. That fixed 'schema tax' is why a command line (one ~200-token shell tool) can be far cheaper for agents that hit the same system repeatedly. Ask any MCP vendor what the schema costs per request."
+/>
+
+## Go deeper
+
+- [Tool use](/reference/tool-use/) — the full anatomy of a tool, and forced structured output in depth
+- [Model Context Protocol](/reference/mcp/) — MCP roles, the thin-server pattern, and how to configure one
+- [CLI vs MCP](/reference/cli-vs-mcp/) — the token math in full, with the measured benchmarks
+
+<CourseNav
+  prev={{ slug: '/learn/what-an-agent-is', title: 'What an agent actually is' }}
+  next={{ slug: '/learn/read-only-before-write', title: 'Read-only before write' }}
+/>
