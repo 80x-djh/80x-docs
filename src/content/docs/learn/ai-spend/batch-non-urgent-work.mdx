@@ -1,0 +1,78 @@
+---
+title: Batch the work nobody is waiting for
+description: "Overnight sweeps, bulk enrichment, and portfolio digests do not need instant answers, so running them through an async batch queue halves that line item."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={4} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- What a batch queue is, and the flat 50% discount it carries
+- The one trade you make for it: you give up an instant answer
+- Which fund jobs are a natural fit, and which are not
+- Why this is a set-once change, not an ongoing effort
+:::
+
+A surprising amount of a fund's AI work does not need an answer this second. Re-scoring the whole pipeline overnight, enriching a fresh sourcing list, summarizing a stack of board decks, drafting the first pass of an LP report: nobody is sitting at a screen waiting for any of these. For that kind of work, providers offer a simple deal. Send it in a queue instead of demanding an instant reply, and pay half price. This chapter is about taking that deal wherever it fits.
+
+## What batching is
+
+Normally, when you call a model, you wait for the answer right then. That is a **synchronous** call, and it is what you want when a partner is asking a question live. A **batch** call is the opposite: you hand the provider a pile of work, walk away, and collect the results later. Because the provider can fit that work into spare capacity instead of answering you instantly, it charges less.
+
+The discount is large and consistent. Across Anthropic, OpenAI, and Google, the batch mode runs at **50% off** the standard token price. The work is asynchronous, meaning you do not wait on it; most batches finish within an hour, and the providers allow up to 24 hours. You submit, you wait, you get half off. There is no quality difference, because it is the same model doing the same work.
+
+## The only trade is time
+
+Batching costs you nothing except immediacy. That single trade decides where it belongs.
+
+| Good fit (nobody is waiting) | Wrong fit (someone is waiting) |
+|---|---|
+| Overnight re-scoring of the full pipeline | A partner asking a question in the moment |
+| Enriching a new sourcing list | Live meeting prep, minutes before the call |
+| Bulk-summarizing board decks | An agent answering a user in real time |
+| Drafting first-pass LP reports | Anything with a person watching the screen |
+| Re-reading a document set to refresh search | |
+
+The test is one question: is a human waiting for this result right now? If the honest answer is no, the work is a candidate for the batch queue and the 50% discount. Most of a fund's highest-volume AI work, the scheduled sweeps and the overnight processing, passes that test easily.
+
+:::tip
+Batching pairs naturally with running work on a schedule. If a job already wakes up at 3 a.m. to re-score your pipeline, there is no one awake to wait for it, so there is no reason to pay the instant-answer rate. The [scheduled-job pattern](/reference/cron-agents/) and the batch discount are made for each other.
+:::
+
+## Set it once, then forget it
+
+Unlike right-sizing, which is a judgment you re-check as models change, batching is close to a one-time configuration. You decide, per pipeline, whether the work is latency-tolerant. If it is, you route it through the batch queue and leave it there. The discount then applies to every run, forever, with no further attention.
+
+And it stacks. As the previous chapter noted, a cached block stays discounted inside a batch job, so the repeated portion of a large overnight run can be cheap on both counts at once: half off for being batched, and roughly a tenth of the price on the cached part. For a nightly job that reads the same rubric across a thousand items, those two discounts compound into a bill that is a small fraction of the naive one.
+
+:::caution
+The failure mode is putting live, interactive work into a batch queue to chase the discount. If a partner is waiting on the answer, a delay of even a few minutes is worse than the money saved. Batch the sweeps. Keep the interactive work synchronous.
+:::
+
+<Quiz
+  question="Which job is the best candidate for a batch queue?"
+  options={[
+    'Briefing a partner on a company two minutes before the call',
+    'Answering a founder’s question in a live chat',
+    'Re-scoring the entire deal pipeline overnight, when no one is watching',
+    'Any job at all — batching is always cheaper with no downside',
+  ]}
+  answer={2}
+  explain="Batching trades immediacy for a 50% discount, so it fits work no human is waiting on. An overnight pipeline re-score is ideal. Live meeting prep and interactive chat are the wrong fit, because the delay costs more than the savings."
+/>
+
+## Go deeper
+
+- [Cron agents](/reference/cron-agents/) — jobs that wake on a schedule, the natural home for batched work
+- [The one-file cron sync](/guides/one-file-cron-sync/) — a real scheduled job you could route through a batch queue
+- [The self-updating KPI dashboard](/guides/kpi-dashboard-from-crm/) — an overnight portfolio digest with no one waiting on it
+
+<CourseNav
+  prev={{ slug: '/learn/ai-spend/cache-the-fixed-prefix', title: 'Cache the fixed part of every prompt' }}
+  next={{ slug: '/learn/ai-spend/shrink-the-input', title: 'Shrink the input: retrieve, don’t stuff' }}
+/>

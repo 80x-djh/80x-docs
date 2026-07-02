@@ -1,0 +1,49 @@
+---
+title: Optimize Your Fund's AI Spend
+description: "A guided course on getting real return from the money your fund spends on AI: what it actually costs, the five levers that cut the bill, and how to measure ROI."
+prev: false
+next: false
+---
+
+import CourseOutline from '../../../../components/course/CourseOutline.astro';
+
+Most funds now spend real money on AI, and almost none of them can say what it buys. This is a short course, read in order, that fixes both halves of that problem: it teaches you how AI is actually billed, the handful of levers that cut the bill without cutting quality, and how to tell whether any of it is paying off. By the end you will be able to read an AI invoice, question any "AI for your fund" purchase, and set a spending policy that keeps cost tied to value.
+
+It is the companion to [Learn the 80x Method](/learn/), which teaches how to *build* fund software. This one teaches how to *pay* for it well.
+
+## Who this course is for
+
+Partners, principals, and operations leads who approve the AI budget, whether or not they write any code. No engineering background is assumed. Every term is defined in plain English the first time it appears, and no chapter expects you to have opened a terminal. If you already build with AI, you lose nothing but a few definitions you already knew.
+
+## The one reframe this course rests on
+
+An AI bill is not a subscription. It is **token volume multiplied by price**, summed over every call your fund makes, and it arrives on three separate meters:
+
+1. **Model usage**, billed by the token (the small unit of text a model reads and writes). This is the meter most people forget exists.
+2. **AI software seats**, billed per person per month, and increasingly per person *plus* usage on top.
+3. **Engineering and human time** to build, run, and check the work. This never appears on any invoice, and it is usually the largest cost of all.
+
+The unit that makes all three legible is **cost per fund workflow**: what it costs to screen one deal, capture one meeting note, refresh one portfolio update, or prep one LP conversation. Hold that unit in your head and the rest of the course is five ways to lower it and one way to prove the lowering was worth it.
+
+## The five levers, and the ROI wrapper
+
+Four short lessons on what you are buying, five on how to spend less for the same result, and two on how to know it worked.
+
+<CourseOutline chapters={[
+  { n: 1, title: 'What AI actually costs your fund', blurb: 'How AI is metered — per token, across three cost centers — and why the same task can cost 100x more depending on how you run it.', minutes: 8, slug: '/learn/ai-spend/what-ai-actually-costs' },
+  { n: 2, title: 'Right-size the model to the task', blurb: 'The biggest structural saving: route each job to the cheapest model that clears its quality bar, and escalate only the hard few.', minutes: 8, slug: '/learn/ai-spend/right-size-the-model' },
+  { n: 3, title: 'Cache the fixed part of every prompt', blurb: 'When you send the same thesis or rubric on every call, caching re-reads it at roughly a tenth of the price.', minutes: 7, slug: '/learn/ai-spend/cache-the-fixed-prefix' },
+  { n: 4, title: 'Batch the work nobody is waiting for', blurb: 'Overnight sweeps and bulk enrichment do not need instant answers, so a batch queue halves that line item.', minutes: 6, slug: '/learn/ai-spend/batch-non-urgent-work' },
+  { n: 5, title: 'Shrink the input: retrieve, don’t stuff', blurb: 'A million-token context is billed as a million tokens every call. Retrieve the few relevant pages instead.', minutes: 8, slug: '/learn/ai-spend/shrink-the-input' },
+  { n: 6, title: 'Put a ceiling on the agent loop', blurb: 'An autonomous agent can quietly spend 20x a single call. Hard caps and budgets keep one runaway job from eating the month.', minutes: 8, slug: '/learn/ai-spend/control-the-agent-loop' },
+  { n: 7, title: 'Measure ROI: hours returned vs true cost', blurb: 'Most AI pilots show no measurable return. The ones that pay off set a baseline, count full cost, and measure lift.', minutes: 9, slug: '/learn/ai-spend/measure-the-roi' },
+  { n: 8, title: 'Build your fund’s AI budget and policy', blurb: 'Turn the levers into a one-page plan: audit seats, decide buy-versus-build, set enforced caps, review monthly.', minutes: 9, slug: '/learn/ai-spend/your-fund-ai-spend-policy' },
+]} />
+
+Prices and model names in this course were verified in mid-2026 and move quickly. Where a figure is a worked example rather than a published rate, it says so. The point is never the exact number; it is the mechanism, which lasts.
+
+## See also
+
+- [Learn the 80x Method](/learn/) — the companion course on building the systems this one teaches you to pay for
+- [Context engineering](/reference/context-engineering/) — the reference page behind Chapter 5, on deciding what a model reads
+- [Automation safety](/reference/automation-safety/) — the discipline behind Chapter 6, on making a runaway job fail small

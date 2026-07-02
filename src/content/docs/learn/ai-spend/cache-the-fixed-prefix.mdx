@@ -1,0 +1,85 @@
+---
+title: Cache the fixed part of every prompt
+description: "When you send the same thesis, rubric, or reference document on every call, prompt caching re-reads it at roughly a tenth of the price."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={3} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- What prompt caching is, and the roughly 90% discount it buys on repeated text
+- The textbook fund win: one fixed rubric read against hundreds of decks
+- Why one changed character can quietly cancel the whole discount
+- When caching pays off, and when it does not
+:::
+
+Many fund workflows send the model the same block of text on every single call: the same scoring rubric, the same fund thesis, the same reference document, followed by whatever is new that time. You are paying full price to make the model re-read that fixed block over and over. Prompt caching stops that. This chapter shows you how it works, where it pays off most in a fund, and the one mistake that silently switches the discount off.
+
+## What prompt caching is
+
+**Prompt caching** lets the provider remember the front of your prompt so it does not have to reprocess it every time. The first call pays to read the block and store it. Every later call that begins with the exact same block reads it from the store instead, at a steep discount.
+
+The discount is large. On Anthropic's models, a **cache read** costs about one tenth of the normal input price, a saving of roughly 90% on that portion. The same pattern holds across the major providers: cached input is billed at a small fraction of fresh input. This is not a niche feature; it is a standard, provider-level discount you opt into.
+
+There is a small cost to storing the block in the first place. A **cache write** costs a little more than a normal read, about 1.25 times for the short-lived version and about twice for the longer-lived one. That premium is why caching is worth it only when you reuse the block. The break-even is quick: reusing a cached block just two or three times already pays back the write premium, and everything after that is close to free.
+
+## The textbook fund win
+
+Caching pays off wherever a large, fixed block of text rides along on many calls. Two examples map straight onto fund work:
+
+- **A scoring rubric or investment thesis, read against every deck.** Your screening prompt might be a page of criteria that never changes, followed by one deck that does. Cache the page. If you screen 200 decks this week, you pay full price to read the rubric once and a tenth of the price on the other 199.
+- **One data room, questioned many ways.** During due diligence you might ask a dozen questions of the same set of documents. Cache the documents. You pay to read them once, then each question reads them back at the discount.
+
+The shape to look for is always the same: **a big block that stays constant, and a small block that varies.** Cache the constant one.
+
+## The one mistake that cancels the discount
+
+Caching matches on an exact prefix. The provider only reuses the stored block if the start of your new prompt is **byte-for-byte identical** to what it stored. Change a single character anywhere in that block and the match breaks. Everything from the change onward is treated as new text and billed at full price.
+
+This has a specific, common failure mode.
+
+:::caution
+Do not put anything that changes into the block you are trying to cache. The usual culprit is a date or a timestamp. If your fixed rubric starts with "Screening as of July 3, 2026", that line changes every day, which breaks the match every day, and your 90% discount silently disappears. Keep the cached block frozen. Put the date, the deck, and the question **after** it, in the part that is allowed to vary.
+:::
+
+The rule that follows is simple: stable content first, variable content last. Freeze the rubric, the thesis, the reference document. Append the one thing that is new each time at the end, where it costs full price on its own but does not disturb the discount on everything before it.
+
+## When caching does not help
+
+Caching rewards repetition within a short window. The stored block lives for a limited time, on the order of a few minutes to an hour depending on the setting, and there is a minimum size below which providers will not cache at all. Two consequences follow.
+
+First, caching pays for **bursts of clustered calls**, not for a single job run once a day. If you screen 200 decks in one sitting, caching is a large win. If you make one lone call each morning, the stored block will usually have expired by the next one, and there is nothing to reuse.
+
+Second, the fixed block has to be big enough to be worth storing. A one-line instruction is below the threshold and will not cache. A page-long rubric or a multi-page document is well above it.
+
+:::tip
+Caching stacks with the next chapter's lever. Work you send through a batch queue can reuse a cached block too, so the repeated portion of a large overnight job can end up discounted on both counts at once.
+:::
+
+<Quiz
+  question="Your daily screening prompt begins with a fixed rubric, but your cache savings have vanished. What is the most likely cause?"
+  options={[
+    'The rubric is too short to be useful',
+    'Something inside the cached block changes on every run — often a date or timestamp — which breaks the exact-prefix match',
+    'The model was upgraded',
+    'You screened too many decks',
+  ]}
+  answer={1}
+  explain="Caching reuses a stored block only when the prefix is byte-for-byte identical. A date, timestamp, or any per-run detail placed inside the block changes it every time, breaking the match and re-billing everything after it at full price. Keep the cached block frozen and move variable content to the end."
+/>
+
+## Go deeper
+
+- [Context engineering](/reference/context-engineering/) — the broader discipline of deciding exactly what a model reads, which caching is one tactic within
+- [Batch the work nobody is waiting for](/learn/ai-spend/batch-non-urgent-work/) — the discount that stacks with this one
+- [System prompt](/glossary/#system-prompt) — the fixed instructions that are usually the first thing worth caching
+
+<CourseNav
+  prev={{ slug: '/learn/ai-spend/right-size-the-model', title: 'Right-size the model to the task' }}
+  next={{ slug: '/learn/ai-spend/batch-non-urgent-work', title: 'Batch the work nobody is waiting for' }}
+/>

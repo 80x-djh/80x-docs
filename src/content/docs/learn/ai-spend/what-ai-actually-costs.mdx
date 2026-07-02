@@ -1,0 +1,124 @@
+---
+title: What AI actually costs your fund
+description: "How AI is billed — per token, across three separate cost centers — and why the same task can cost 100x more depending on the model and the prompt."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={1} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- What a token is, and why it is the unit your AI bill is actually measured in
+- Why the same task can cost anywhere from a cent to a dollar
+- The three separate meters your fund's AI spend runs on
+- How to read a bill as cost per fund workflow, and why bills keep rising even as prices fall
+:::
+
+You cannot manage a cost you cannot read. This chapter teaches you to read an AI bill the way it is actually metered, so that every later lesson has something concrete to lower. By the end you will know what you are paying for, which of three meters it lands on, and how to express the whole thing in a unit a partner can reason about: cost per deal screened, per meeting note, per portfolio update.
+
+## The token is the unit of cost
+
+A **token** is the small chunk of text a language model reads and writes. Roughly, one token is about three quarters of a word, or four characters. When a model reads your prompt, it reads it as tokens. When it writes a reply, it writes tokens. Every major AI provider charges by the token, quoted as a price per million tokens.
+
+There are two separate line items, and the difference matters:
+
+- **Input tokens** are everything you send the model: your instructions, the deck, the notes, the question.
+- **Output tokens** are everything the model writes back.
+
+Output is the expensive half. Across every major provider, output tokens cost about five times what input tokens cost. The practical lesson is to design your workflows to **read a lot and write a little**. A model that reads a 20-page deck and answers with one word, "pursue" or "pass", is cheap. The same model asked to write a three-page memo about that deck is expensive, because you are paying the premium rate for every word it generates.
+
+:::tip
+When you only need a decision, ask for a decision. A structured verdict ("stage: seed; fit: yes; flag: none") costs a fraction of a written narrative, and it is easier for your other systems to read. You will see this idea again in [structured outputs](/learn/ai-spend/control-the-agent-loop/).
+:::
+
+## Why the same task can cost 100x more
+
+Two dials set the price of any single task, and they multiply.
+
+The first dial is the **model tier**. Providers sell a range of models, from small and cheap to large and expensive. Here are Anthropic's published rates in mid-2026, as an example of the spread. Prices are per million tokens.
+
+| Tier | Model | Input | Output |
+|---|---|---|---|
+| Small | Claude Haiku 4.5 | $1 | $5 |
+| Mid | Claude Sonnet 5 | $3 | $15 |
+| Frontier | Claude Opus 4.8 | $5 | $25 |
+
+The gap from the small model to the frontier model is about five times, on both input and output. Across the whole market, comparing the cheapest small models to the most expensive frontier ones, the spread is wider still. Run the same job on the wrong tier and you can pay many times over for capability you did not need.
+
+The second dial is **prompt size**: how many tokens you feed in. A tight, focused prompt might be a few thousand tokens. A prompt that pastes an entire data room might be hundreds of thousands. That is a difference of ten times or more, on the input meter, on every single call.
+
+Multiply the two dials together and the same logical task, screening one deck, can range from about a cent to over a dollar depending only on how you run it. A frontier model reading a bloated prompt is the worst case; a small model reading a tight one is the best.
+
+:::note
+Here is that arithmetic as a worked example. It uses the real rates above, but the token counts are illustrative, so treat the totals as a shape, not a quote. Screening one 15,000-token deck and asking for a 1,000-token verdict costs roughly **$0.02 on the small model and $0.10 on the frontier one**. Over 500 decks a month that is about **$10 versus $50**. The task is identical. The only difference is the tier you chose.
+:::
+
+## The three meters
+
+"AI spend" is not one bill. It arrives on three separate meters, and funds routinely watch one while the other two run unwatched.
+
+| Meter | What it bills | How it is priced |
+|---|---|---|
+| Model usage | Tokens read and written, per call | Per million tokens (input and output separately) |
+| AI software seats | Access to a tool, per person | Per seat per month, increasingly plus usage on top |
+| Human and engineering time | Building, running, and checking the work | Salaries and vendor invoices — never on an AI dashboard |
+
+The first meter is the one this course spends most of its levers on, because it is the one you can move with a setting rather than a hire. The second meter, seats, is where most funds actually spend the most today, and where the most obvious waste hides; Chapter 8 audits it. The third meter, human and engineering time, is the largest and least visible of the three. The hours to build a workflow, keep it running, and review its output do not show up on any usage screen, and they are where most of the real cost of AI lives.
+
+:::caution
+The trap is to negotiate hard on the token bill, which might be tens of dollars a month, while ignoring the twenty hours of partner time spent checking the output, which is worth far more. Keep all three meters in view. A later chapter shows you how to put a number on the third one.
+:::
+
+## Read the bill as cost per fund workflow
+
+A raw invoice tells you a total. It does not tell you which of your fund's jobs spent the money, which is the only thing you can act on. The fix is to translate spend into **cost per workflow**: the fully-loaded cost of doing one unit of a job you already recognize.
+
+The formula is simple:
+
+```text
+cost per run = (input tokens × input price) + (output tokens × output price)
+monthly cost = cost per run × runs per month
+```
+
+Applied to your fund, that becomes:
+
+- Cost per deal screened, across your whole inbound funnel
+- Cost per meeting note captured and filed to the CRM
+- Cost per portfolio company update assembled each week
+- Cost per LP conversation prepped
+
+Once spend is expressed this way, the question stops being "is our AI bill too high" and becomes "does screening a deal for four cents return more than four cents of partner attention." That is a question you can answer, and it points you at which workflow to optimize first.
+
+## Prices fall, and bills still rise
+
+One more thing to expect, because it surprises people. The price of a token keeps dropping, sometimes sharply, year over year. And yet total AI bills keep climbing. The reason is that usage grows faster than prices fall: as AI becomes useful, funds run it on more workflows, more often, over more data.
+
+This is why "the models are getting cheaper" is not a spending plan. In the FinOps Foundation's 2026 industry survey, nearly every organization reported actively managing AI spend, up from about a third two years earlier, precisely because falling unit prices were not holding total bills down. Budget for your usage growing, not for your models getting cheaper. The rest of this course is how to make that growth affordable.
+
+<Quiz
+  question="Why is the same screening task often cheaper when you ask the model for a one-line verdict instead of a written memo?"
+  options={[
+    'Shorter answers are always more accurate',
+    'Output tokens cost about five times more than input tokens, so generating less text is cheaper',
+    'The model reads the deck faster when the answer is short',
+    'Verdicts skip the model entirely',
+  ]}
+  answer={1}
+  explain="You pay separately for what the model reads (input) and what it writes (output), and output is priced roughly 5x higher. A one-line verdict generates far fewer output tokens than a memo, so it costs far less for the same reading work."
+/>
+
+## Go deeper
+
+The chapters that follow are five ways to lower cost per workflow, then two ways to prove the lowering paid off.
+
+- [Right-size the model to the task](/learn/ai-spend/right-size-the-model/) — the biggest of the two cost dials, and how to set it per workflow
+- [Screening](/glossary/#screening) and [qualification](/playbooks/qualification/) — the fund workflows the cost examples above are drawn from
+- [The CRM as your fund's database](/reference/crm-as-database/) — where the output of these workflows should land, and the asset the spend is protecting
+
+<CourseNav
+  next={{ slug: '/learn/ai-spend/right-size-the-model', title: 'Right-size the model to the task' }}
+/>

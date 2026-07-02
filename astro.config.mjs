@@ -82,6 +82,21 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Learn · Optimize AI Spend',
+          collapsed: true,
+          items: [
+            { label: 'Course overview', slug: 'learn/ai-spend' },
+            { label: '1 · What AI actually costs', slug: 'learn/ai-spend/what-ai-actually-costs' },
+            { label: '2 · Right-size the model', slug: 'learn/ai-spend/right-size-the-model' },
+            { label: '3 · Cache the fixed prefix', slug: 'learn/ai-spend/cache-the-fixed-prefix' },
+            { label: '4 · Batch non-urgent work', slug: 'learn/ai-spend/batch-non-urgent-work' },
+            { label: '5 · Shrink the input', slug: 'learn/ai-spend/shrink-the-input' },
+            { label: '6 · Control the agent loop', slug: 'learn/ai-spend/control-the-agent-loop' },
+            { label: '7 · Measure the ROI', slug: 'learn/ai-spend/measure-the-roi' },
+            { label: '8 · Your fund AI-spend policy', slug: 'learn/ai-spend/your-fund-ai-spend-policy' },
+          ],
+        },
+        {
           label: 'Start here',
           items: [
             { label: 'Manifesto', slug: 'start-here/manifesto' },

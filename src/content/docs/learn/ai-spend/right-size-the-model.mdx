@@ -1,0 +1,92 @@
+---
+title: Right-size the model to the task
+description: "The biggest structural saving in AI spend: route each workflow to the cheapest model that clears its quality bar, and escalate only the hard few."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={2} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- The three model tiers, and why most fund work does not need the top one
+- The cascade: a cheap model first, an expensive model only for the hard few
+- The effort dial, which lowers cost without switching models
+- Why right-sizing is ongoing discipline, not a one-time setting
+:::
+
+The single largest structural saving in AI spend is also the easiest to explain: stop running every job on the most powerful, most expensive model. This chapter shows you how to match each workflow to the cheapest model that still clears its quality bar, and how to spend frontier-model money only on the small minority of cases that actually need it. Get this right and you can cut a model bill by more than half before touching anything else.
+
+## Three tiers, one job each
+
+Every major provider sells models in roughly three tiers. The names change; the shape does not.
+
+| Tier | Good at | Typical fund use |
+|---|---|---|
+| Small | Fast, cheap, high-volume tasks with a clear answer | Tagging, extraction, first-pass deck screening |
+| Mid | A balance of judgment and cost | Meeting-note summaries, drafting, routine research |
+| Frontier | The hardest reasoning, where a mistake is expensive | Investment-committee-grade analysis, deep due diligence |
+
+As Chapter 1 showed, the price gap across those tiers is about five times within a single provider, and wider across the market. That gap is the opportunity. Most of what a fund asks AI to do is low-judgment, high-volume work: read this, tag that, pull these fields, sort this inbound. That work belongs on the small or mid tier. The frontier tier is for the few decisions where the extra reasoning changes the answer and a wrong answer is costly.
+
+The common mistake is to pick the best model once, because it is the best, and run everything through it. That is like sending every letter by overnight courier. The courier is excellent. You still do not need it for the electricity bill.
+
+## The cascade: cheap first, escalate the hard few
+
+You do not have to guess in advance which items are hard. A **cascade** decides for you. Run every item through the cheap model first. If the cheap model is confident, you keep its answer. If it is not, you escalate that one item to a bigger model for a second look. Frontier-model money is then spent only on the hard minority.
+
+```mermaid caption="A model cascade: the cheap model clears the confident majority; only low-confidence items escalate to a costlier model."
+flowchart TB
+  A[New deck to screen] --> B[Small model<br/>first pass]
+  B -->|confident| C[Verdict filed]
+  B -->|low confidence| D[Frontier model<br/>second look]
+  D --> C
+```
+
+The economics work because, in most fund workflows, the easy cases vastly outnumber the hard ones. If nine out of ten decks are clear passes or clear pursues, nine out of ten are handled at the cheap rate, and you only pay the frontier rate on the tenth. Teams that publish their results commonly report cutting cost by half or more this way while keeping the great majority of the quality. Treat those percentages as directional, not as a promise; the exact numbers depend on your own mix of easy and hard cases.
+
+## The effort dial: cheaper without switching models
+
+There is a second, lower-friction lever that does not require running two models at all. Most current models expose a **reasoning-effort setting**: a dial that tells the model how hard to think before it answers. Anthropic's version, called `effort`, runs from low to maximum. A lower setting means the model spends fewer tokens thinking, which means it costs less and answers faster.
+
+The point is that thinking effort should match task difficulty. Extracting a founding date from a deck does not need deep deliberation; a low effort setting answers it correctly for a fraction of the tokens. A contested diligence question might warrant a high setting. Because this is a single setting rather than a second system, it is the easiest cost lever to reach for, and often the first one to try.
+
+## This is discipline, not a one-time setting
+
+Right-sizing is not something you configure once and forget, for two reasons.
+
+First, under-sizing has a real and asymmetric cost. If you route a genuinely hard screening call to a model that is too small, it can miss a good deal or wave through a bad one, and that mistake can dwarf the few cents you saved. So the discipline is not "always use the cheapest model." It is "use the cheapest model that still clears the bar for this specific job."
+
+Second, a cascade that is tuned badly saves nothing. If it escalates everything, you get no savings and pay twice. If it escalates too little, quality drops in exactly the cases that mattered. The dial has to be set against evidence.
+
+:::caution
+Before you roll out a cheaper model on a real workflow, measure how the current setup performs on that workflow, then check the cheaper one against the same yardstick. Never cost-cut a workflow you have not measured. You are trying to lower cost per unit of value, not cost alone, and you can only see value if you baseline it first. Chapter 7 covers how.
+:::
+
+New models ship constantly, and each release reshuffles the tiers. A model that was frontier-only last year may be a mid-tier commodity this year. Re-check your routing when a provider ships something new; the cheapest model that clears your bar changes over time.
+
+<Quiz
+  question="In a cascade, why does most of the volume cost the cheap rate even though a frontier model is involved?"
+  options={[
+    'The frontier model is billed at the cheap rate inside a cascade',
+    'Only low-confidence items are escalated, and in most fund workflows the easy cases far outnumber the hard ones',
+    'The cheap model and the frontier model split the bill evenly',
+    'Escalation is free',
+  ]}
+  answer={1}
+  explain="A cascade runs everything through the cheap model first and escalates only the items it is not confident about. Because clear passes and clear pursues dominate most funnels, the frontier model is called on only the small hard minority, so most of the volume stays at the cheap rate."
+/>
+
+## Go deeper
+
+- [What is an agent?](/reference/agents/) — the precise definition of the thing you are choosing a model for
+- [The deal-qualification agent](/guides/medic-qualification-agent/) — a real screening workflow where model choice sets the cost
+- [Qualification](/playbooks/qualification/) — the fund-level play behind first-pass screening, in partner terms
+
+<CourseNav
+  prev={{ slug: '/learn/ai-spend/what-ai-actually-costs', title: 'What AI actually costs your fund' }}
+  next={{ slug: '/learn/ai-spend/cache-the-fixed-prefix', title: 'Cache the fixed part of every prompt' }}
+/>

@@ -1,0 +1,119 @@
+---
+title: Build your fund’s AI budget and policy
+description: "Turn the levers into a one-page plan: audit seats, decide buy-versus-build, set enforced caps, and adopt a short monthly review that keeps spend tied to value."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={8} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- The four layers of a fund's AI stack, and the overlap trap that hides in them
+- Where funds waste the most, and the buy-versus-build default that avoids it
+- The guardrails to set once, and the review to run every month
+- A one-page plan you can fill in for your own fund
+:::
+
+This is the capstone. The previous seven chapters gave you a way to read the bill and five levers to lower it, plus a way to judge return. This chapter turns all of that into a standing policy: a short, living document that says how your fund buys, runs, and reviews AI, so the discipline survives past the enthusiasm of any one quarter. It ends with a one-page template you can fill in today.
+
+## Map your stack in four layers
+
+Start by seeing what you already pay for. A fund's AI and tech stack sorts into four buyable layers. Naming them makes the overlap visible.
+
+| Layer | What it does | Example tools |
+|---|---|---|
+| Sourcing and market data | Finding and mapping companies | Harmonic, Specter, Tracxn, PitchBook, Grata |
+| Relationship CRM | The single source of truth for deals and people | Affinity, Attio |
+| Meeting notes | Capturing what was said | Fireflies, Otter, Fathom, Granola |
+| Horizontal AI seats | General assistants for the whole team | ChatGPT, Claude, Copilot, Gemini |
+
+These names are examples, not endorsements, and the list moves. The point is the structure. Lay your own subscriptions across these four rows and the **overlap trap** usually appears: the fund is paying two or three tools to do the same job. The classic case is meeting notes, where a dedicated notetaker, a CRM feature, and a horizontal assistant that also transcribes are all billed at once for one capability. Overlap is the most common form of AI overspend, and it is invisible until you lay the stack out this way.
+
+## Attack seat waste first
+
+The single largest measurable overspend in software is not the token bill. It is seats nobody uses. Industry surveys of software spending consistently find that **roughly half of purchased licenses go unused.** The structural cause is decentralized buying: when every partner can expense their own tool, no one reconciles the total, and duplication accumulates quietly. A fund has no IT department to hold the line, which makes every partner a buyer, which makes this worse, not better.
+
+So the first move in any AI budget is a seat audit, and it costs nothing:
+
+- At every renewal, list who actually logged in over the last quarter, and cut the seats that sat idle.
+- Kill duplicate capability. If a well-adopted horizontal assistant already transcribes meetings well enough, the dedicated notetaker may be a line you can drop.
+- Prefer one tool the team truly uses over three that each cover a slice.
+
+Only after the seats are clean is it worth optimizing the token bill, because a token saving of a few dollars means little next to a dropped seat worth hundreds a month.
+
+The pricing models differ by layer, and knowing them shapes the negotiation. Relationship CRMs often publish plain per-seat pricing you can read off a page; Attio, for instance, lists a free tier for a few seats and paid tiers per seat per month, verifiable in minutes. Sourcing platforms, by contrast, sell negotiated annual contracts with no public price, so your lever there is the negotiation itself: multi-year terms, prepayment, and a live competitive evaluation. Horizontal assistant seats have been drifting from a flat per-seat price toward per-seat *plus usage*, and some, like the major office-suite assistants, are an add-on charged on top of a license you already pay for. Read every contract for the usage clause, because "we bought seats" no longer caps the bill.
+
+## Default to buy; build only what is yours
+
+Chapter 7 gave the finding: buying a focused tool from a specialist tends to succeed about twice as often as building the equivalent in-house. Turn that into a default.
+
+- **Buy** for standard, commodity workflows: meeting notes, enrichment, routine research, CRM upkeep. Someone has already built these better than you will, and their maintenance is their problem.
+- **Build** only for the narrow logic that is genuinely proprietary to your fund: your investment thesis, your scoring, the way your single source of truth is wired together. This is where a thin, owned system earns its keep, and where the companion course, [Learn the 80x Method](/learn/), picks up.
+
+And remember the true cost from the last chapter. The durable cost of anything you build is not the tokens; it is the maintenance and the human review, forever. Build the few things worth maintaining, and buy the rest.
+
+## Set the guardrails once
+
+Some decisions you make one time and leave running. From the earlier chapters, these are the settings to lock in before anything scales:
+
+- **An enforced daily spending cap** on any autonomous work, tight enough that a single bad day is survivable, per [Chapter 6](/learn/ai-spend/control-the-agent-loop/). Not just an alert. A hard limit.
+- **One project space per workflow** in your provider dashboard, so the bill splits into per-workflow costs automatically, per [Chapter 7](/learn/ai-spend/measure-the-roi/).
+- **A default model tier per workflow**, cheapest-that-clears-the-bar, per [Chapter 2](/learn/ai-spend/right-size-the-model/), with caching and batching turned on wherever the work repeats or can wait.
+
+## Run a thirty-minute review every month
+
+AI prices, models, and usage move too fast for an annual budget. The lightweight discipline that keeps spend honest is a short monthly review, in the spirit of the crawl-before-you-run guidance the cost-management community recommends for teams just starting out. Half an hour, once a month:
+
+1. Look at last month's spend, split by workflow. Note anything that moved more than you expected.
+2. Show each partner or team what their tools cost. Not to charge them, just to make the number visible; visibility alone changes behavior.
+3. Produce a top-three action list: the three changes worth making this month, and nothing more.
+
+Wrap that monthly rhythm with a lighter quarterly check: are the model tiers still right as new models have shipped, and do the annual contracts still earn their price. That is the whole operating system. Monthly variance, quarterly contracts.
+
+## Your one-page plan
+
+Here is the artifact the whole course builds toward. For each AI workflow your fund runs, fill in one row. Keep it to a page, keep it current, and it becomes the living record that ties every dollar to a purpose.
+
+```text
+Workflow: __________________________   Owner: __________________
+
+  Model tier ............ small / mid / frontier, because ________
+  Caching ............... on / off / not applicable
+  Batching .............. on / off / not applicable
+  Spending cap .......... $______ per day (enforced, not just alerted)
+  What it returns ....... ______ hours/month, reallocated to ______
+  Cost per outcome ...... $______ per ______ (deal / note / flag)
+  Verdict ............... keep / cut / needs a baseline
+```
+
+The "verdict" line is the point of the exercise. A workflow you cannot fill in is a workflow you cannot judge, and "needs a baseline" is an honest and common answer. Fill the page in once, revisit it monthly, and your fund will be in the minority that can say, plainly, what its AI spend buys.
+
+## Where to go from here
+
+You now have the whole arc: read the bill as cost per workflow, lower it with five levers, and prove the lowering was worth it. The other half of the story, actually building the systems this course taught you to pay for well, is the companion course. Start there when you are ready to build.
+
+<Quiz
+  question="Why is auditing seats the right first move in an AI budget, before optimizing the token bill?"
+  options={[
+    'Seats are more fun to review',
+    'Roughly half of purchased licenses typically go unused, and a dropped seat is usually worth far more than a token saving',
+    'Token bills cannot be lowered',
+    'Seats and tokens are billed together',
+  ]}
+  answer={1}
+  explain="Unused seats are the largest measurable software overspend, and decentralized buying at a fund makes duplication likely. A single dropped seat is worth hundreds a month, dwarfing the few dollars a token optimization saves. Clean the seats first, then optimize the tokens."
+/>
+
+## Go deeper
+
+- [Learn the 80x Method](/learn/) — the companion course on building the proprietary systems worth owning
+- [The CRM as your fund's database](/reference/crm-as-database/) — the single source of truth the whole stack should read and write
+- [VC playbooks](/playbooks/) — the fund-level plays these workflows serve, in partner terms
+
+<CourseNav
+  prev={{ slug: '/learn/ai-spend/measure-the-roi', title: 'Measure ROI: hours returned vs true cost' }}
+/>

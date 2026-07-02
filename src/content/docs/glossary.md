@@ -17,6 +17,10 @@ The repeating cycle at the core of every agent: call the model, run the tool it 
 
 A set of CRM fields that only automated systems write to, kept strictly separate from the fields humans edit. A common convention is a shared prefix, for example fields named `scout_*`. The separation means an agent can never overwrite data a human entered, and a human never has to maintain a machine-updated field by hand. Suggestion fields are the most common use: the agent files its proposals there, and a person reviews them. [Full page](/reference/writing-agents-safely/).
 
+## Batch processing
+
+Sending AI work to a provider in a queue to be handled later, instead of waiting for an answer immediately, in exchange for a large discount, commonly 50% off the standard token price. Most batches finish within an hour, and providers allow up to a day. It suits any job no person is waiting on: overnight pipeline re-scoring, bulk enrichment, or drafting reports. The only trade is immediacy, so it is the wrong tool for live meeting prep. [Full lesson](/learn/ai-spend/batch-non-urgent-work/).
+
 ## Chain
 
 A fixed pipeline of steps that always run in the same order, for example search, then fetch, then summarize. In a chain, you decide the steps in advance; in an agent, the model decides each next step based on what it just learned. A practical test: if you can write down the exact sequence of steps before running anything, write a script (a chain), not an agent. [Full page](/reference/agents/).
@@ -32,6 +36,10 @@ The practice of deciding what information goes into a model's context window (de
 ## Context window
 
 Everything a language model can see on a single request: the instructions, the conversation so far, the tool definitions, and the tool results. It is measured in tokens, the small chunks of text models read, each roughly three-quarters of a word. The window is the scarcest resource in an agentic system, not because it is small but because you pay for every token on every request. A model reasoning over a few thousand relevant tokens gives better answers than the same model buried in far more irrelevant ones. [Full page](/reference/context-engineering/).
+
+## Cost per workflow
+
+A way to read an AI bill by translating raw spend into the cost of one unit of a job the fund recognizes: cost per deal screened, per meeting note captured, per portfolio update assembled. It is computed as (input tokens times input price) plus (output tokens times output price) per run, multiplied by runs per period. Expressing spend this way turns the question "is our AI bill too high" into "does screening a deal for four cents return more than four cents of attention," which a partner can actually answer. [Full lesson](/learn/ai-spend/what-ai-actually-costs/).
 
 ## CRM as database
 
@@ -56,6 +64,10 @@ A mode in which an automation prints every change it *would* make without making
 ## Due diligence
 
 The evidence gathering a fund does on a live deal before investing: verifying the market, the metrics, the team, the legal facts, and the references. Diligence produces documents, notes, and findings that scatter easily across inboxes and folders, so the patterns on this site treat them like all other deal data: captured against the deal record in the CRM, so the eventual decision and the evidence behind it stay together.
+
+## Embedding
+
+A way of turning a chunk of text into a list of numbers that captures its meaning, so a computer can find passages similar in meaning to a question rather than ones that merely share the same words. Embeddings are what make retrieval work: you embed your documents once, then each question fetches only its relevant chunks. They are cheap and billed as input only, because you are storing text, not generating it. [Full lesson](/learn/ai-spend/shrink-the-input/).
 
 ## Forced tool use
 
@@ -97,9 +109,17 @@ An open standard, introduced by Anthropic in November 2024, for connecting AI ap
 
 A deal-qualification framework (Metrics, Economic buyer, Decision criteria, Identify pain, Champion) for judging how real and how winnable an opportunity is; it is a lighter variant of the MEDDIC sales methodology. On this site it is the framework a production extraction agent applies: the agent reads meeting notes and files cited MEDIC findings into agent-owned suggestion fields for a human to review. [Full page](/guides/medic-qualification-agent/).
 
+## Model routing
+
+Sending each task to the cheapest model that can handle it, rather than running everything on one expensive model. A cascade is the automatic version: every item goes to a small, cheap model first, and only the items it is not confident about escalate to a larger one, so frontier-model money is spent only on the hard minority. It is usually the largest single saving in a model bill. [Full lesson](/learn/ai-spend/right-size-the-model/).
+
 ## Pipeline hygiene
 
 The operating discipline of keeping a fund's pipeline data trustworthy: every deal has a stage, every stage change has a date, pass reasons are recorded, and derived fields are current, so that your conversion, speed, and volume numbers reflect reality. Most of it is best enforced by automation rather than by nagging, because a scheduled reconcile job never forgets to stamp a date. [Full page](/playbooks/pipeline-hygiene/).
+
+## Prompt caching
+
+A provider feature that remembers the fixed front of a prompt so it does not have to be reprocessed on every call. The first call pays to store the block; later calls that begin with the byte-for-byte identical block read it back at roughly a tenth of the normal input price. It rewards workflows that reuse a large fixed block, such as a scoring rubric read against many decks, and it breaks the moment anything inside the cached block changes, so variable content must go last. [Full lesson](/learn/ai-spend/cache-the-fixed-prefix/).
 
 ## Provenance
 
@@ -112,6 +132,10 @@ The process of assessing whether a deal is worth pursuing: is the pain real, is 
 ## Read-only agent
 
 An agent that cannot change any data, because no write capability exists anywhere in its code, typically enforced by a connector layer that defines read functions only. A prompt telling the model not to write is a request; code with no write function is a guarantee. Because the safety lives in the code, the worst any run can do is read the wrong record, which is a quality bug rather than an incident. [Full page](/reference/read-only-agents/).
+
+## Retrieval-augmented generation (RAG)
+
+Fetching only the passages relevant to a question and sending just those to the model, instead of pasting a whole document into every prompt. The documents are stored once in a searchable index using embeddings (defined above); at question time, the few relevant chunks are retrieved and sent. It is the most common fix for the silent overspend of stuffing everything into context, and it cuts input tokens sharply, though poor retrieval can quietly lower answer quality. [Full lesson](/learn/ai-spend/shrink-the-input/).
 
 ## Schema tax
 
@@ -149,9 +173,17 @@ The standing instructions an agent receives on every run: its role, operating ru
 
 A defined way for an agent run to end, and ideally there are several: the normal path (the agent calls its final tool), an early stop when the model answers in plain text, and a hard cap on the number of steps so the worst case has a bounded cost and duration. The most common defect in homemade agents is a loop with exactly one exit, on the assumption that the model will always say when it is done. Well-built loops return the same typed result from every exit, so a bad run ends in an honest answer instead of a crash. [Full page](/reference/agents/).
 
+## Token
+
+The small chunk of text a language model reads and writes, and the unit every major AI provider bills by. One token is roughly three-quarters of a word, or about four characters. Providers charge separately for input tokens (everything you send) and output tokens (everything the model writes back), and output typically costs about five times more than input, which is why concise, structured answers are cheaper than long prose. [Full lesson](/learn/ai-spend/what-ai-actually-costs/).
+
 ## Tool use
 
 The mechanism that lets a language model act on the world. You describe a function to the model (its name, what it does, and what inputs it accepts), the model replies with a structured request to call it, your code runs the real function, and the result goes back into the conversation. The model never executes anything itself. That is why an agent's capabilities, and its safety limits, are defined entirely by the list of tools you hand it. [Full page](/reference/tool-use/).
+
+## Total cost of ownership (TCO)
+
+The full cost of an AI capability, not just its token bill. It has four parts: building it, running it (tokens and seats), maintaining it as models and data change, and the human time to review its output before you trust it. The token bill is usually the smallest of the four; maintenance and review are the largest and the most often forgotten. Pricing an AI capability by its token cost alone underestimates it by multiples. [Full lesson](/learn/ai-spend/measure-the-roi/).
 
 ## Two-lock write
 

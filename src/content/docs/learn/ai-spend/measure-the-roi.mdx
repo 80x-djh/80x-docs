@@ -1,0 +1,114 @@
+---
+title: "Measure ROI: hours returned vs true cost"
+description: "Most AI pilots show no measurable return. The ones that pay off set a baseline first, count the full cost rather than just the token bill, and measure real lift."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={7} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- The sobering base rate: most AI pilots show no measurable return
+- The full cost of an AI capability, of which the token bill is the smallest part
+- The return side, and the one condition that makes "hours saved" real
+- The discipline that separates the pilots that pay off from the ones that do not
+:::
+
+The first six chapters lowered your cost per workflow. This chapter asks the harder question: was the workflow worth running at all. Cost is only half of return on investment. A cheaper model that gives a worse screen can be a bad trade, and an expensive one that changes a real decision can be a good one. By the end of this chapter you will be able to judge any AI capability by what it returns against what it truly costs, and to tell early whether it is going to pay off.
+
+## Start with the base rate
+
+Begin honest. Most AI projects do not show a measurable return. A widely cited 2025 study from MIT reported that about 95% of enterprise generative-AI pilots produced no measurable impact on profit and loss, with only a small minority driving real financial results. The exact figure has been debated, and you should treat it as a warning rather than a law, but the direction is echoed across the industry: spending on AI is common, and measurable payoff is not.
+
+This is not an argument against spending. It is an argument for spending with discipline, because the same research points to what the minority who succeed do differently. Two findings are worth carrying into every decision:
+
+- **Buying beats building, roughly two to one.** In the same body of research, buying a focused tool from a specialist vendor succeeded about twice as often as building the equivalent in-house. The lesson is not "never build." It is to default to buying for standard, commodity workflows, and reserve building for the narrow, proprietary logic that is genuinely yours: your thesis, your scoring, your single source of truth.
+- **The payoff is in the back office, not the front.** Most AI budgets are pointed at flashy, revenue-facing uses, but the measured returns tend to show up in unglamorous operational work. For a fund that means data hygiene, CRM upkeep, meeting notes, and memo drafting, not a chatbot on the website.
+
+## Count the true cost, not the token bill
+
+The most common costing error is to price an AI capability by its token bill. The token bill is real, and the first six chapters were about shrinking it, but it is the *smallest* of the costs. Industry estimates of what it actually takes to put an AI capability into production put direct model usage at well under a quarter of the total, with the rest going to integration, data preparation, and ongoing upkeep. Those figures are directional and vary widely, but the shape is consistent and worth internalizing.
+
+The full cost of an AI capability has four parts:
+
+| Cost | What it is | Easy to forget? |
+|---|---|---|
+| Build | Getting it working the first time | No |
+| Run | The token and seat bills to operate it | No |
+| Maintain | Fixing it as models, data, and workflows change | Yes |
+| Review | The human time to check its output before you trust it | Very |
+
+The last two are the ones funds underestimate. Maintenance is the durable cost of any build, larger over time than the tokens. And **human review is a permanent line, not a temporary one.** AI gets a workflow most of the way, but the final stretch, the judgment-heavy cases and the checking, tends to stay human indefinitely. A screening agent still needs a partner to sanity-check its calls. Budget that review time as a standing cost, because it does not go away, and it is often the biggest number in the table.
+
+## The return side, and the one condition that makes it real
+
+Now the other half. The return of an AI capability is the value it creates, mostly as time given back, sometimes as a better or faster decision. Put together, the whole judgment is one formula:
+
+```text
+ROI = (value returned − total cost) / total cost
+
+  value returned = hours saved × fully-loaded hourly cost
+                   + any real gain from better or faster decisions
+  total cost     = build + run + maintain + review
+```
+
+There is one condition, and it is where most ROI claims quietly fail.
+
+:::caution
+"Hours saved" is only real return if the freed hours are actually reallocated to higher-value work, or if they let you avoid a hire. If an analyst saves six hours a week and those six hours simply evaporate into a less busy week, there is no financial return, only a nicer week. The most common way funds overstate AI ROI is to count "we feel faster" as money. Before you claim hours saved, name what the freed time now does instead.
+:::
+
+## Tie spend to outcomes you recognize
+
+The cleanest way to make return legible is **cost per outcome**: the fully-loaded cost of one thing your fund values. Cost per qualified deal. Cost per drafted memo. Cost per portfolio flag raised in time. This ties the AI bill straight to the funnel a partner already thinks in.
+
+One rule keeps it honest: count only the outcomes the tool actually *changed the decision on*, not everything that happened to pass through it. An AI that screens a thousand decks but only altered your decision on ten did not create a thousand outcomes. It created ten, and its cost per outcome is the whole bill divided by ten, not by a thousand.
+
+To compute any of this, you need to know what each workflow spends, and a single provider invoice will not tell you. A model call is a transaction, not a labeled asset, so the bill cannot say which workflow spent the money unless you attach that label at the time of the call. You have three realistic options, in rising order of effort:
+
+- **Provider dashboards.** As Chapter 6 noted, giving each workflow its own project space in a tool like the Anthropic Console splits one opaque bill into per-workflow costs, with no engineering.
+- **A tracing proxy**, such as Helicone or Langfuse, which sits in front of your AI calls and records the cost of each one against a workflow, a user, or a feature. These take more setup but give you finer detail. Their specifics and pricing move, so confirm current terms before you commit.
+- **A full analytics build.** Rarely worth it for a fund, and easy to over-invest in.
+
+Start at the top of that list. The dashboard is free and answers most of the question.
+
+## The discipline that predicts payoff
+
+The single strongest predictor of whether an AI capability pays off is decided before you spend a dollar. The pilots that succeed share three habits, and they are cheap to adopt:
+
+1. **Pre-register the success metric.** Decide, in writing, what "worth it" means before you start. "Cut screening time per deck by half" is a metric. "See if AI helps" is not.
+2. **Measure the baseline.** Record how the task performs today, by hand, in time and quality. Without a baseline you can never prove a gain, and most failed projects never had one.
+3. **Isolate the lift.** Find a way to compare with and without the AI, whether a before-and-after window or running the old way in parallel for a while, so you can attribute the change to the tool rather than to everything else that moved.
+
+A survey of the most advanced adopters found that a large majority of their initiatives met or beat their return targets, precisely because they scoped narrowly and measured. Payoff is not mainly a function of which model you pick. It is a function of discipline and narrow scope. Spend on one workflow, measure it honestly, and expand only what proves out.
+
+:::tip
+Watch for the last-mile trap. A workflow can look 80% automated and still lose money, because the final 20%, the edge cases and the review, eats the savings. When a pilot stalls at "almost there," price the last 20% before you fund the push to finish it. Sometimes the right answer is to automate the easy 80% and leave the rest to a person on purpose.
+:::
+
+<Quiz
+  question="An analyst reports that a new AI tool saves her six hours a week. What has to be true for that to count as real ROI?"
+  options={[
+    'Nothing more — hours saved is always ROI',
+    'The freed hours must be reallocated to higher-value work or let the fund avoid a hire; otherwise it is a nicer week, not a financial return',
+    'The tool must be the cheapest available',
+    'The six hours must be spent on more AI',
+  ]}
+  answer={1}
+  explain="Hours saved only become return if the time is actually converted into higher-value work or avoided headcount. Time that simply evaporates into a less busy week produces no financial return, and counting it as money is the most common way AI ROI is overstated."
+/>
+
+## Go deeper
+
+- [Spec-first agentic engineering](/notes/spec-first-agentic-engineering/) — writing down what a system must do, and how to check it, before you build
+- [Human-shaped automation](/notes/human-shaped-automation/) — why the review step is permanent, and how to design for it
+- [Build your fund's AI budget and policy](/learn/ai-spend/your-fund-ai-spend-policy/) — turning all of this into a standing plan
+
+<CourseNav
+  prev={{ slug: '/learn/ai-spend/control-the-agent-loop', title: 'Put a ceiling on the agent loop' }}
+  next={{ slug: '/learn/ai-spend/your-fund-ai-spend-policy', title: 'Build your fund’s AI budget and policy' }}
+/>

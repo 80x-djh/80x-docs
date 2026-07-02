@@ -1,0 +1,84 @@
+---
+title: "Shrink the input: retrieve, don’t stuff"
+description: "A million-token context window is billed as a million input tokens on every call, so retrieving the few relevant pages beats pasting the whole data room."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={5} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- Why a large context window is a bill, not a free feature
+- Retrieval (RAG): fetch the few relevant passages instead of pasting everything
+- Why trimming the fixed instructions matters too
+- The catch: a smaller input can quietly lower answer quality if you are careless
+:::
+
+The most common way to overspend on AI is also the most tempting: paste everything in, just in case. Modern models can accept enormous prompts, so it feels safe to hand them the whole data room and let them sort it out. But every token you paste is billed on every call, and most of them are never used. This chapter is about feeding the model only what it needs, which is usually the single largest saving on the input side of the bill.
+
+## A big context window is a bill, not a gift
+
+The **context window** is the maximum amount of text a model can consider at once, measured in tokens (a token is roughly three quarters of a word). Providers now advertise very large windows, up to a million tokens on some models. That sounds like headroom. It is really a meter.
+
+The key fact is this: **whatever you put in the window is billed as input, on every single call.** A million-token window does not give you a million free tokens. It gives you the *option* to be billed for a million input tokens each time you use it. Some providers even charge a higher rate once a prompt crosses a certain size, so the biggest prompts are the most expensive per token as well as in total. "Stuff everything into context" is the most common silent cost blowout in AI, because the window is large enough to hide the waste.
+
+The waste is real because most of what you paste is irrelevant to any one question. When you ask "what is this company's churn rate," the model does not need the whole data room. It needs the two paragraphs that mention churn. You paid to send it the other two hundred pages anyway.
+
+## Retrieval: fetch the few pages that matter
+
+The fix is **retrieval**, often called RAG, which stands for retrieval-augmented generation. The idea is simple even if the name is not. Instead of pasting a whole document into every prompt, you store the document once in a searchable index. Then, at question time, you pull back only the handful of passages relevant to that specific question and send just those to the model.
+
+The mechanism that makes this work is called an **embedding**: a way of turning a chunk of text into a list of numbers that captures its meaning, so a computer can find passages that are similar in meaning to a question, not just ones that share the same words. You embed your documents once, up front. From then on, each question retrieves its few relevant chunks and ignores the rest.
+
+The saving is large. Teams that report their numbers commonly cut input tokens by 80% to 90% or more by retrieving relevant passages instead of pasting whole documents. Treat that as directional rather than a guarantee; the exact figure depends on how much of your document any one question actually needs. But the direction is reliable: sending two relevant pages costs a fraction of sending two hundred.
+
+The economics help you here. Embeddings are cheap, and they are billed as input only, with no expensive output tokens, because you are storing text, not generating it. The recurring costs to remember are re-embedding a document when it changes, and the subscription for the index that stores the numbers. Both are small next to the token bill you avoid on every question.
+
+This maps directly onto fund workflows:
+
+- **Due diligence Q&A** against a data room, where each question needs a few sections, not the whole room
+- **Search across your deal history**, your fund's single source of truth, where one query touches a few records
+- **Meeting prep** against a company's document set, pulling only what is relevant to the upcoming conversation
+
+## Trim the fixed instructions too
+
+Retrieval shrinks the variable part of the prompt, the documents. There is a second, smaller saving in the fixed part: the standing instructions you send on every call, sometimes called the **system prompt**. Instruction bloat there is billed on every request forever. A system prompt that has grown to three pages of accumulated "also remember to" notes is three pages you pay to send with every deck, every note, every question. Prune it to what actually changes behavior.
+
+For dynamic text that cannot be pre-stored or cached, there is a further technique called **prompt compression**, which uses a small model to strip out low-information words before the expensive model reads them. Published results cite reductions of several times over on suitable inputs. It is more advanced than the rest of this chapter, and worth knowing exists, but retrieval and trimming will get most funds most of the way.
+
+## The catch: a smaller input can hide a quality drop
+
+Shrinking the input is the one lever in this course with a genuine downside if done carelessly, and it is worth naming plainly.
+
+:::caution
+Retrieval only helps if it fetches the *right* passages. If your documents are chopped into awkward chunks, or the search pulls back the wrong sections, the model answers from incomplete information and gives you a worse answer. And unlike a high bill, a quietly worse answer does not announce itself. You will not see it on a dashboard. You will see it when a diligence question comes back subtly wrong.
+:::
+
+The discipline, then, is to measure answer quality, not just token count. When you switch a workflow from paste-everything to retrieval, check that its answers hold up against the fuller version before you trust it, the same baseline habit the next lever will insist on. You are optimizing cost per unit of value, and here the value can slip if you are not watching it.
+
+<Quiz
+  question="Why is pasting an entire data room into every prompt an expensive habit?"
+  options={[
+    'Large documents are always low quality',
+    'The whole document is billed as input on every call, even though any one question needs only a few passages',
+    'Providers ban prompts over a certain size',
+    'The model refuses to read long documents',
+  ]}
+  answer={1}
+  explain="Everything in the context window is billed as input tokens on every call. Since a given question usually needs only a few relevant passages, pasting the full document means paying to send hundreds of pages the model does not use. Retrieval sends only the relevant chunks, cutting the input bill sharply."
+/>
+
+## Go deeper
+
+- [Context engineering](/reference/context-engineering/) — the full reference on deciding what a model reads, and why less is often better
+- [The CRM as your fund's database](/reference/crm-as-database/) — the single source of truth that retrieval searches over
+- [Meeting notes to CRM](/guides/meeting-notes-to-crm/) — capturing the document set that meeting-prep retrieval later draws on
+
+<CourseNav
+  prev={{ slug: '/learn/ai-spend/batch-non-urgent-work', title: 'Batch the work nobody is waiting for' }}
+  next={{ slug: '/learn/ai-spend/control-the-agent-loop', title: 'Put a ceiling on the agent loop' }}
+/>

@@ -1,0 +1,92 @@
+---
+title: Put a ceiling on the agent loop
+description: "An autonomous agent that loops and re-reads context can quietly spend many times a single call, so hard caps and budgets keep one runaway job from eating the month."
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../../components/course/CourseNav.astro';
+import Quiz from '../../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={6} total={8} course="Optimize AI Spend" />
+
+:::note[In this chapter]
+- Why an agent costs far more than a single call, and how that gets out of hand
+- The two ceilings that bound a single task: effort and a token budget
+- Why a daily cap protects you where a monthly cap does not
+- The difference between an alert and an enforced limit, and why it is the whole ballgame
+:::
+
+Every lever so far has been about spending less per call. This one is different. It is about making sure a single job cannot spend without limit while your back is turned. The workflows that produce the scariest AI bills are not the high-volume ones. They are the autonomous ones, the agents, that can loop on their own and rack up a month of spending in a night. This chapter is the guardrail. It is as much a safety lesson as a cost one.
+
+## Why an agent costs so much more
+
+An **agent** is an AI model run in a loop: it takes a goal, uses tools to gather information or take action, looks at what came back, and decides what to do next, over and over, until it is done. The [agent loop](/glossary/#agent-loop) is what makes agents powerful. It is also what makes them expensive.
+
+The reason is that **every step of the loop re-reads everything so far and generates new text.** A single call reads your prompt once and answers once. An agent researching a company might make twenty calls, and each later call re-reads the growing pile of everything it has found so that it can decide the next move. Cost does not add up step by step; it compounds, because the input grows with every turn. An uncapped agent can easily spend many times what a single call would, on the same underlying question.
+
+That compounding is fine when the loop ends where you expect. The danger is when it does not. A loop with no ceiling and a bug, or a task it cannot quite finish, will keep going. There are well-publicized cautionary tales of autonomous agents left running uncapped, looping for days, and generating bills in the tens of thousands of dollars before anyone noticed. The exact figures vary and are beside the point. The mechanism is the lesson: an autonomous loop with no ceiling is a bill with no ceiling.
+
+## Two ceilings on a single task
+
+The first line of defense is to bound what any one task can spend. Two settings do this, and most current models expose both in some form.
+
+- **Effort.** As Chapter 2 covered, a reasoning-effort setting tells the model how hard to think. Anthropic's `effort` runs from low to maximum. Lower effort means fewer tokens spent thinking, on every step of the loop, so it caps depth per turn.
+- **A task budget.** Some providers let you hand an agent a token budget for the whole task, a ceiling it can see and pace itself against. Anthropic calls this `task_budget`. The agent knows it has, say, a set number of tokens for the entire job, and it moderates itself to finish inside that allowance rather than wandering.
+
+Together these bound a single run. They keep one task from thinking too hard on every turn and from taking too many turns overall.
+
+## A daily cap protects you where a monthly cap does not
+
+Task-level ceilings are not enough on their own, because the real risk is one bad run repeated, or one loop that never ends. For that you need an account-level cap, and the *period* of the cap is what matters.
+
+Consider the difference:
+
+| Cap | What a single runaway can still cost |
+|---|---|
+| $10,000 per month | Up to $10,000, all on day one, before the month is over |
+| $500 per day | $500, then it stops until tomorrow |
+
+A monthly cap sounds prudent, but it does nothing to limit the blast radius of a runaway on any given day. A loop that goes wrong at midnight on the first of the month can burn the entire monthly allowance before you wake up, and the cap will have done its job exactly as designed. A **daily** cap turns the same incident into a small, survivable event. Set the period tight enough that a single bad day is an annoyance, not a crisis.
+
+## An alert is not a limit
+
+Here is the distinction that matters most, and the one most often gotten wrong. An **alert** tells you money has been spent. A **limit** stops the money being spent. They are not the same, and only one of them saves you.
+
+An alert fires after the fact. "You have spent $5,000 today" is useful information, but by the time you read it, the $5,000 is gone, and if the loop is still running it is on its way to $10,000. What you actually need is a hard limit that pauses or stops the work when it hits the threshold, enforced by the provider, not a notification that depends on you being awake to read it.
+
+:::caution
+Set an enforced spending limit before you run anything autonomous, not after. Alerts are a smoke detector; a hard cap is a circuit breaker. You want both, but if you only set one, set the one that actually cuts the power.
+:::
+
+The good news is that you do not need an engineer to do this. Provider dashboards now offer these controls directly. Anthropic's Console, for example, lets a non-technical user set an account-wide monthly spending limit, set per-project caps, and read a usage dashboard broken down by project, model, and time. That last feature has a bonus: if you give each workflow its own project space, the dashboard tells you what each workflow costs, with no engineering at all. That per-workflow visibility is exactly what Chapter 7 needs to measure return.
+
+## One more silent multiplier: retries
+
+There is a quieter way agents waste money, worth naming because it is easy to fix. When you ask a model for structured data, such as a filled-in form or a set of fields, and it returns something slightly malformed, your system often has to ask again. Each retry is a second full call, paid in full. At volume, a workflow that gets it wrong a few percent of the time is paying a few percent extra for nothing.
+
+The fix is a feature called [structured output](/glossary/#structured-output), where you tell the provider the exact shape you require and it guarantees the answer matches. The malformed replies, and the paid retries they cause, mostly disappear, for the cost of a few extra tokens per call. It is a small setting that removes a hidden loop.
+
+<Quiz
+  question="Why does a $500 daily cap protect your fund better than a $10,000 monthly cap of the same intent?"
+  options={[
+    'A daily cap is cheaper to set up',
+    'A monthly cap still lets a single runaway spend the whole month’s budget in one day, while a daily cap limits any one incident to $500',
+    'Daily caps make the model faster',
+    'They are equivalent — only the total matters',
+  ]}
+  answer={1}
+  explain="The period of the cap sets the blast radius. A runaway loop can exhaust an entire monthly allowance in a single night, and the monthly cap will not have stopped it. A daily cap turns the same incident into a bounded, survivable $500 event."
+/>
+
+## Go deeper
+
+- [Automation safety](/reference/automation-safety/) — the three questions to ask before you switch any automation on, cost included
+- [Read-only agents](/reference/read-only-agents/) — the safest first version of any agent, which also cannot run up an expensive write loop
+- [Kill switch](/glossary/#kill-switch) and [termination condition](/glossary/#termination-condition) — the mechanics of making a loop stop
+
+<CourseNav
+  prev={{ slug: '/learn/ai-spend/shrink-the-input', title: 'Shrink the input: retrieve, don’t stuff' }}
+  next={{ slug: '/learn/ai-spend/measure-the-roi', title: 'Measure ROI: hours returned vs true cost' }}
+/>
