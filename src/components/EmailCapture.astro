@@ -19,6 +19,7 @@ const mailtoHref = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
   {
     action ? (
       <form action={action} method="post">
+        <input type="hidden" name="source" value="docs" />
         <input
           type="email"
           name="email"

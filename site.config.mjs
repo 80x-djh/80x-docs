@@ -25,12 +25,11 @@ export const SITE = {
 
   // ---------------------------------------------------------------------------
   // Monetisation surface #1 — book a call. The ONLY paid pathway on the site.
-  // TODO: replace with your Cal.com / Calendly link when you have one, e.g.
-  //   bookCall: 'https://cal.com/dan-80x/intro',
-  // The mailto fallback below works today and loses zero leads.
+  // Routed through the studio's booking page (80x.ai/book) so every path to a
+  // call runs through one funnel; ?src=docs attributes the click. That page
+  // hosts the mailto CTA today and the Cal.com embed slot later.
   // ---------------------------------------------------------------------------
-  bookCall:
-    'mailto:dan@80x.ai?subject=80x%20%E2%80%94%20intro%20call&body=Hi%20Dan%2C%20I%20read%20the%2080x%20docs%20and%20want%20to%20talk%20about%20agentic%20engineering%20at%20our%20fund.',
+  bookCall: 'https://80x.ai/book?src=docs',
   bookCallLabel: 'Book a call',
 
   // ---------------------------------------------------------------------------
@@ -45,7 +44,10 @@ export const SITE = {
   //   • null: the form renders as a mailto capture instead — still works,
   //     still loses zero leads.
   // ---------------------------------------------------------------------------
-  newsletterAction: null,
+  // The landing site's /api/waitlist accepts form-encoded posts (2026-07) and
+  // 303s back to 80x.ai/newsletter?subscribed=1. The hidden source=docs field
+  // in EmailCapture.astro keeps docs signups out of the product drip.
+  newsletterAction: 'https://80x.ai/api/waitlist',
   newsletterName: 'The 80x Field Notes',
   newsletterPitch:
     'One email when new references, guides, or open-source tools ship. No spam, unsubscribe anytime.',
