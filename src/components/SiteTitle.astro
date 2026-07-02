@@ -1,0 +1,18 @@
+---
+// Override of Starlight's SiteTitle. Two jobs: (1) make the wordmark a
+// breadcrumb — "80x" links back to the studio home, "/ Docs" to the docs home —
+// so the docs read as one property with 80x.ai; (2) carry the studio's primary
+// nav (Services / Work / Tools) on the left, mirroring the landing header so a
+// reader can jump back into the studio from any doc. The nav hides below md;
+// the wordmark stays as the always-visible escape hatch to 80x.ai.
+import { SITE } from '../../site.config.mjs';
+---
+
+<div class="site-title sl-flex" translate="no">
+  <a href={SITE.studioUrl} class="wordmark-brand">80x</a>
+  <span class="wordmark-sep" aria-hidden="true">/</span>
+  <a href="/docs" class="wordmark-section">Docs</a>
+</div>
+<nav class="studio-nav" aria-label="80x">
+  {SITE.studioNav.map((item) => <a href={item.href}>{item.label}</a>)}
+</nav>

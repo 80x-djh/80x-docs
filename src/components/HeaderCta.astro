@@ -1,10 +1,12 @@
 ---
-// Override of Starlight's SocialIcons slot: injects the "Book a call" CTA —
-// the site's single monetisation pathway — into the header on every page,
-// then renders the default social icons after it.
-import Default from '@astrojs/starlight/components/SocialIcons.astro';
+// Override of Starlight's SocialIcons slot. Renders the same CTA pair as the
+// 80x.ai studio header — a bordered "Contact" pill and the primary "Book a call"
+// pill — so the two properties share one header. The default social icons
+// (GitHub) are intentionally NOT rendered here: the studio header carries none
+// either, and the repo stays reachable via each page's "Edit" link and the
+// footer. Sits in the header right-group, before the theme toggle.
 import { SITE } from '../../site.config.mjs';
 ---
 
+<a class="header-contact" href={SITE.contact}>Contact</a>
 <a class="header-cta" href={SITE.bookCall}>{SITE.bookCallLabel}</a>
-<Default />

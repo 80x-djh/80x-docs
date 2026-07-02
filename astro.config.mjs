@@ -50,7 +50,13 @@ export default defineConfig({
         Head: './src/components/Head.astro',
         PageTitle: './src/components/PageTitle.astro',
         Footer: './src/components/Footer.astro',
+        // Header parity with the 80x.ai studio site: breadcrumb wordmark +
+        // studio nav (SiteTitle), the Contact + Book-a-call CTA pair
+        // (HeaderCta, in the SocialIcons slot), and an icon theme toggle that
+        // shares the landing's theme (ThemeSelect).
+        SiteTitle: './src/components/SiteTitle.astro',
         SocialIcons: './src/components/HeaderCta.astro',
+        ThemeSelect: './src/components/ThemeSelect.astro',
       },
       plugins: [
         // /llms.txt, /llms-full.txt, /llms-small.txt — the site as an

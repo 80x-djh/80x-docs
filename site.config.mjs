@@ -32,6 +32,17 @@ export const SITE = {
   bookCall: 'https://80x.ai/book?src=docs',
   bookCallLabel: 'Book a call',
 
+  // The studio the docs belong to. The wordmark, the header "Contact" pill, and
+  // the studio nav links all point back into 80x.ai so the docs read as one
+  // property with the landing site (they share the 80x.ai origin via a rewrite).
+  studioUrl: 'https://80x.ai',
+  contact: 'https://80x.ai/contact?src=docs',
+  studioNav: [
+    { label: 'Services', href: 'https://80x.ai/services' },
+    { label: 'Work', href: 'https://80x.ai/work' },
+    { label: 'Tools', href: 'https://80x.ai/tools' },
+  ],
+
   // ---------------------------------------------------------------------------
   // Monetisation surface #2 — email capture. Provider-agnostic, zero-JS.
   // The form does a plain HTML POST to whatever endpoint is set here, so it

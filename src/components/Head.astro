@@ -31,18 +31,31 @@ if (entry) {
     choice with the rest of the site. No-op on the standalone preview domain. */}
 <script is:inline defer src="/consent-analytics.js"></script>
 <script is:inline>
-  // Honor ?theme=light|dark (screenshot verification): apply to <html> only,
-  // never persisted — Starlight's own theme toggle keeps working as before.
+  // Unify the theme across the whole 80x.ai property. Runs after Starlight's
+  // own provider (rendered by <Default/> above), so this is the last word
+  // before first paint. Precedence: ?theme= param (screenshot verification) →
+  // the SHARED `bc-theme` key that the landing site writes → dark (the
+  // property-wide default). Reading `bc-theme` here is what makes a theme
+  // chosen on 80x.ai carry into the docs; the toggle writes it back.
   (() => {
-    var theme = new URLSearchParams(window.location.search).get('theme');
-    if (theme === 'light' || theme === 'dark') {
-      var apply = function () {
-        document.documentElement.setAttribute('data-theme', theme);
-      };
-      apply(); // before first paint
-      // Starlight's theme provider script runs later in <head>; re-assert.
-      document.addEventListener('DOMContentLoaded', apply, { once: true });
-    }
+    var params = new URLSearchParams(window.location.search);
+    var override = params.get('theme');
+    var stored = null;
+    try {
+      stored =
+        localStorage.getItem('bc-theme') || localStorage.getItem('starlight-theme');
+    } catch (e) {}
+    var theme =
+      override === 'light' || override === 'dark'
+        ? override
+        : stored === 'light' || stored === 'dark'
+          ? stored
+          : 'dark';
+    var apply = function () {
+      document.documentElement.setAttribute('data-theme', theme);
+    };
+    apply(); // before first paint
+    document.addEventListener('DOMContentLoaded', apply, { once: true });
   })();
 </script>
 <script is:inline>
