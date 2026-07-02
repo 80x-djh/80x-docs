@@ -1,0 +1,53 @@
+---
+/**
+ * The chapter list shown on the course landing page, in the style of
+ * nextjs.org/learn: a numbered row per chapter with a blurb and reading
+ * time. Chapters without a `slug` render as muted "coming soon" rows, so
+ * the full arc is visible before every lesson is written.
+ *
+ * Pass root-relative slugs; this component prefixes the site base itself.
+ */
+interface Chapter {
+  n: number;
+  title: string;
+  blurb: string;
+  minutes?: number;
+  slug?: string;
+}
+interface Props {
+  chapters: Chapter[];
+}
+const { chapters } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Keep the site's canonical trailing-slash form for internal slugs.
+const href = (slug: string) =>
+  slug.startsWith('/') ? (base + slug).replace(/\/?$/, '/') : slug;
+---
+
+<ol class="course-outline not-content" role="list">
+  {chapters.map((ch) => {
+    const inner = (
+      <>
+        <span class="co-num" aria-hidden="true">{String(ch.n).padStart(2, '0')}</span>
+        <span class="co-body">
+          <span class="co-title">{ch.title}</span>
+          <span class="co-blurb">{ch.blurb}</span>
+        </span>
+        <span class="co-meta">
+          {ch.slug
+            ? ch.minutes && <span class="co-time">{ch.minutes} min</span>
+            : <span class="co-soon">Soon</span>}
+        </span>
+      </>
+    );
+    return (
+      <li class={ch.slug ? 'co-row' : 'co-row is-soon'}>
+        {ch.slug ? (
+          <a class="co-link" href={href(ch.slug)}>{inner}</a>
+        ) : (
+          <span class="co-link">{inner}</span>
+        )}
+      </li>
+    );
+  })}
+</ol>

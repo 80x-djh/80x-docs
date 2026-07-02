@@ -67,6 +67,14 @@ export default defineConfig({
       ],
       sidebar: [
         {
+          label: 'Learn · The 80x Method',
+          items: [
+            { label: 'Course overview', slug: 'learn' },
+            { label: '1 · What is the 80x method?', slug: 'learn/what-is-the-80x-method' },
+            { label: '2 · Your CRM is the database', slug: 'learn/crm-as-your-database' },
+          ],
+        },
+        {
           label: 'Start here',
           items: [
             { label: 'Manifesto', slug: 'start-here/manifesto' },

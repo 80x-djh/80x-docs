@@ -1,0 +1,23 @@
+---
+/**
+ * Chapter header for a course lesson: kicker + "Chapter N of M" and a
+ * thin progress bar. Additive course UI; used at the top of /learn chapters.
+ */
+interface Props {
+  chapter: number;
+  total: number;
+  course?: string;
+}
+const { chapter, total, course = 'The 80x Method' } = Astro.props;
+const pct = Math.max(0, Math.min(100, Math.round((chapter / total) * 100)));
+---
+
+<div class="course-head" role="group" aria-label={`${course}: chapter ${chapter} of ${total}`}>
+  <div class="course-eyebrow">
+    <span class="course-kicker">{course}</span>
+    <span class="course-count">Chapter {chapter} of {total}</span>
+  </div>
+  <div class="course-progress" aria-hidden="true">
+    <span class="course-progress-bar" style={`width:${pct}%`}></span>
+  </div>
+</div>

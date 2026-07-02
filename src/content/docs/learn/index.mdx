@@ -1,0 +1,47 @@
+---
+title: Learn the 80x Method
+description: A guided course that teaches the five patterns behind every system on this site, from first principles, with no engineering background assumed.
+prev: false
+next: false
+---
+
+import CourseOutline from '../../../components/course/CourseOutline.astro';
+
+Most of this site is a reference: pages you look up when you need them. This is the other thing. **Learn the 80x Method** is a short course you read in order, start to finish, the way you would work through [React Foundations](https://nextjs.org/learn/react-foundations) before building with a new framework. By the end you will be able to look at any "AI for your fund" pitch, or any system you want built, and place it inside a method you understand.
+
+## What "the 80x Method" means
+
+80x is not a product you install. It is a **method**: a small set of patterns for building and running software inside a venture fund, using AI [agents](/reference/agents/) and AI coding assistants, that one person can ship and operate. The open-source tools on this site are just reference implementations of the method. The method itself is five patterns:
+
+1. **Your CRM is the database.** One system is the fund's single source of truth. Every automation, dashboard, and agent reads and writes there, and nowhere else.
+2. **Agents do the work.** An agent is an AI model run in a loop with tools, a goal, and a stopping rule. That loop is the unit of work behind meeting prep, screening, and pipeline hygiene.
+3. **Read-only before write.** The first version of any agent can only look, never change. Safety comes from the tools you withhold, not from a promise to behave.
+4. **Run it on a schedule.** Most fund software is not a live app. It is a small job that wakes on a timer, reconciles the truth, and goes back to sleep, with no server to maintain.
+5. **Spec-first, and verify.** Write down what the system should do before building it, preview every change before it is real, and check the output against the source.
+
+Everything else on this site is one of these five patterns applied to a specific fund workflow.
+
+## Who this course is for
+
+Partners, principals, and operations leads who want to understand and direct this class of software, whether you build it yourself or hire it built. No engineering background is assumed. Every term is defined in plain English the first time it appears, and no chapter expects you to have opened a terminal. If you already write code, you lose nothing but a few definitions you already knew.
+
+## The chapters
+
+<CourseOutline chapters={[
+  { n: 1, title: 'What is the 80x method?', blurb: 'The five patterns in one page, and why one person can now build fund software.', minutes: 8, slug: '/learn/what-is-the-80x-method' },
+  { n: 2, title: 'Your CRM is the database', blurb: 'Make one system the single source of truth, so humans and machines never diverge.', minutes: 10, slug: '/learn/crm-as-your-database' },
+  { n: 3, title: 'What an agent actually is', blurb: 'Model, tools, loop, and a stopping rule — and when a plain script is the better buy.', minutes: 10 },
+  { n: 4, title: 'How agents act: tools and MCP', blurb: 'Tools are an agent’s only way to touch the world, which is what makes it controllable.', minutes: 9 },
+  { n: 5, title: 'Read-only before write', blurb: 'Safety by structural absence: an agent with no write tools cannot change your data.', minutes: 8 },
+  { n: 6, title: 'Run it on a schedule', blurb: 'Cron agents, stateless jobs, and why reconciling the truth beats catching every event.', minutes: 9 },
+  { n: 7, title: 'Spec-first, and verify everything', blurb: 'Write the spec, dry-run every change, and check the output before you trust it.', minutes: 8 },
+  { n: 8, title: 'Your first system, end to end', blurb: 'The one-file cron sync ties all five patterns together in about 200 lines.', minutes: 12 },
+]} />
+
+Chapters 3 through 8 are being written. Chapters 1 and 2 are ready now, and each links out to the deeper reference pages when you want the full detail.
+
+## See also
+
+- [What is 80x Docs?](/start-here/what-is-80x-docs/) — how the whole site is organized, and how to read it as a reference
+- [The open standard for agentic engineering in VC](/start-here/manifesto/) — why the method, the code, and the failure modes are all published
+- [Reference](/reference/) — the concept-by-concept library the course draws on

@@ -1,0 +1,85 @@
+---
+title: What is the 80x method?
+description: The five patterns behind every system on this site, in one lesson, and why a single practitioner can now build and run fund software.
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../components/course/CourseNav.astro';
+import Quiz from '../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={1} total={8} />
+
+:::note[In this chapter]
+- What "the 80x method" is, and what it is not
+- The five patterns that every later chapter builds on
+- Why one person, not a data team, can now ship and run this software
+- Your fund's real asset: the data it already produces every day
+:::
+
+Before you build with any framework, it helps to know what the framework believes. This chapter is that. **80x** is not a product you install and not a single tool. It is a **method**: a small, opinionated set of patterns for building and running software inside a venture fund, using AI [agents](/reference/agents/) (programs that use an AI model to get real work done on their own) and AI coding assistants (the tools that write the code with you). The open-source projects documented on this site are reference implementations of the method, not the method itself.
+
+Hold the method in your head and two things get easier. You can question any "AI for your fund" pitch, because you can see which pattern it claims to implement and whether it actually does. And you can direct the building of your own systems, whether you write them or hire them written, because you know the shape a good one takes.
+
+## The five patterns
+
+The whole method is five patterns. Each later chapter takes one and shows it in a real, shipped system.
+
+| # | Pattern | In one line |
+|---|---|---|
+| 1 | **Your CRM is the database** | One system is the fund's single source of truth; every machine reads and writes there. |
+| 2 | **Agents do the work** | An AI model in a loop with tools, a goal, and a stopping rule is the unit of real work. |
+| 3 | **Read-only before write** | The first version can only look, never change; safety is the tools you withhold. |
+| 4 | **Run it on a schedule** | Most fund software is a small job that wakes on a timer, reconciles the truth, and sleeps. |
+| 5 | **Spec-first, and verify** | Write down what it should do, preview every change, and check output against the source. |
+
+They are ordered on purpose. The CRM (your fund's system for tracking companies, deals, and people, such as Attio or Affinity) is the ground everything else stands on, so it comes first. Agents are the workers you place on that ground. Read-only-first, scheduling, and spec-first are the disciplines that keep the workers safe to run unattended. Learn them in order and each one has somewhere to stand.
+
+## What the method is not
+
+Three boundaries keep the method sharp, and they double as a filter for the pitches you will hear.
+
+- **Not a platform.** There is no 80x server, dashboard, or subscription at the center. The patterns are tool-agnostic. This site happens to use Attio, [Claude](/reference/agents/), and GitHub Actions (a free scheduler built into GitHub, the site where code is stored and shared), because those are what the shipped systems run on, but the patterns outlive any one of them.
+- **Not a framework you import.** An [agent framework](/reference/agents/) bundles loops and memory behind ready-made code. The method is the opposite instinct: understand the small loop first, write it plainly, and reach for a framework only once you can say exactly what it is saving you.
+- **Not magic, and not always an agent.** A large part of the method is knowing when *not* to use an agent. If you can write the exact steps down in advance, a plain script is cheaper, faster, and more predictable. The skill is telling the two apart, which is the whole of [Chapter 3](/learn/).
+
+## Why one person can build this now
+
+Fund-internal software used to require a data team: engineers, infrastructure, a maintenance budget only the largest platforms could justify. That constraint is gone. Agentic engineering, meaning building with AI agents and using AI assistants to do the building, has collapsed the cost far enough that a single practitioner can ship and operate real systems. The evidence is the systems this site is built from:
+
+- Self-updating KPI dashboards generated daily from CRM data for a European PE platform, a US VC fund, and a talent agency, with no server to run at all.
+- Field syncs that run twice hourly against live pipelines and are safe to run twice, one of them about 200 lines of code.
+- An extraction agent for a legal-tech company that reads meeting notes, must cite its sources, and writes only into fields set aside for machines.
+
+Each would have been a data-team project a few years ago. Each is built and run by one person. That is not a story about heroics; it is a story about the method. The patterns are what make a one-person system safe enough to leave running.
+
+## The asset the method protects
+
+There is a reason the CRM comes first. A fund produces genuinely proprietary data every working day: the meeting notes from partner meetings and founder calls, the WhatsApp and email threads, the full history of every deal that moved through the pipeline, the reasons deals were passed, the state of every LP conversation. LPs, the limited partners who invest in your fund, are part of that history too. No one else has this data. It is the one dataset where a fund starts with a monopoly.
+
+In most funds that data evaporates: context stays in someone's head, deals change stage with no record of when, pass reasons die in a Slack thread. The method exists to stop the evaporation. Nearly every system on this site is plumbing that lands clean, owned, operational data in one queryable place and keeps it current. That is the asset. The five patterns are how you capture it, work it, and trust it without hiring a team to babysit the machinery.
+
+<Quiz
+  question="Which statement best describes what the 80x method is?"
+  options={[
+    'A hosted platform your fund subscribes to and logs into',
+    'A set of tool-agnostic patterns for building and running fund software, with the open-source tools as reference implementations',
+    'A single AI agent that manages your whole CRM automatically',
+    'A JavaScript framework you import to build agents',
+  ]}
+  answer={1}
+  explain="80x is a method: five patterns any fund can apply with whatever tools it likes. The projects on this site are examples of the patterns, not the method itself, and much of the skill is knowing when a plain script beats an agent."
+/>
+
+## Go deeper
+
+The rest of the reference library expands on everything above. When you want the full argument or the underlying code, start here.
+
+- [The open standard for agentic engineering in VC](/start-here/manifesto/) — why the method, the patterns, and the failure modes are all published and free
+- [What is an agent?](/reference/agents/) — the precise definition, grounded in a real 60-line agent loop
+- [The CRM as your fund's database](/reference/crm-as-database/) — the full case for pattern 1, which the next chapter teaches
+
+<CourseNav
+  next={{ slug: '/learn/crm-as-your-database', title: 'Your CRM is the database' }}
+/>

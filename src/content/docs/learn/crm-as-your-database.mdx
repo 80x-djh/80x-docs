@@ -1,0 +1,109 @@
+---
+title: Your CRM is the database
+description: Pattern one of the 80x method — make one system the fund's single source of truth, so humans and machines work from the same records and never diverge.
+prev: false
+next: false
+---
+
+import CourseProgress from '../../../components/course/CourseProgress.astro';
+import CourseNav from '../../../components/course/CourseNav.astro';
+import Quiz from '../../../components/course/Quiz.astro';
+
+<CourseProgress chapter={2} total={8} />
+
+:::note[In this chapter]
+- The first pattern: the CRM as the fund's single source of truth
+- Why a second, parallel database quietly breaks small teams
+- Who owns which field, so machines and humans never fight
+- Reconcile-don't-catch: why scheduled jobs beat live event-catching
+:::
+
+The five patterns are ordered, and this is the one they all stand on. **Pattern one: your CRM is the database.** Treat your CRM (Attio, Affinity, or an equivalent, the system where your fund already tracks companies, deals, and people) as the firm's single source of truth: the one operational database that every automation, agent, dashboard, and sync job reads from and writes to. You do not build a separate database or an internal app with its own copy of the data. The CRM already gives you the data structure, the storage, the permissions, and the screens your team looks at every day, so you make the machines work *inside* it rather than beside it.
+
+This one decision is behind most of the systems on this site. It is the difference between automation your team actually sees and automation that quietly drifts away from reality.
+
+## Why not a parallel database
+
+The instinctive architecture for fund tooling is: pull the CRM data into your own database, build features on top, sync the changes back. For a small team, that fails in three predictable ways.
+
+- **Two sources of truth immediately diverge.** Every record edited in the CRM but not yet synced is wrong in your database, and the reverse is also true. You now own a two-way sync problem, one of the genuinely hard problems in software, just to support a five-person team.
+- **You rebuild what the CRM already ships.** Permissions, edit history, a record screen, mobile access, notes, email enrichment: all of it exists, and your team already trusts it.
+- **Humans stop looking at your app.** The partner checks the CRM at the moment of decision. If your computed numbers live somewhere else, they are invisible exactly when they matter.
+
+The alternative is to accept the CRM's data model as your structure and make every machine a citizen of it. Automations read the CRM through its API (the doorway programs use to read and write a system's data), compute what they need, and write the results back into fields on the same records humans see.
+
+```text
+ external sources                  scheduled jobs (derived fields)
+ ┌────────┐  ┌─────────┐           ┌───────────────────────┐
+ │ Stripe │  │ logos … │           │ stage dates, display  │
+ └───┬────┘  └────┬────┘           │ mirrors: diff → PATCH │
+     │ upsert     │ patch          └───────────┬───────────┘
+     ▼            ▼                            │ read + write
+ ┌───────────────────────────────┐◀────────────┘
+ │ CRM (single source of truth)  │
+ └───────────────┬───────────────┘
+                 │ full list, once a day
+                 ▼
+ ┌───────────────────────────────┐
+ │ static dashboard (metrics     │
+ │ computed from the rows)       │
+ └───────────────────────────────┘
+```
+
+Every arrow points into or out of one box. The CRM is the only place data lives; everything else computes and passes through.
+
+## The CRM already is a database
+
+If you have never touched a database, the mapping is simpler than it sounds. Read the middle column as "the spreadsheet equivalent": a sheet, a row, a column.
+
+| CRM concept | Database analog | Spreadsheet equivalent |
+|---|---|---|
+| Object (companies, people, custom) | Table | A sheet |
+| Record | Row | A row |
+| Attribute | Typed column (text, date, currency, select) | A column |
+| List entry | Row in a join table with its own columns | A row that links two sheets |
+| Select options | Enum (a fixed set of choices) | A dropdown |
+
+You already have a structured database. Pattern one is the decision to treat it as *the* database, and to stop building a second one.
+
+## Who owns each field
+
+The one habit that makes this safe: decide, for every field, whether a **human** owns it or a **machine** owns it.
+
+- **Human-owned** fields are the ones people edit: deal stage, notes, next step, pass reason.
+- **Machine-owned** fields are the ones jobs maintain: a formatted display mirror, a stamped stage-entry date, synced lifetime revenue.
+
+The rule is symmetric. A machine never overwrites a human-owned field, and a human should never need to hand-edit a machine-owned one. The CRM does not enforce this split, so it is a convention you write down and make every job respect. Get it right and machines and humans stop fighting over the same cells.
+
+## Reconcile, don't catch
+
+Here is the habit that separates fund software that stays correct from software that silently goes wrong, and it previews [pattern four](/learn/) (run it on a schedule).
+
+Say you want a date stamped every time a deal enters a new stage, so you can later measure how fast deals move. The obvious build is a [webhook](/glossary/#webhook): a message the CRM sends your code the instant something changes. On stage change, stamp today's date. It has two structural flaws. It only knows about changes made *after* it was switched on, and when it silently dies, deals move through stages with no date recorded. Because the funnel report keys off those dates, the deals simply vanish from the funnel. Nothing errors; the numbers are just quietly wrong.
+
+The better build reads the truth on a timer instead of trying to catch it in the moment. A scheduled job asks the CRM for the full stage history of each deal, reconstructs the real first-entry date for every stage, and fills in **only the empty date fields**. It is safe to run twice, and a missed run costs nothing because the next run backfills everything. This is a **reconcile loop**: compute the desired state, compare it with what is there, and write only the difference. The data converges on correct, rather than depending on every single event being caught. You will build one of these in Chapter 8.
+
+<Quiz
+  question="A fund pulls its CRM into a separate internal database and syncs changes both ways. What is the core problem for a small team?"
+  options={[
+    'The internal database is faster than the CRM',
+    'Two sources of truth diverge, creating a hard two-way sync problem and numbers the partner never sees',
+    'The CRM API is too slow to read from',
+    'You cannot store dates in a CRM',
+  ]}
+  answer={1}
+  explain="Two systems holding the same data drift apart the moment either is edited, and the partner still decides from the CRM screen. Pattern one avoids this by keeping the CRM the only place data lives and making every machine work inside it."
+/>
+
+## Go deeper
+
+- [The CRM as your fund's database](/reference/crm-as-database/) — the full reference, with the display-mirror and stage-date code, and where the pattern breaks
+- [Cron agents](/reference/cron-agents/) — how these jobs run on a timer with no always-on server, which is Chapter 6
+- [Automation safety](/reference/automation-safety/) — idempotency and "what if it runs twice", the safety net under every write
+- [Pipeline hygiene](/playbooks/pipeline-hygiene/) — the same pattern described in fund-operations terms
+
+Chapter 3 (what an agent actually is) is being written. Until then, head back to the [course overview](/learn/) or read [What is an agent?](/reference/agents/) in the reference.
+
+<CourseNav
+  prev={{ slug: '/learn/what-is-the-80x-method', title: 'What is the 80x method?' }}
+/>

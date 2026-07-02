@@ -1,0 +1,62 @@
+---
+/**
+ * A single multiple-choice knowledge check, in the style of nextjs.org/learn.
+ * Reader picks one option; the correct answer and an explanation are revealed,
+ * then the choices lock. Vanilla JS, no framework island. Multiple <Quiz>
+ * instances on a page are all wired by the one hoisted module script below.
+ *
+ * Usage in MDX:
+ *   <Quiz
+ *     question="What makes the CRM the single source of truth?"
+ *     options={["A parallel database", "Every machine reads and writes there", "A weekly export"]}
+ *     answer={1}
+ *     explain="Humans and machines share one system, so nothing silently diverges."
+ *   />
+ */
+interface Props {
+  question: string;
+  options: string[];
+  answer: number;
+  explain?: string;
+  label?: string;
+}
+const { question, options, answer, explain, label = 'Knowledge check' } = Astro.props;
+---
+
+<div class="quiz not-content" data-answer={answer}>
+  <p class="quiz-label">{label}</p>
+  <p class="quiz-q">{question}</p>
+  <ul class="quiz-opts" role="list">
+    {options.map((opt, i) => (
+      <li>
+        <button class="quiz-opt" type="button" data-i={i}>
+          <span class="quiz-mark" aria-hidden="true"></span>
+          <span class="quiz-opt-text">{opt}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+  {explain && <p class="quiz-explain" hidden>{explain}</p>}
+</div>
+
+<script>
+  document.querySelectorAll('.quiz').forEach((quiz) => {
+    const answer = Number((quiz as HTMLElement).dataset.answer);
+    const explain = quiz.querySelector('.quiz-explain') as HTMLElement | null;
+    const opts = Array.from(quiz.querySelectorAll('.quiz-opt')) as HTMLButtonElement[];
+    opts.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (quiz.classList.contains('quiz-done')) return;
+        const picked = Number(btn.dataset.i);
+        opts.forEach((b) => {
+          const bi = Number(b.dataset.i);
+          b.disabled = true;
+          if (bi === answer) b.classList.add('is-correct');
+          else if (bi === picked) b.classList.add('is-wrong');
+        });
+        if (explain) explain.hidden = false;
+        quiz.classList.add('quiz-done', picked === answer ? 'quiz-right' : 'quiz-miss');
+      });
+    });
+  });
+</script>

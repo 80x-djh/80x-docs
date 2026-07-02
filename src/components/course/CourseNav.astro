@@ -1,0 +1,41 @@
+---
+/**
+ * Big previous / next chapter buttons at the foot of a course lesson, like
+ * nextjs.org/learn. Pass root-relative slugs (e.g. "/learn/..."); this
+ * component prefixes the site base itself, since component props are not
+ * touched by the markdown base-prefix remark plugin.
+ */
+interface Link {
+  slug: string;
+  title: string;
+}
+interface Props {
+  prev?: Link;
+  next?: Link;
+  nextLabel?: string;
+}
+const { prev, next, nextLabel = 'Next chapter' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Keep the site's canonical trailing-slash form for internal slugs.
+const href = (slug: string) =>
+  slug.startsWith('/') ? (base + slug).replace(/\/?$/, '/') : slug;
+---
+
+<nav class="course-nav" aria-label="Course navigation">
+  {prev ? (
+    <a class="course-nav-card prev" href={href(prev.slug)}>
+      <span class="course-nav-dir">← Previous</span>
+      <span class="course-nav-title">{prev.title}</span>
+    </a>
+  ) : (
+    <span class="course-nav-card is-empty" aria-hidden="true"></span>
+  )}
+  {next ? (
+    <a class="course-nav-card next" href={href(next.slug)}>
+      <span class="course-nav-dir">{nextLabel} →</span>
+      <span class="course-nav-title">{next.title}</span>
+    </a>
+  ) : (
+    <span class="course-nav-card is-empty" aria-hidden="true"></span>
+  )}
+</nav>
