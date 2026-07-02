@@ -1,0 +1,175 @@
+---
+/**
+ * Email-capture card for the drip version of a course. Posts to the landing
+ * site's /api/waitlist — same apex origin as the docs (served under /docs via
+ * the rewrite), so /api/waitlist resolves to the landing project. The `source`
+ * decides the journey there; "ai-spend-course" sends Day 1 inline and enrols
+ * days 2–5 of the five-day drip.
+ *
+ * Progressive enhancement: it is a real <form> that posts without JS (the API
+ * redirects back on a form post); JS upgrades it to an inline success state
+ * with no navigation. Styling uses the same --x-* / --sl-color-* tokens as the
+ * other course components.
+ */
+interface Props {
+  source?: string;
+  title?: string;
+  blurb?: string;
+}
+const {
+  source = 'ai-spend-course',
+  title = 'Get the 5-day email course',
+  blurb = 'One short lesson each morning for five days — the whole course, in your inbox. No spam; unsubscribe in a click, anytime.',
+} = Astro.props;
+---
+
+<form class="course-signup not-content" method="POST" action="/api/waitlist" data-course-signup>
+  <input type="hidden" name="source" value={source} />
+  <p class="cs-kicker">Prefer it in your inbox?</p>
+  <p class="cs-title">{title}</p>
+  <p class="cs-blurb">{blurb}</p>
+  <div class="cs-row">
+    <input
+      class="cs-input"
+      name="email"
+      type="email"
+      required
+      placeholder="you@fund.com"
+      autocomplete="email"
+      aria-label="Email address"
+    />
+    <button class="cs-btn" type="submit">Start the course</button>
+  </div>
+  <p class="cs-status" role="status" hidden></p>
+</form>
+
+<script>
+  // Intercept the submit, POST JSON, and swap to an inline confirmation. Falls
+  // back to a normal form post (redirect) if anything throws or JS is off.
+  document.querySelectorAll('form[data-course-signup]').forEach((el) => {
+    const form = el as HTMLFormElement;
+    const status = form.querySelector('.cs-status') as HTMLParagraphElement | null;
+    const btn = form.querySelector('.cs-btn') as HTMLButtonElement | null;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const email = String(data.get('email') || '').trim();
+      const src = String(data.get('source') || '');
+      if (!email) return;
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+      }
+      try {
+        const r = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email, source: src }),
+        });
+        const ok = r.ok && ((await r.json().catch(() => ({}))) as { ok?: boolean }).ok;
+        if (!ok) throw new Error('failed');
+        form.querySelector('.cs-row')?.setAttribute('hidden', '');
+        form.querySelector('.cs-blurb')?.setAttribute('hidden', '');
+        if (status) {
+          status.hidden = false;
+          status.textContent =
+            "Check your inbox — Day 1 is on its way, and the next four land one a morning. Reply to any of them; they come to my real inbox.";
+        }
+      } catch {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Start the course';
+        }
+        if (status) {
+          status.hidden = false;
+          status.classList.add('is-error');
+          status.textContent = "That didn't go through. Check the address and try again.";
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .course-signup {
+    margin: 2.75rem 0 1rem;
+    padding: 1.5rem 1.6rem 1.65rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: var(--x-radius-card);
+    background: var(--x-surface);
+  }
+  .cs-kicker {
+    margin: 0 0 0.3rem;
+    font-family: var(--__sl-font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--x-ink-secondary);
+  }
+  .cs-title {
+    margin: 0 0 0.5rem;
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+    color: var(--x-ink);
+  }
+  .cs-blurb {
+    margin: 0 0 1.15rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--x-ink-secondary);
+  }
+  .cs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .cs-input {
+    flex: 1 1 15rem;
+    min-width: 0;
+    height: 2.75rem;
+    padding: 0 0.9rem;
+    border: 1px solid var(--x-edge-2);
+    border-radius: var(--x-radius-block);
+    background: var(--sl-color-bg);
+    color: var(--x-ink);
+    font-size: 0.95rem;
+  }
+  .cs-input::placeholder {
+    color: var(--x-ink-secondary);
+    opacity: 0.7;
+  }
+  .cs-input:focus {
+    outline: none;
+    border-color: var(--x-ink);
+  }
+  .cs-btn {
+    flex: 0 0 auto;
+    height: 2.75rem;
+    padding: 0 1.4rem;
+    border: 1px solid var(--x-pill-bg);
+    border-radius: 999px;
+    background: var(--x-pill-bg);
+    color: var(--x-pill-ink);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 120ms ease;
+  }
+  .cs-btn:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+  .cs-btn:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+  .cs-status {
+    margin: 1rem 0 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--x-ink);
+  }
+  .cs-status.is-error {
+    color: var(--sl-color-text-accent);
+  }
+</style>
