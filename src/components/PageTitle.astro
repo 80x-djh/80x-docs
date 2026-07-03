@@ -9,10 +9,13 @@ import { SITE } from '../../site.config.mjs';
 
 const route = Astro.locals?.starlightRoute;
 const id = route?.entry?.id;
-const showActions = id && id !== 'index';
+// The home splash lives at src/content/docs/index.mdx; depending on the content
+// collection its id is '' or 'index'. Detect either, and fall back to pathname.
+const path = Astro.url.pathname.replace(/\/$/, '');
+const isHome = !id || id === 'index' || path === SITE.base || path === '';
+const showActions = id && !isHome;
 
 // The raw-markdown URL for this page: page path with the trailing slash → `.md`.
-const path = Astro.url.pathname.replace(/\/$/, '');
 const mdPath = `${path}.md`;
 const mdAbs = new URL(mdPath, SITE.url).href;
 const prompt = `Read ${mdAbs} — a page from 80x Docs (agentic engineering for VC funds). Help me apply it to my fund's setup.`;
@@ -20,7 +23,10 @@ const claudeUrl = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
 const chatgptUrl = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 ---
 
-<Default />
+{/* The home page renders its own hero <h1> (see landing/Landing.astro). Suppress
+    Starlight's redundant page-title h1 there, but keep the #_top skip-link
+    target so "Skip to content" still works. */}
+{isHome ? <div id="_top" tabindex="-1" class="home-top-anchor" /> : <Default />}
 {
   showActions && (
     <div class="agent-actions" role="group" aria-label="Use this page with an AI agent">
@@ -38,6 +44,11 @@ const chatgptUrl = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 }
 
 <style>
+  .home-top-anchor {
+    height: 0;
+    margin: 0;
+    outline: none;
+  }
   .agent-actions {
     display: flex;
     flex-wrap: wrap;

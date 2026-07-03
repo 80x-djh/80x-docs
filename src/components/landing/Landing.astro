@@ -1,0 +1,589 @@
+---
+// Full-width, designed landing for the /docs home. Replaces the old splash
+// hero + three markdown text-walls (bulleted "Choose your path", a plain table,
+// and two trust paragraphs) with a centered hero, the five-pattern method band,
+// and card grids — all in the existing Geist ink / hairline design language.
+//
+// This component base-prefixes its own links (the remark plugin that adds /docs
+// to authored markdown does not see component markup), so every href goes
+// through u().
+import { SITE } from '../../../site.config.mjs';
+
+const u = (p) => (p.startsWith('http') ? p : `${SITE.base}${p}`);
+
+// Hero call-to-action pills.
+const actions = [
+  { text: 'Start the course', href: '/learn/', variant: 'primary', arrow: true },
+  { text: 'Browse the reference', href: '/reference/', variant: 'secondary' },
+  { text: 'Use with your LLM', href: '/start-here/for-llms/', variant: 'minimal' },
+];
+
+// Honest, defensible counts (53 non-index content pages, 2 courses, 5 repos).
+const stats = [
+  { n: '50+', label: 'pages' },
+  { n: '2', label: 'courses' },
+  { n: '5', label: 'open-source tools' },
+  { n: 'Free', label: 'no login' },
+];
+
+// The five patterns of the 80x method, each linking to its course chapter.
+const patterns = [
+  { n: '01', title: 'Your CRM is the database', desc: 'One system every tool reads and writes.', href: '/learn/crm-as-your-database/' },
+  { n: '02', title: 'Agents do the work', desc: 'Software that reads, decides, and acts for you.', href: '/learn/what-an-agent-is/' },
+  { n: '03', title: 'Read-only before write', desc: 'Prove it where it cannot do harm first.', href: '/learn/read-only-before-write/' },
+  { n: '04', title: 'Run it on a schedule', desc: 'The remembering happens without you.', href: '/learn/run-it-on-a-schedule/' },
+  { n: '05', title: 'Spec-first, then verify', desc: 'Say what it should do, then check it did.', href: '/learn/spec-first-and-verify/' },
+];
+
+// "Choose your path" — one card per fund outcome.
+const paths = [
+  {
+    title: 'Keep your pipeline clean',
+    desc: 'Every deal has a stage, every change has a date, and a scheduled job does the remembering.',
+    links: [
+      { t: 'Pipeline hygiene', href: '/playbooks/pipeline-hygiene/' },
+      { t: 'One-file cron sync', href: '/guides/one-file-cron-sync/' },
+    ],
+  },
+  {
+    title: 'Stop losing screening notes',
+    desc: 'Get what was said onto the deal record, then let an agent file cited signals for your team to review.',
+    links: [
+      { t: 'Meeting notes to CRM', href: '/guides/meeting-notes-to-crm/' },
+      { t: 'Qualification agent', href: '/guides/medic-qualification-agent/' },
+    ],
+  },
+  {
+    title: 'Source beyond referrals',
+    desc: 'Your durable edge is the interaction data your fund captures and owns. Build a capture pipeline for it.',
+    links: [
+      { t: 'Sourcing and signals', href: '/playbooks/sourcing-and-signals/' },
+      { t: 'WhatsApp to CRM', href: '/guides/whatsapp-to-crm/' },
+    ],
+  },
+  {
+    title: 'Numbers without the busywork',
+    desc: 'A fresh KPI page generated from your CRM every morning. No server to run, no analyst on the hook.',
+    links: [{ t: 'Self-updating dashboard', href: '/guides/kpi-dashboard-from-crm/' }],
+  },
+  {
+    title: 'One system of record',
+    desc: 'The single-source-of-truth pattern, and how to migrate to it from wherever your data lives now.',
+    links: [
+      { t: 'CRM as database', href: '/reference/crm-as-database/' },
+      { t: 'CRM migration', href: '/playbooks/crm-migration/' },
+    ],
+  },
+  {
+    title: 'Understand the concepts first',
+    desc: 'Every term is defined in plain English the first time it appears. Start with what an agent actually is.',
+    links: [
+      { t: 'What is an agent?', href: '/reference/agents/' },
+      { t: 'The reference', href: '/reference/' },
+    ],
+  },
+];
+
+// "What's in the library" — the map of the site.
+const library = [
+  { title: 'Start here', desc: 'What the site is, why it exists, and how to use it.', href: '/start-here/what-is-80x-docs/', meta: 'Overview' },
+  { title: 'Learn', desc: 'Two guided courses: the 80x method, and cutting your fund AI spend.', href: '/learn/', meta: '2 courses' },
+  { title: 'Reference', desc: 'The concepts, defined precisely: agents, tool use, MCP, safety.', href: '/reference/', meta: '12 pages' },
+  { title: 'Guides', desc: 'Step-by-step builds you can follow, from systems that shipped.', href: '/guides/', meta: '9 guides' },
+  { title: 'VC playbooks', desc: 'What to run in your fund, framed in fund terms.', href: '/playbooks/', meta: '6 playbooks' },
+  { title: 'Projects', desc: 'Open-source tools you can install and read today.', href: '/projects/', meta: '5 tools' },
+  { title: 'Field notes', desc: 'Dated essays and measured benchmarks from real work.', href: '/notes/', meta: '4 notes' },
+  { title: 'Glossary', desc: 'Every term on the site, defined in one paragraph.', href: '/glossary/', meta: 'A–Z' },
+];
+
+// "Why you can trust it".
+const trust = [
+  { title: 'From production', body: 'Every page comes from a system that shipped and ran for a real fund or company.' },
+  { title: 'Open source, linked', body: 'Where a page documents a tool, the tool is open source and linked, so you can read the code.' },
+  { title: 'Measured, not invented', body: 'Numbers appear only when they were measured. Client systems are anonymized.' },
+  { title: 'Free, no gate', body: 'No login and no gated tier. The only paid thing on the site is a call.' },
+];
+---
+
+<div class="x-landing not-content">
+  <!-- Hero -->
+  <header class="x-hero">
+    <p class="x-eyebrow">The open standard for agentic engineering in VC</p>
+    <h1 class="x-hero-title">Learn to build and use technology inside your fund</h1>
+    <p class="x-hero-tagline">
+      Free, plain-English documentation for investors and fund operators. Every
+      page starts from a workflow you already run, and comes from a system that
+      actually ships.
+    </p>
+    <div class="x-hero-actions">
+      {
+        actions.map((a) => (
+          <a class:list={['x-btn', `x-btn--${a.variant}`]} href={u(a.href)}>
+            {a.text}
+            {a.arrow && <span class="x-btn-arrow" aria-hidden="true">→</span>}
+          </a>
+        ))
+      }
+    </div>
+    <ul class="x-stats" aria-label="At a glance">
+      {
+        stats.map((s) => (
+          <li>
+            <span class="x-stat-n">{s.n}</span>
+            <span class="x-stat-l">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </header>
+
+  <!-- The method: five patterns -->
+  <section class="x-section" aria-labelledby="x-method">
+    <div class="x-section-head">
+      <p class="x-kicker">The 80x method</p>
+      <h2 id="x-method">Five patterns behind every system here</h2>
+      <p class="x-section-sub">
+        The whole library reduces to five moves. Learn them once and the guides
+        stop looking like separate projects.
+      </p>
+    </div>
+    <ol class="x-method-grid">
+      {
+        patterns.map((p) => (
+          <li>
+            <a class="x-step" href={u(p.href)}>
+              <span class="x-step-n">{p.n}</span>
+              <span class="x-step-title">{p.title}</span>
+              <span class="x-step-desc">{p.desc}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Choose your path -->
+  <section class="x-section" aria-labelledby="x-paths">
+    <div class="x-section-head">
+      <p class="x-kicker">Choose your path</p>
+      <h2 id="x-paths">Start from a workflow you already run</h2>
+      <p class="x-section-sub">
+        Pick the outcome you want. Each path links the playbook that frames it
+        and the guide that builds it.
+      </p>
+    </div>
+    <div class="x-grid x-grid--paths">
+      {
+        paths.map((c) => (
+          <article class="x-card">
+            <h3 class="x-card-title">{c.title}</h3>
+            <p class="x-card-desc">{c.desc}</p>
+            <div class="x-card-links">
+              {c.links.map((l) => (
+                <a class="x-link" href={u(l.href)}>
+                  {l.t}
+                  <span class="x-link-arrow" aria-hidden="true">→</span>
+                </a>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- What's in the library -->
+  <section class="x-section" aria-labelledby="x-library">
+    <div class="x-section-head">
+      <p class="x-kicker">What's in the library</p>
+      <h2 id="x-library">The whole site, mapped</h2>
+      <p class="x-section-sub">
+        Everything is free, with no login. Browse by section, or point an AI
+        assistant at any page.
+      </p>
+    </div>
+    <div class="x-grid x-grid--library">
+      {
+        library.map((s) => (
+          <a class="x-tile" href={u(s.href)}>
+            <span class="x-tile-meta">{s.meta}</span>
+            <span class="x-tile-title">
+              {s.title}
+              <span class="x-tile-arrow" aria-hidden="true">→</span>
+            </span>
+            <span class="x-tile-desc">{s.desc}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Why you can trust it -->
+  <section class="x-section" aria-labelledby="x-trust">
+    <div class="x-section-head">
+      <p class="x-kicker">Why you can trust it</p>
+      <h2 id="x-trust">Nothing here is invented</h2>
+    </div>
+    <div class="x-grid x-grid--trust">
+      {
+        trust.map((t) => (
+          <div class="x-trust">
+            <h3 class="x-trust-title">{t.title}</h3>
+            <p class="x-trust-body">{t.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</div>
+
+<style>
+  .x-landing {
+    max-width: 74rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    /* Splash pages have no article padding of their own; give the landing room. */
+    padding-block: clamp(1rem, 2.5vw, 2rem) 1rem;
+  }
+
+  /* --- Hero ----------------------------------------------------------------- */
+  .x-hero {
+    max-width: 52rem;
+    margin-inline: auto;
+    text-align: center;
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(3rem, 7vw, 5.5rem);
+  }
+  .x-eyebrow {
+    margin: 0 0 1.25rem;
+    font-family: var(--__sl-font-mono, var(--sl-font-mono));
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
+    color: var(--x-ink-secondary);
+  }
+  .x-hero-title {
+    margin: 0;
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    font-size: clamp(2.4rem, 1.4rem + 3.6vw, 4rem);
+    color: var(--sl-color-white);
+    text-wrap: balance;
+  }
+  .x-hero-tagline {
+    margin: 1.4rem auto 0;
+    max-width: 40rem;
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--x-ink-secondary);
+    text-wrap: pretty;
+  }
+  .x-hero-actions {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  /* Pills — reuse the site's white-on-black / black-on-white button language. */
+  .x-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: 2.75rem;
+    padding: 0 1.35rem;
+    border-radius: var(--x-radius-pill);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 120ms ease, background 120ms ease, border-color 120ms ease, transform 120ms ease;
+  }
+  .x-btn:active {
+    transform: translateY(1px);
+  }
+  .x-btn--primary {
+    background: var(--x-pill-bg);
+    color: var(--x-pill-ink);
+  }
+  .x-btn--primary:hover {
+    opacity: 0.85;
+  }
+  .x-btn--secondary {
+    border: 1px solid var(--x-edge-2);
+    color: var(--x-ink);
+  }
+  .x-btn--secondary:hover {
+    background: var(--x-surface-2);
+    border-color: var(--sl-color-gray-3);
+  }
+  .x-btn--minimal {
+    color: var(--x-ink);
+    padding-inline: 0.75rem;
+  }
+  .x-btn--minimal:hover {
+    color: var(--x-blue);
+  }
+  .x-btn-arrow {
+    transition: transform 140ms ease;
+  }
+  .x-btn:hover .x-btn-arrow {
+    transform: translateX(2px);
+  }
+
+  /* Stat strip */
+  .x-stats {
+    list-style: none;
+    margin: 2.75rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2.25rem;
+  }
+  .x-stats li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+  .x-stat-n {
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    color: var(--x-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .x-stat-l {
+    font-size: 0.85rem;
+    color: var(--x-ink-secondary);
+  }
+
+  /* --- Sections ------------------------------------------------------------- */
+  .x-section {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--x-surface-edge);
+  }
+  .x-section-head {
+    max-width: 44rem;
+    margin-bottom: 2.25rem;
+  }
+  .x-kicker {
+    margin: 0 0 0.75rem;
+    font-family: var(--__sl-font-mono, var(--sl-font-mono));
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--x-blue);
+  }
+  .x-section h2 {
+    margin: 0;
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+    color: var(--sl-color-white);
+  }
+  .x-section-sub {
+    margin: 0.9rem 0 0;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--x-ink-secondary);
+    text-wrap: pretty;
+  }
+
+  .x-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  /* --- Method: five numbered steps ------------------------------------------ */
+  .x-method-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+  }
+  .x-step {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    height: 100%;
+    padding: 1.15rem 1.15rem 1.3rem;
+    border: 1px solid var(--x-surface-edge);
+    border-radius: var(--x-radius-card);
+    background: var(--x-surface);
+    text-decoration: none;
+    transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+  }
+  .x-step:hover {
+    border-color: var(--x-edge-2);
+    transform: translateY(-2px);
+  }
+  .x-step-n {
+    font-family: var(--__sl-font-mono, var(--sl-font-mono));
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--x-blue);
+    font-variant-numeric: tabular-nums;
+  }
+  .x-step-title {
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    color: var(--x-ink);
+  }
+  .x-step-desc {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--x-ink-secondary);
+  }
+
+  /* --- Path cards ----------------------------------------------------------- */
+  .x-grid--paths {
+    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  }
+  .x-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+    border: 1px solid var(--x-surface-edge);
+    border-radius: var(--x-radius-card);
+    background: var(--x-surface);
+    transition: border-color 140ms ease, transform 140ms ease;
+  }
+  .x-card:hover {
+    border-color: var(--x-edge-2);
+    transform: translateY(-2px);
+  }
+  .x-card-title {
+    margin: 0;
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--x-ink);
+  }
+  .x-card-desc {
+    margin: 0.6rem 0 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--x-ink-secondary);
+  }
+  .x-card-links {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid var(--x-surface-edge);
+  }
+  .x-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--x-blue);
+    text-decoration: none;
+    width: fit-content;
+    padding-top: 0.4rem;
+  }
+  .x-link-arrow,
+  .x-tile-arrow {
+    transition: transform 140ms ease;
+  }
+  .x-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .x-link:hover .x-link-arrow {
+    transform: translateX(2px);
+  }
+
+  /* --- Library tiles -------------------------------------------------------- */
+  .x-grid--library {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+  .x-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    height: 100%;
+    padding: 1.35rem;
+    border: 1px solid var(--x-surface-edge);
+    border-radius: var(--x-radius-card);
+    background: var(--x-surface);
+    text-decoration: none;
+    transition: border-color 140ms ease, transform 140ms ease;
+  }
+  .x-tile:hover {
+    border-color: var(--x-edge-2);
+    transform: translateY(-2px);
+  }
+  .x-tile-meta {
+    font-family: var(--__sl-font-mono, var(--sl-font-mono));
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--x-ink-secondary);
+  }
+  .x-tile-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--x-ink);
+  }
+  .x-tile:hover .x-tile-arrow {
+    transform: translateX(2px);
+  }
+  .x-tile-desc {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--x-ink-secondary);
+  }
+
+  /* --- Trust ---------------------------------------------------------------- */
+  .x-grid--trust {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1.5rem 2rem;
+  }
+  .x-trust {
+    padding-top: 1.1rem;
+    border-top: 2px solid var(--x-edge-2);
+  }
+  .x-trust-title {
+    margin: 0 0 0.5rem;
+    font-family: var(--x-font-display);
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+    color: var(--x-ink);
+  }
+  .x-trust-body {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--x-ink-secondary);
+  }
+
+  @media (max-width: 30rem) {
+    .x-hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .x-btn {
+      justify-content: center;
+    }
+  }
+</style>
