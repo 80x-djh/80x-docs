@@ -46,6 +46,28 @@ export default defineConfig({
           : []),
       ],
       lastUpdated: true,
+      // Branding: the canonical 80x mark (lime #E4F222 + ink #0B0B09 "80x").
+      // Starlight auto-links /favicon.svg; we add the iOS home-screen tile and
+      // an .ico fallback here (base-prefixed, since /docs is served under 80x.ai).
+      head: [
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'apple-touch-icon',
+            sizes: '180x180',
+            href: `${SITE.base}/apple-icon.png`,
+          },
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'icon',
+            sizes: '48x48',
+            type: 'image/x-icon',
+            href: `${SITE.base}/favicon.ico`,
+          },
+        },
+      ],
       components: {
         Head: './src/components/Head.astro',
         PageTitle: './src/components/PageTitle.astro',

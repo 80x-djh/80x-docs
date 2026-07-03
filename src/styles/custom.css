@@ -253,12 +253,22 @@ header.header {
   font-weight: 600;
   letter-spacing: -0.02em;
   gap: 0.5rem;
-  align-items: baseline;
+  align-items: center;
 }
 .site-title .wordmark-brand {
+  display: inline-flex;
+  align-items: center;
   font-size: 1.125rem;
   color: var(--x-ink);
   text-decoration: none;
+  border-radius: 7px;
+  transition: opacity 0.15s ease;
+}
+.site-title .wordmark-brand:hover {
+  opacity: 0.8;
+}
+.site-title .wordmark-logo {
+  display: block;
 }
 .site-title .wordmark-sep {
   font-family: var(--__sl-font-mono);
