@@ -72,7 +72,7 @@ export const SITE = {
   newsletterPitch:
     'One email when new references, guides, or open-source tools ship. No spam, unsubscribe anytime.',
 
-  contactEmail: 'dan@80x.ai',
+  contactEmail: 'daniel@80x.ai',
 
   social: {
     github: 'https://github.com/80x-djh',
