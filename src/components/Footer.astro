@@ -4,6 +4,7 @@
 // footer (edit link, last updated, prev/next pagination).
 import Default from '@astrojs/starlight/components/Footer.astro';
 import EmailCapture from './EmailCapture.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
 import { SITE } from '../../site.config.mjs';
 ---
 
@@ -12,3 +13,4 @@ import { SITE } from '../../site.config.mjs';
   Building this inside your fund? <a href={SITE.bookCall}>Book a call &rarr;</a>
 </p>
 <Default />
+<WhatsAppButton />
