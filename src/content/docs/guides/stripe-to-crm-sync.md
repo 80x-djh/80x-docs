@@ -1,9 +1,9 @@
 ---
 title: Sync Stripe revenue into your CRM daily
-description: A daily job that writes each customer's lifetime revenue and per-product spend from Stripe into your CRM, so reviews argue strategy, not numbers.
+description: A daily job that syncs revenue from Stripe into your CRM, so live revenue sits on the deal and portfolio records your Monday meeting actually reads.
 ---
 
-Every pipeline and portfolio review stumbles on the same question: *how much has this customer actually paid us?* By the end of this guide, your CRM answers it. A scheduled job pulls every payment from Stripe (the payment system that processes the company's charges) once a day, adds up each customer's lifetime revenue and spend per product, and writes one record per paying customer into your CRM, linked to the matching person, so revenue sits next to the relationship it belongs to.
+Portfolio monitoring keeps circling one question: *how is this company's revenue actually trending?* By the end of this guide, your CRM answers it from live numbers instead of a spreadsheet someone updates by hand. A scheduled job pulls every payment from Stripe (the payment system that processes a company's charges) once a day, adds up lifetime revenue and spend per product, and writes one record per paying customer into your CRM, linked to the matching person, so revenue sits next to the relationship it belongs to. Point the reading side at a portfolio company's revenue feed and the writing side at your deals object, and the same job keeps live portfolio revenue on the records your Monday meeting actually looks at.
 
 The guide is grounded in [memelord-stripe-attio-sync](https://github.com/80x-djh/memelord-stripe-attio-sync), a shipped, public sync that runs daily for a consumer SaaS company's Attio workspace. Every code sample below is taken from that repo. The technology is deliberately plain: one Python file with no add-on packages at all, because a revenue number your team argues from should not depend on a stack of third-party code.
 

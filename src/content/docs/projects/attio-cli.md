@@ -87,4 +87,4 @@ MIT-licensed (free to use, modify, and redistribute) at [github.com/80x-djh/atti
 
 - [CLI vs MCP: when agents should get a command line](/reference/cli-vs-mcp/) — the cost trade-off, including when MCP genuinely wins
 - [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/) — the full write-up of the numbers cited here
-- [awesome-attio](/projects/awesome-attio/) — the wider Attio tooling ecosystem, including the MCP servers this CLI is benchmarked against
+- [awesome-attio](https://github.com/80x-djh/awesome-attio) — the wider Attio tooling ecosystem, including the MCP servers this CLI is benchmarked against
