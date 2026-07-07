@@ -31,6 +31,11 @@ export const SITE = {
   // ---------------------------------------------------------------------------
   bookCall: 'https://80x.ai/book?src=docs',
   bookCallLabel: 'Book a call',
+  // The primary conversion across 80x is now a booked dealflow teardown. Same
+  // funnel as bookCall (80x.ai/book, ?src=docs attributes the click); this is
+  // the label + URL the persistent header pill and the home-page CTA use.
+  bookTeardown: 'https://80x.ai/book?src=docs',
+  bookTeardownLabel: 'Book a teardown',
   // Daniel's WhatsApp, for the floating "chat with the founder" button on every
   // docs page (src/components/WhatsAppButton.astro), matches the 80x.ai studio.
   whatsapp: 'https://wa.me/447960957063?text=Hi%20Daniel%2C%20',

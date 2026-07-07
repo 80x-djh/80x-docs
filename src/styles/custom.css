@@ -69,6 +69,11 @@
   --x-code-edge: #2e2e2e;
   --x-pill-bg: #ffffff;
   --x-pill-ink: #000000;
+  /* Brand lime accent (the canonical 80x mark). Reserved for the one primary
+     conversion, the "Book a teardown" CTA. Constant across both themes: the
+     saturated lime + near-black ink reads on light and dark chrome alike. */
+  --x-lime: #e4f222;
+  --x-lime-ink: #0b0b09;
 
   --x-radius-card: 0.75rem;
   --x-radius-block: 0.5rem;
@@ -396,7 +401,9 @@ button[data-open-modal] kbd kbd {
   color: var(--x-ink);
 }
 
-/* --- Header CTA (Book a call): primary white pill ----------------------------- */
+/* --- Header CTA (Book a teardown): primary lime pill --------------------------
+   The one primary conversion across 80x. Lime brand accent (echoes the wordmark
+   badge) so it reads as the action, near-black ink for contrast on lime. */
 .header-cta {
   display: inline-flex;
   align-items: center;
@@ -404,16 +411,20 @@ button[data-open-modal] kbd kbd {
   height: 2rem;
   padding: 0 0.9rem;
   border-radius: var(--x-radius-pill);
-  background: var(--x-pill-bg);
-  color: var(--x-pill-ink);
+  background: var(--x-lime);
+  color: var(--x-lime-ink);
   font-size: var(--sl-text-xs);
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
   transition: opacity 120ms ease;
 }
 .header-cta:hover {
   opacity: 0.85;
-  color: var(--x-pill-ink);
+  color: var(--x-lime-ink);
+}
+.header-cta:focus-visible {
+  outline: 2px solid var(--x-lime);
+  outline-offset: 2px;
 }
 
 /* --- Header "Contact": secondary bordered pill (matches the 80x.ai header) --- */
@@ -451,7 +462,7 @@ button[data-open-modal] kbd kbd {
   color: var(--sl-color-gray-2);
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
-  /* Sit first in the right group: [theme] [Contact] [Book a call], like 80x.ai. */
+  /* Sit first in the right group: [theme] [Contact] [Book a teardown], like 80x.ai. */
   order: -1;
 }
 .x-theme-toggle:hover {
