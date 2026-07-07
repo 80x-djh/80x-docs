@@ -16,7 +16,7 @@ Install the tool once, connect it to your workspace, and run a first command:
 ```bash
 npm install -g attio-cli
 
-attio init          # guided setup — paste your API key, done
+attio init          # guided setup: paste your API key, done
 attio whoami        # verify connection
 attio people list --limit 5
 ```
@@ -85,6 +85,6 @@ MIT-licensed (free to use, modify, and redistribute) at [github.com/80x-djh/atti
 
 ## See also
 
-- [CLI vs MCP: when agents should get a command line](/reference/cli-vs-mcp/) — the cost trade-off, including when MCP genuinely wins
-- [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/) — the full write-up of the numbers cited here
-- [awesome-attio](https://github.com/80x-djh/awesome-attio) — the wider Attio tooling ecosystem, including the MCP servers this CLI is benchmarked against
+- [CLI vs MCP: when agents should get a command line](/reference/cli-vs-mcp/), the cost trade-off, including when MCP genuinely wins
+- [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/), the full write-up of the numbers cited here
+- [awesome-attio](https://github.com/80x-djh/awesome-attio): the wider Attio tooling ecosystem, including the MCP servers this CLI is benchmarked against

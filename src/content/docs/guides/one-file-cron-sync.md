@@ -28,7 +28,7 @@ A [derived field](/glossary/#derived-field) is any field whose correct value can
 
 That is what makes this pattern so robust. There is no saved position to corrupt, no queue of pending changes to lose, no missed event to replay. See [CRM as database](/reference/crm-as-database/) for why derived fields are worth having at all.
 
-## Step 1 — write the rule as one sentence, then as a function
+## Step 1: write the rule as one sentence, then as a function
 
 Write down, in one plain sentence, the rule that produces the field's correct value. For the LP logo sync: *"an LP's `logo_url` is its linked company's `logo_url`; failing that, a favicon service URL for the company's root domain; failing that, an initials avatar seeded from the LP's name."*
 
@@ -48,7 +48,7 @@ You should now have one sentence and one function of a few lines that mirrors it
 
 One honest check before you continue: if you cannot write your rule as a plain function of data you can read, you do not have a derived field. You have a workflow or an agent problem, and this is the wrong guide.
 
-## Step 2 — fetch all the records
+## Step 2: fetch all the records
 
 Your script needs every record so it can check every value. CRM APIs return records in pages (batches of a few hundred at a time), so the script asks for a page, then the next, until a page comes back short. That is all "pagination" means.
 
@@ -87,7 +87,7 @@ When this step works, printing the length of the fetched list shows the same rec
 
 If your rule needs related records (here, each LP's linked company), fetch those in small parallel batches rather than one at a time; the shipped file uses a helper that runs 12 requests at once. The fiddly part of Attio is how values arrive wrapped (`values.name[0].value`, references under `target_record_id`); the [Attio API field guide](/reference/attio-api-field-guide/) catalogs every shape you will meet.
 
-## Step 3 — compare before writing
+## Step 3: compare before writing
 
 This is the heart of the pattern. For each record, the script computes the desired value, reads the current value, and plans a write *only when the two differ*.
 
@@ -102,7 +102,7 @@ updates.push({ lpId, name, desired, current });
 
 After this step, a run over a healthy dataset plans zero updates and touches nothing: no writes, no "last modified" churn, no needless [webhook](/glossary/#webhook) traffic (a webhook is a message the CRM sends to other systems whenever something changes, so pointless writes create pointless messages), and no pressure on the API's rate limit (the cap on how many requests you may make per minute). The script converges on correct instead of acting for the sake of it. The three counters (`updated`, `skipped`, `missing`) feed the summary line in step 5.
 
-## Step 4 — put a safety switch on the writes
+## Step 4: put a safety switch on the writes
 
 The write path checks one environment variable. In dry-run mode the script prints a sample of what it *would* change and changes nothing. In live mode it applies the changes, a few at a time, with each record's errors caught individually so one bad record cannot kill the whole run:
 
@@ -131,7 +131,7 @@ In dry-run mode you should see up to 20 lines starting with `DRY`, each showing 
 Live mode writes to your real CRM. While you are building, keep `DRY_RUN=1` set and read the planned updates until every one of them is explainable. The shipped sync, being proven, applies by default and takes `DRY_RUN=1` to preview; while developing, invert that and make dry-run the default.
 :::
 
-## Step 5 — log one line and fail loudly
+## Step 5: log one line and fail loudly
 
 Each run should end with a single summary line, and a run with errors should visibly fail. The two lines below do both; a non-zero exit code is how a program tells the scheduler "this run failed", which GitHub turns into a red run and an email to you:
 
@@ -142,7 +142,7 @@ if (errors > 0) process.exit(2);
 
 That one line is your entire monitoring system. When the job runs on GitHub, you read it in the run's log; when something breaks, you get a red run and a notification instead of silent rot.
 
-## Step 6 — schedule it with GitHub Actions
+## Step 6: schedule it with GitHub Actions
 
 GitHub Actions runs code on a schedule you declare in a small text file (a "workflow") stored in the repo. The schedule uses cron syntax, a five-part pattern that reads minute, hour, day, month, weekday; `"*/15 * * * *"` means "every 15 minutes". (A scheduled job like this is what the reference section calls a [cron agent](/reference/cron-agents/).)
 
@@ -201,8 +201,8 @@ Pick a frequency that matches how fast the data changes. This sync runs every 15
 
 The test of a safe sync is simple. Open your terminal in the repo's folder and run these three commands in order:
 
-1. `DRY_RUN=1 node sync.mjs` — a practice run. Read the planned updates; every one should be explainable.
-2. `node sync.mjs` — the real run. Note the `updated=` count in the summary line.
+1. `DRY_RUN=1 node sync.mjs`, a practice run. Read the planned updates; every one should be explainable.
+2. `node sync.mjs`, the real run. Note the `updated=` count in the summary line.
 3. `node sync.mjs` again, immediately. This second run must report `planned updates: 0` and `updated=0`. Every record now matches its desired value, so the run reads everything and writes nothing.
 
 Finally, go to the repo's Actions tab, press "Run workflow" with the dry-run box ticked, and confirm the log there shows the same zero-update summary. Your sync now runs itself.
@@ -225,7 +225,7 @@ When the rule stops being computable, because deciding the value requires readin
 
 ## See also
 
-- [Automation safety](/reference/automation-safety/) — the dry-run, idempotency, and kill-switch rules this guide applies.
-- [Cron agents](/reference/cron-agents/) — the GitHub Actions scheduling sharp edges, in full.
-- [Attio API field guide](/reference/attio-api-field-guide/) — value wrappers, query endpoints, and the other details you will hit in step 2.
-- [A self-updating KPI dashboard from CRM data](/guides/kpi-dashboard-from-crm/) — the read-only sibling of this pattern.
+- [Automation safety](/reference/automation-safety/): the dry-run, idempotency, and kill-switch rules this guide applies.
+- [Cron agents](/reference/cron-agents/): the GitHub Actions scheduling sharp edges, in full.
+- [Attio API field guide](/reference/attio-api-field-guide/): value wrappers, query endpoints, and the other details you will hit in step 2.
+- [A self-updating KPI dashboard from CRM data](/guides/kpi-dashboard-from-crm/), the read-only sibling of this pattern.

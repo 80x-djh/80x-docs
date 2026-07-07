@@ -78,8 +78,8 @@ None of these are AI features. They are classic good manners for command-line pr
 
 ## See also
 
-- [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/) — the full measured comparison behind the numbers on this page
-- [Model Context Protocol](/reference/mcp/) — what MCP is and the thin-server pattern
-- [Tool use](/reference/tool-use/) — tools as the agent/world interface
-- [attio-cli](/projects/attio-cli/) — the project page for the CLI used in the benchmark
-- [What is an agent?](/reference/agents/) — the loop these interfaces plug into
+- [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/), the full measured comparison behind the numbers on this page
+- [Model Context Protocol](/reference/mcp/), what MCP is and the thin-server pattern
+- [Tool use](/reference/tool-use/), tools as the agent/world interface
+- [attio-cli](/projects/attio-cli/), the project page for the CLI used in the benchmark
+- [What is an agent?](/reference/agents/), the loop these interfaces plug into

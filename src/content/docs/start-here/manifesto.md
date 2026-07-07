@@ -65,6 +65,6 @@ That is the site's subject: the specific, reproducible mechanics of building thi
 
 ## See also
 
-- [What is 80x Docs?](/start-here/what-is-80x-docs/) — the site's sections, how content is produced, and who writes it
-- [What is an agent?](/reference/agents/) — the first reference page, grounded in a real agent loop of about 60 lines
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the smallest complete build on the site, from a public repo
+- [What is 80x Docs?](/start-here/what-is-80x-docs/): the site's sections, how content is produced, and who writes it
+- [What is an agent?](/reference/agents/): the first reference page, grounded in a real agent loop of about 60 lines
+- [The one-file cron sync](/guides/one-file-cron-sync/): the smallest complete build on the site, from a public repo

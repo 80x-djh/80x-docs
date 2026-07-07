@@ -63,6 +63,6 @@ Do not paste in content whose license conflicts with the site's. The [Attio Work
 
 ## See also
 
-- [What is 80x Docs?](/start-here/what-is-80x-docs/) — the site's sections and how content is produced
-- [Use this site with an LLM](/start-here/for-llms/) — citation mechanics and machine-readable URLs
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the template for a contributed guide
+- [What is 80x Docs?](/start-here/what-is-80x-docs/), the site's sections and how content is produced
+- [Use this site with an LLM](/start-here/for-llms/), citation mechanics and machine-readable URLs
+- [The one-file cron sync](/guides/one-file-cron-sync/), the template for a contributed guide

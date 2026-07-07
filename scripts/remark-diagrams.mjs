@@ -4,7 +4,7 @@
 // gets to Expressive Code / the syntax highlighter, so the fence is intercepted
 // and never rendered as a code block. Each fence is matched to a pre-rendered,
 // content-hashed SVG committed under src/diagrams/ (produced by
-// scripts/render-diagrams.mjs — run `npm run diagrams`). The SVG is inlined into
+// scripts/render-diagrams.mjs, run `npm run diagrams`). The SVG is inlined into
 // a figure with a top bar, a Copy button (copies the diagram source), and an
 // optional caption (```mermaid caption="…").
 //
@@ -66,7 +66,7 @@ export default function remarkDiagrams() {
           const svgPath = path.join(DIAGRAM_DIR, `${id}.svg`);
           if (!existsSync(svgPath)) {
             console.warn(
-              `[remark-diagrams] missing SVG for diagram ${id} in ${where} — ` +
+              `[remark-diagrams] missing SVG for diagram ${id} in ${where}, ` +
                 'run `npm run diagrams`. Falling back to source block.'
             );
             // Graceful fallback: render the source as a plain code block.

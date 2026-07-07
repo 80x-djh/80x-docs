@@ -61,7 +61,7 @@ Measure coverage before the build, so the baseline is honest and the improvement
 
 ## See also
 
-- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/) — the complete build this doctrine generalizes
-- [Agents that write to your CRM](/reference/writing-agents-safely/) — suggestion fields, citations, and two-lock writes as general rules
-- [Meeting notes to CRM](/guides/meeting-notes-to-crm/) — getting the source material into the CRM in the first place
-- [Pipeline hygiene](/playbooks/pipeline-hygiene/) — the discipline that keeps the rest of the pipeline data as honest as the qualification fields
+- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/), the complete build this doctrine generalizes
+- [Agents that write to your CRM](/reference/writing-agents-safely/): suggestion fields, citations, and two-lock writes as general rules
+- [Meeting notes to CRM](/guides/meeting-notes-to-crm/), getting the source material into the CRM in the first place
+- [Pipeline hygiene](/playbooks/pipeline-hygiene/), the discipline that keeps the rest of the pipeline data as honest as the qualification fields

@@ -1,7 +1,7 @@
-# 80x Docs — editorial system
+# 80x Docs, editorial system
 
 This file is the single source of truth for how content on this site is
-written. Every page — human- or agent-authored — follows it.
+written. Every page, human- or agent-authored, follows it.
 
 ## What this site is
 
@@ -23,17 +23,17 @@ They already read practitioner newsletters about running a fund with data
 and AI, so they think in **fund workflows, not technologies**. Anchor every
 page to one or more of these named workflows, in the reader's own words:
 
-- **Sourcing** — finding companies before they raise
-- **Screening and qualification** — deciding which deals deserve time
-- **Meeting prep and meeting notes** — walking in briefed, capturing what
+- **Sourcing**: finding companies before they raise
+- **Screening and qualification**: deciding which deals deserve time
+- **Meeting prep and meeting notes**: walking in briefed, capturing what
   was said, and keeping it (notes are a firm's proprietary data asset)
-- **Deal flow and pipeline management** — stages, hygiene, follow-ups
-- **Due diligence** — evidence gathering on a live deal
-- **Portfolio monitoring** — KPIs, reporting, board prep
-- **LP fundraising and investor relations** — raising the fund itself
-- **The firm's single source of truth** — one CRM every system reads
+- **Deal flow and pipeline management**: stages, hygiene, follow-ups
+- **Due diligence**: evidence gathering on a live deal
+- **Portfolio monitoring**: KPIs, reporting, board prep
+- **LP fundraising and investor relations**, raising the fund itself
+- **The firm's single source of truth**, one CRM every system reads
   and writes, instead of data scattered across inboxes and spreadsheets
-- **Cost and ROI** — what an automation or agent costs to run (tokens,
+- **Cost and ROI**: what an automation or agent costs to run (tokens,
   credits, engineering time) against the hours it returns
 
 "Why this matters for your fund" passages and guide openings should name
@@ -118,8 +118,8 @@ Every page is a `.md` (or `.mdx` only if it needs components) file under
 
 ```yaml
 ---
-title: Short, specific, ≤60 chars   # renders as the H1 — do NOT repeat an H1 in the body
-description: One sentence, ≤160 chars, standalone — it feeds search, OG tags, and llms.txt
+title: Short, specific, ≤60 chars   # renders as the H1, do NOT repeat an H1 in the body
+description: One sentence, ≤160 chars, standalone. It feeds search, OG tags, and llms.txt
 ---
 ```
 
@@ -130,7 +130,7 @@ Optional: `sidebar: { order: N }` to pin position (lower = higher).
 - **Self-contained pages.** Never rely on "as mentioned above" or a previous
   page. Each page must make sense pasted alone into a context window.
 - **Front-load the definition.** First paragraph answers "what is this and
-  when do I use it" — no throat-clearing.
+  when do I use it", no throat-clearing.
 - **Explicit headings** that are meaningful out of context ("Rate limits in
   the Attio API", not "Limits").
 - **Tables for enumerable facts**, prose for reasoning.
@@ -150,13 +150,13 @@ LLMs (the Mermaid source ships in the page markdown).
 - Prefer `flowchart TB` (top-to-bottom) or `LR` (left-to-right); label edges
   with the verb (`-->|upsert|`).
 - Keep each node-label line under ~46 mono characters. Use `<br/>` for
-  deliberate line breaks; avoid box-drawing glyphs (`└─`, `▶`) in labels —
+  deliberate line breaks; avoid box-drawing glyphs (`└─`, `▶`) in labels,
   plain words instead.
 - Add a caption with meta: ` ```mermaid caption="…" `.
 - Workflow: edit the fence, run `npm run diagrams`, then `npm run build`.
   Changing only render config (not the fence) needs a cache clear
   (`rm -rf node_modules/.astro dist`) before the rebuild picks up new SVGs.
-- A missing SVG never breaks the build — the fence degrades to a plain source
+- A missing SVG never breaks the build, the fence degrades to a plain source
   block with a build warning until you run `npm run diagrams`.
 
 Genuine literal text (a command trace, an API call) stays a normal
@@ -187,5 +187,5 @@ to relevant guides/projects, nothing else.
 ## Licensing
 
 Prose: CC BY-SA 4.0. Code samples: MIT. Don't paste in content whose license
-conflicts (note: the Attio Workflows Handbook prose is CC BY-**NC**-SA — link
+conflicts (note: the Attio Workflows Handbook prose is CC BY-**NC**-SA, link
 to it rather than copying it wholesale).

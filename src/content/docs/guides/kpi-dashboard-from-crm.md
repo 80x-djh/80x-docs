@@ -35,7 +35,7 @@ flowchart TB
   html --> host["static host, GitHub Pages<br/>no backend, no server"]
 ```
 
-## Step 1 — pull the list entries from the CRM
+## Step 1: pull the list entries from the CRM
 
 First, the script fetches every deal in the pipeline list. Attio serves list entries in pages (batches of 100 here), so the script asks for page after page until one comes back empty or short. Pipeline lists are hundreds of rows, not millions, so "pull everything and compute locally" beats clever filtering.
 
@@ -80,7 +80,7 @@ The output of this whole step is a flat list of simple rows (company, stage, sec
 Because the payload is a file, you can develop the report against a saved copy without touching the API at all. Save one good `payload.json` and iterate on the charts offline.
 :::
 
-## Step 2 — compute the funnel cumulatively, not from current stage
+## Step 2: compute the funnel cumulatively, not from current stage
 
 This is where the shipped dashboard had its one real analytical bug, and it is worth understanding even if you never write the code.
 
@@ -90,7 +90,7 @@ The correct funnel counts each deal at **every stage up to the deepest stage it 
 
 Keep all metric computation in one place. The shipped build does it in the page's own chart code, reading the embedded payload; doing it in the Python script is equally valid. What matters is that the payload carries the raw per-deal facts, so fixing a metric definition means changing the report, not re-collecting data.
 
-## Step 3 — make sure the dates actually exist (the backfill)
+## Step 3: make sure the dates actually exist (the backfill)
 
 The cumulative funnel stands entirely on the per-stage date fields, and in the shipped system those dates had two generations of holes. A date-stamping [webhook](/glossary/#webhook) (a program that reacts the moment a deal changes stage; the [webhook guide](/guides/attio-webhook-automation/) builds one) had only existed since a certain date, so older stage changes were never stamped. It had also later gone down for a stretch, so a gap period was missing too. Deals with empty date fields simply vanished from the funnel, and monthly bars went missing. The visible symptom was "the dashboard disagrees with the CRM's own counts".
 
@@ -98,7 +98,7 @@ The fix generalizes: **backfill from the CRM's own history, do not guess.** Atti
 
 One backfill run recovered months of true transition dates. The same job now keeps stamping new transitions, and the dashboard depends on it staying healthy. After this step, every deal that ever reached a stage should carry a date for it.
 
-## Step 4 — generate the page
+## Step 4: generate the page
 
 The report is a single HTML template: the page's layout, styles, chart library, and metric logic, with one placeholder where the payload data is spliced in. Generation is three commands run in order; this is the shipped `build.sh`, verbatim in structure:
 
@@ -117,7 +117,7 @@ The repo is public, and `payload.json` and `plain.html` contain real deal data. 
 
 The template/payload split earns its keep immediately: you, or a designer, or you six months from now, can iterate on the report against a checked-in *sample* payload, while the real data never enters the repo.
 
-## Step 5 — encrypt the page, publish via Pages
+## Step 5: encrypt the page, publish via Pages
 
 The published `index.html` is encrypted before it leaves the machine, in the style of a tool called StatiCrypt. What ships is a small unlock page containing the real report as an encrypted blob. When someone opens the address and types the password, their own browser stretches the password into a key (through PBKDF2, a deliberate-slowness step that makes guessing expensive), decrypts the blob, and displays the report. No server ever sees the password; the public repo and the public address expose only ciphertext. The shipped build re-implements this in `encrypt.mjs`, including an integrity stamp so a tampered file fails to open rather than displaying something altered.
 
@@ -129,14 +129,14 @@ Be honest about what this protection buys: a password gate for a low-sensitivity
 
 After this step, opening your Pages address in a browser shows the password prompt, and the correct password reveals the dashboard.
 
-## Step 6 — put it on a schedule
+## Step 6: put it on a schedule
 
 A workflow is the small text file that tells GitHub Actions when and how to run your build; the schedule line uses cron syntax, a five-part time pattern (here, 06:17 on weekdays). The shipped workflow, trimmed:
 
 ```yaml
 on:
   schedule:
-    # Daily on weekdays. Off-peak minute (:17) — GitHub drops on-the-hour/half-hour
+    # Daily on weekdays. Off-peak minute (:17). GitHub drops on-the-hour/half-hour
     # scheduled jobs first under load, so avoid :00 and :30.
     - cron: "17 6 * * 1-5"
   workflow_dispatch:
@@ -201,6 +201,6 @@ Every row in this table happened to the shipped system:
 
 ## See also
 
-- [CRM as database](/reference/crm-as-database/) — why the CRM is the source of truth and everything else is a regenerable copy.
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the write-side sibling; the date-stamping job this dashboard depends on is one.
-- [Cron agents](/reference/cron-agents/) — scheduled-job sharp edges: dropped runs, off-peak minutes, private-repo billing.
+- [CRM as database](/reference/crm-as-database/), why the CRM is the source of truth and everything else is a regenerable copy.
+- [The one-file cron sync](/guides/one-file-cron-sync/), the write-side sibling; the date-stamping job this dashboard depends on is one.
+- [Cron agents](/reference/cron-agents/), scheduled-job sharp edges: dropped runs, off-peak minutes, private-repo billing.

@@ -58,7 +58,7 @@ Here is the whole flow in one picture:
   into the real fields
 ```
 
-## Step 1 — create the agent-owned suggestion fields
+## Step 1: create the agent-owned suggestion fields
 
 For each concept, create a *parallel* field in the CRM prefixed with the agent's identity: `scout_metrics`, `scout_economic_buyer`, `scout_champion`, and so on. These are [suggestion fields](/glossary/#suggestion-fields), and the prefix is the entire ownership model. It does three jobs at once: the agent's write surface is listable (it may write `scout_*` fields and nothing else), every value's origin is visible at a glance in the CRM, and a human "accepting" a suggestion is a deliberate copy into the real field, never a silent overwrite that already happened.
 
@@ -66,7 +66,7 @@ Run the field-creation script the same way you run everything else in this guide
 
 You should now see the `scout_*` fields on the deals object in your CRM, all empty.
 
-## Step 2 — map each concept to the human field it shadows
+## Step 2: map each concept to the human field it shadows
 
 Make the agent configurable rather than hard-coded, because every workspace names its fields differently. A small configuration file (TOML, a plain-text settings format) maps each MEDIC concept to the rep-owned field the agent must *read but never write*:
 
@@ -85,13 +85,13 @@ ae_type = "text"                    # text | record-reference | select
 
 After this step, your config file lists one block per concept, each pointing at a real field in your CRM.
 
-## Step 3 — gather notes and filter for substance
+## Step 3: gather notes and filter for substance
 
 Each run, for each active deal, the agent pulls the notes from a lookback window and drops the ones with nothing to extract: calendar stubs, one-liners, automated placeholders. This "is it meaningful?" filter is cheap and matters twice. It cuts the token cost (LLM calls are billed by the amount of text processed), and it keeps the extractor from being asked to find signal in noise, which is the situation where models are most tempted to invent.
 
 After this step, a run's log shows how many notes were read and how many were worth extracting from.
 
-## Step 4 — extract with citations required, structurally
+## Step 4: extract with citations required, structurally
 
 The extraction call gives Claude the note text and asks for findings per concept, where every finding must include a **word-for-word excerpt from the source note** as its citation. Then the rule is enforced in code, not in the prompt: **any finding without a citation is dropped before it gets anywhere near a write.** The shipped system's rule is blunt: no citation, no value.
 
@@ -99,7 +99,7 @@ This one constraint does most of the anti-hallucination work (hallucination is t
 
 After this step, every surviving finding in the run's output carries a quote you can search for in the source note.
 
-## Step 5 — decide per finding against the human field
+## Step 5: decide per finding against the human field
 
 For each cited finding, the agent compares against the rep-owned field it shadows and takes exactly one of three actions:
 
@@ -111,7 +111,7 @@ AE empty, scout field differs        → suggest_update → overwrite scout_<con
 
 The first row is the contract with the humans: **if a rep wrote something, the agent defers, always**, even when the notes suggest the rep is wrong. Disagreement is surfaced by the suggestion sitting next to the human value, not by the agent editing people's work. This is what makes reps tolerate, and then start relying on, an agent in their pipeline.
 
-## Step 6 — gate writes twice, log everything
+## Step 6: gate writes twice, log everything
 
 No write happens unless **both** locks are open: an `--apply` flag on the command that starts the run, *and* a `LIVE_WRITES=1` environment variable (a named setting the program reads at startup). One lock is per-run intent, "this run may write". The other is a standing [kill switch](/glossary/#kill-switch), "this deployment may write". Either one closed leaves the agent in dry-run, where it does all the reading, extraction, and deciding, and writes nothing. This is the [two-lock write](/glossary/#two-lock-write) pattern.
 
@@ -123,7 +123,7 @@ One shipped bug lives exactly here, and it is subtle enough to steal the lesson 
 
 After this step, running with either lock closed prints a full report of intended writes and changes nothing in the CRM.
 
-## Step 7 — run it daily, then actually verify it went live
+## Step 7: run it daily, then actually verify it went live
 
 Schedule the batch pass daily; any scheduler works (the options are in [cron agents](/reference/cron-agents/)). Then verify liveness end to end, because layered safety fails *closed*, and silently. The shipped system "ran" for days without writing anything, for three compounding reasons: the environment kill switch was still `0`, the scheduled command was missing `--apply`, and the dry-run-poisoned duplicate check described above. Every layer did its job; the operator simply had not opened the locks. A fourth, quieter issue capped each run at 50 deals sorted newest-first, covering a sliver of a 2,000-deal pipeline and systematically missing the older, later-stage deals that actually had notes worth reading.
 
@@ -166,7 +166,7 @@ This bot is the cheapest way to get value from the agent before anyone is comfor
 
 ## See also
 
-- [Agents that write to your CRM](/reference/writing-agents-safely/) — two-lock writes, agent-owned fields, and citation-required extraction as general rules.
-- [Read-only agents](/reference/read-only-agents/) — why the Slack bot's guarantee is structural, not a promise.
-- [Pipeline hygiene](/playbooks/pipeline-hygiene/) — the fund-operations problem this agent exists to solve.
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the non-AI baseline; reach for this agent only when the field requires judgment.
+- [Agents that write to your CRM](/reference/writing-agents-safely/): two-lock writes, agent-owned fields, and citation-required extraction as general rules.
+- [Read-only agents](/reference/read-only-agents/): why the Slack bot's guarantee is structural, not a promise.
+- [Pipeline hygiene](/playbooks/pipeline-hygiene/), the fund-operations problem this agent exists to solve.
+- [The one-file cron sync](/guides/one-file-cron-sync/), the non-AI baseline; reach for this agent only when the field requires judgment.

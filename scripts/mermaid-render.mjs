@@ -23,7 +23,7 @@ const CHROME =
   process.env.CHROME_PATH ||
   '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
-// Mermaid theme. Colours are placeholders — the .diagram CSS layer overrides
+// Mermaid theme. Colours are placeholders: the .diagram CSS layer overrides
 // node/edge/label colours with --x-* tokens so light & dark both work. We keep
 // them close to the dark palette so a bare SVG (e.g. opened directly) still reads.
 export const MERMAID_CONFIG = {
@@ -58,7 +58,7 @@ export const MERMAID_CONFIG = {
     padding: 12,
     // Max label width before wrap. Mermaid bakes this as the foreignObject
     // width + a `max-width` on the label, and with htmlLabels it does NOT wrap
-    // a single <br/> line — anything wider is clipped. 360px (~46 mono chars)
+    // a single <br/> line, anything wider is clipped. 360px (~46 mono chars)
     // fits our multi-line node labels; keep authored lines under that.
     wrappingWidth: 360,
     // Intrinsic px sizing (NOT scaled-to-container) so text is the same size

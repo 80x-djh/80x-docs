@@ -7,7 +7,7 @@
 // in scripts/mermaid-render.mjs; this file only orchestrates it.
 //
 // The filename is a hash of the fence body ALONE, so the remark plugin
-// (remark-diagrams.mjs) — which only ever sees that body — can compute the same
+// (remark-diagrams.mjs), which only ever sees that body, can compute the same
 // name and find the committed SVG at build time. Import this module for
 // `diagramId` cheaply: the heavy renderer is only imported when the batch runs.
 import {
@@ -68,7 +68,7 @@ async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
 
   if (wanted.size === 0) {
-    console.log('[diagrams] no ```mermaid blocks found — nothing to render.');
+    console.log('[diagrams] no ```mermaid blocks found, nothing to render.');
   } else {
     const toRender = [...wanted].filter(([id]) => !existsSync(path.join(OUT_DIR, `${id}.svg`)));
     console.log(

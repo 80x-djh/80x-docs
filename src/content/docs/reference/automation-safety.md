@@ -103,8 +103,8 @@ The strongest blast-radius control is structural: automations that only read can
 
 ## See also
 
-- [Agents that write to your CRM](/reference/writing-agents-safely/) — containment patterns for AI-driven writers
-- [Cron agents](/reference/cron-agents/) — scheduling gotchas for GitHub Actions automations
-- [The one-file cron sync](/guides/one-file-cron-sync/) — a complete idempotent sync with a dry-run flag
-- [Build an Attio webhook automation](/guides/attio-webhook-automation/) — idempotency under webhook redelivery
-- [Attio Workflows Handbook](https://handbook.80x.ai/explanation/infinite-loops-and-safety) — the Attio-specific loop guards, block by block
+- [Agents that write to your CRM](/reference/writing-agents-safely/), containment patterns for AI-driven writers
+- [Cron agents](/reference/cron-agents/), scheduling gotchas for GitHub Actions automations
+- [The one-file cron sync](/guides/one-file-cron-sync/), a complete idempotent sync with a dry-run flag
+- [Build an Attio webhook automation](/guides/attio-webhook-automation/), idempotency under webhook redelivery
+- [Attio Workflows Handbook](https://handbook.80x.ai/explanation/infinite-loops-and-safety): the Attio-specific loop guards, block by block

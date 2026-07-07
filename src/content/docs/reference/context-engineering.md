@@ -94,8 +94,8 @@ Two rules fall out:
 
 ## See also
 
-- [What is an agent?](/reference/agents/) — the loop these contexts are assembled inside
-- [Tool use](/reference/tool-use/) — the mechanism agents use to retrieve context
-- [CLI vs MCP](/reference/cli-vs-mcp/) — why tool schemas themselves are a context cost
-- [Use this site with an LLM](/start-here/for-llms/) — llms.txt, per-page Markdown URLs
-- [Meeting notes to CRM, automatically](/guides/meeting-notes-to-crm/) — the pipeline the transcript-budget example ships in
+- [What is an agent?](/reference/agents/), the loop these contexts are assembled inside
+- [Tool use](/reference/tool-use/), the mechanism agents use to retrieve context
+- [CLI vs MCP](/reference/cli-vs-mcp/), why tool schemas themselves are a context cost
+- [Use this site with an LLM](/start-here/for-llms/), llms.txt, per-page Markdown URLs
+- [Meeting notes to CRM, automatically](/guides/meeting-notes-to-crm/), the pipeline the transcript-budget example ships in

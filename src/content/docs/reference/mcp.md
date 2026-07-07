@@ -40,7 +40,7 @@ flowchart LR
 [valentine](https://github.com/80x-djh/valentine) is a pre-call prior-contact checker: it sweeps a fund's CRM and answers "has anyone here talked to this founder before?" Internally it runs a hand-rolled [agent loop](/reference/agents/) that makes multiple read-only CRM calls before submitting a verdict. Its MCP server exposes exactly **one tool**, and the inner loop stays hidden. The code below is that entire MCP surface: one tool definition and one handler that calls the engine.
 
 ```typescript
-// src/mcp.ts (excerpt) — the entire MCP surface is one tool definition
+// src/mcp.ts (excerpt), the entire MCP surface is one tool definition
 const TOOL = {
   name: "valentine_verdict",
   description:
@@ -111,7 +111,7 @@ API keys and other secrets belong in the server's environment (most hosts suppor
 
 ## See also
 
-- [Tool use](/reference/tool-use/) — the layer beneath MCP: how models call tools at all.
-- [CLI vs MCP](/reference/cli-vs-mcp/) — when a command line beats a protocol, with the token cost analysis.
-- [Read-only agents](/reference/read-only-agents/) — safety through the structural absence of write tools.
-- [valentine](/projects/valentine/) — the full project page for the example above.
+- [Tool use](/reference/tool-use/), the layer beneath MCP: how models call tools at all.
+- [CLI vs MCP](/reference/cli-vs-mcp/): when a command line beats a protocol, with the token cost analysis.
+- [Read-only agents](/reference/read-only-agents/), safety through the structural absence of write tools.
+- [valentine](/projects/valentine/), the full project page for the example above.

@@ -1,21 +1,21 @@
 # License
 
-80x Docs uses a split license — one license for prose, another for code:
+80x Docs uses a split license, one license for prose, another for code:
 
-## Prose content — CC BY-SA 4.0
+## Prose content: CC BY-SA 4.0
 
 All documentation prose (everything under `src/content/`) is licensed under
 the [Creative Commons Attribution-ShareAlike 4.0 International
 License](https://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA 4.0).
 
-You may copy, redistribute, remix, and build upon it — including
-commercially — provided you (a) attribute "80x Docs" with a link to the
+You may copy, redistribute, remix, and build upon it, including
+commercially, provided you (a) attribute "80x Docs" with a link to the
 source page, and (b) distribute derivatives under the same license.
 
-## Code — MIT
+## Code: MIT
 
-All code — the site source, build tooling, components, and code samples
-embedded inside documentation pages — is licensed under the MIT License:
+All code, the site source, build tooling, components, and code samples
+embedded inside documentation pages, is licensed under the MIT License:
 
 ```
 MIT License

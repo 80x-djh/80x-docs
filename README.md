@@ -4,7 +4,7 @@
 venture capital.**
 
 A free, open-source knowledge base: concepts, guides, playbooks, and
-runnable tools for building software inside a fund — written from shipped
+runnable tools for building software inside a fund, written from shipped
 systems and purpose-built to be read by humans and LLMs alike. Every concept
 is explained from first principles, every system is documented, every tool
 is published. You can check the working.
@@ -27,7 +27,7 @@ backlog (which repos feed which future pages) lives in
 
 ## Built for LLMs
 
-- **`/llms.txt`**, **`/llms-full.txt`**, **`/llms-small.txt`** — the corpus
+- **`/llms.txt`**, **`/llms-full.txt`**, **`/llms-small.txt`**, the corpus
   as an LLM-ingestible index / single file (generated at build).
 - **Append `.md` to any page URL** for its raw markdown source
   (`/reference/agents/` → `/reference/agents.md`), served with a canonical
@@ -36,7 +36,7 @@ backlog (which repos feed which future pages) lives in
   PerplexityBot, …). Implemented in `src/pages/robots.txt.ts`.
 - **JSON-LD** (`TechArticle` / `WebSite`) on every page via the `Head`
   override.
-- Editorial rule: every page is self-contained — it makes sense pasted alone
+- Editorial rule: every page is self-contained. It makes sense pasted alone
   into a context window.
 
 ## Stack
@@ -55,20 +55,20 @@ npm run preview   # serve the build locally
 
 ## Configuration
 
-Everything site-level is in **`site.config.mjs`** — one file:
+Everything site-level is in **`site.config.mjs`**, one file:
 
-- `url` — production domain (drives sitemap, llms.txt, canonical URLs, robots).
-- `bookCall` — the "Book a call" CTA target (the site's only monetisation
+- `url`: production domain (drives sitemap, llms.txt, canonical URLs, robots).
+- `bookCall`: the "Book a call" CTA target (the site's only monetisation
   besides email capture). Currently a mailto fallback; swap in a Cal.com /
   Calendly URL when ready.
-- `newsletterAction` — email-capture form endpoint (plain HTML POST, no JS,
+- `newsletterAction`: email-capture form endpoint (plain HTML POST, no JS,
   no CORS preflight). Works with Buttondown-style endpoints or your own.
   When `null`, the form renders as a mailto capture instead.
 - `repo`, `social`, `contactEmail`, author details.
 
 ## Deploying
 
-Static output — any host works:
+Static output, any host works:
 
 - **Vercel**: `vercel --prod` (framework auto-detected), or connect the repo.
 - **Netlify / Cloudflare Pages / GitHub Pages**: build command `npm run

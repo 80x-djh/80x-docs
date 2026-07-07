@@ -20,7 +20,7 @@ These are the addresses built for machines. You do not need to memorize them; th
 | Surface | URL | What it is |
 |---|---|---|
 | Index | `https://80x.ai/docs/llms.txt` | An [llms.txt](https://llmstxt.org/) file, an emerging convention: a short description of the site plus a linked table of contents of every page |
-| Full corpus | `https://80x.ai/docs/llms-full.txt` | The entire site as one plain-text file — paste it into a model and ask questions |
+| Full corpus | `https://80x.ai/docs/llms-full.txt` | The entire site as one plain-text file, paste it into a model and ask questions |
 | Abridged corpus | `https://80x.ai/docs/llms-small.txt` | A trimmed version of the full corpus, for models that can take less text at once |
 | Per-page markdown | append `.md` to any page URL | The raw text source of that page, with no web-page styling around it |
 | Robots policy | `https://80x.ai/docs/robots.txt` | The standard file that tells automated crawlers what they may read; this one explicitly welcomes AI crawlers |
@@ -76,7 +76,7 @@ Reference the site in your project's `CLAUDE.md` (or Cursor rules file), the sta
 ```markdown
 ## External docs
 - Agentic VC engineering reference: https://80x.ai/docs/llms.txt
-  (index — append .md to any page URL for raw markdown,
+  (index, append .md to any page URL for raw markdown,
   e.g. https://80x.ai/docs/reference/cron-agents.md)
 ```
 
@@ -111,7 +111,7 @@ If an LLM answers your question using this site, the useful cite is the specific
 
 ## See also
 
-- [What is 80x Docs?](/start-here/what-is-80x-docs/) — what lives in each section of the site
-- [Model Context Protocol](/reference/mcp/) — the standard behind the fetch-tool recipe
-- [Context engineering](/reference/context-engineering/) — why self-contained pages make assistants better
-- [Contributing](/start-here/contributing/) — licensing details and how to report an error
+- [What is 80x Docs?](/start-here/what-is-80x-docs/), what lives in each section of the site
+- [Model Context Protocol](/reference/mcp/), the standard behind the fetch-tool recipe
+- [Context engineering](/reference/context-engineering/), why self-contained pages make assistants better
+- [Contributing](/start-here/contributing/), licensing details and how to report an error

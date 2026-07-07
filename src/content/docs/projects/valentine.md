@@ -83,7 +83,7 @@ Valentine is MIT-licensed (free to use, modify, and redistribute) at [github.com
 
 ## See also
 
-- [What is an agent?](/reference/agents/) — valentine's agent loop, reproduced and annotated
-- [Read-only agents](/reference/read-only-agents/) — the safety model valentine is the grounding example for
-- [Model Context Protocol](/reference/mcp/) — how the MCP surface works and why it wraps the existing core
-- [Automation safety](/reference/automation-safety/) — step caps and guaranteed stopping, generalized
+- [What is an agent?](/reference/agents/): valentine's agent loop, reproduced and annotated
+- [Read-only agents](/reference/read-only-agents/), the safety model valentine is the grounding example for
+- [Model Context Protocol](/reference/mcp/), how the MCP surface works and why it wraps the existing core
+- [Automation safety](/reference/automation-safety/): step caps and guaranteed stopping, generalized

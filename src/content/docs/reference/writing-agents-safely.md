@@ -59,7 +59,7 @@ The single most important design decision: **the agent never writes to a human-o
 
 | Rep-owned field state | Extracted finding | Agent action |
 |---|---|---|
-| Filled by the rep | Anything | Skip — logged, field never touched |
+| Filled by the rep | Anything | Skip: logged, field never touched |
 | Empty | New signal | Write suggestion to `scout_*` |
 | Empty | Signal differs from a prior suggestion | Update the `scout_*` suggestion |
 
@@ -122,8 +122,8 @@ The classic disaster, overwriting human edits, never fired. That is the architec
 
 ## See also
 
-- [Read-only agents](/reference/read-only-agents/) — the default posture this page escalates from
-- [Automation safety](/reference/automation-safety/) — idempotency, kill switches, and dry-run gates for anything unattended
-- [CRM as database](/reference/crm-as-database/) — the ownership split that owned namespaces formalize
-- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/) — the full system this page is grounded in, step by step
-- [Attio API field guide](/reference/attio-api-field-guide/) — the API sharp edges a writer must handle
+- [Read-only agents](/reference/read-only-agents/), the default posture this page escalates from
+- [Automation safety](/reference/automation-safety/): idempotency, kill switches, and dry-run gates for anything unattended
+- [CRM as database](/reference/crm-as-database/), the ownership split that owned namespaces formalize
+- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/): the full system this page is grounded in, step by step
+- [Attio API field guide](/reference/attio-api-field-guide/), the API sharp edges a writer must handle

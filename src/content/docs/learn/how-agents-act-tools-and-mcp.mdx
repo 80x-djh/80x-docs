@@ -1,6 +1,6 @@
 ---
 title: "How agents act: tools and MCP"
-description: Tools are an agent's only way to touch the world, which is what makes it controllable — plus how a tool schema forces a fixed answer, and when MCP earns its cost.
+description: Tools are an agent's only way to touch the world, which is what makes it controllable, plus how a tool schema forces a fixed answer, and when MCP earns its cost.
 prev: false
 next: false
 ---
@@ -59,7 +59,7 @@ So the decision rule is simple. If the agent can type commands (coding agents, s
     'MCP is billed per server, not per call',
     'Every tool’s full schema is sent to the model on every request, whether or not it is called',
     'The unused tools run in the background',
-    'It does not — you only pay for the tool you call',
+    'It does not. You only pay for the tool you call',
   ]}
   answer={1}
   explain="The model needs to see every tool it might use, so all 30 schemas travel with each request. That fixed 'schema tax' is why a command line (one ~200-token shell tool) can be far cheaper for agents that hit the same system repeatedly. Ask any MCP vendor what the schema costs per request."
@@ -67,9 +67,9 @@ So the decision rule is simple. If the agent can type commands (coding agents, s
 
 ## Go deeper
 
-- [Tool use](/reference/tool-use/) — the full anatomy of a tool, and forced structured output in depth
-- [Model Context Protocol](/reference/mcp/) — MCP roles, the thin-server pattern, and how to configure one
-- [CLI vs MCP](/reference/cli-vs-mcp/) — the token math in full, with the measured benchmarks
+- [Tool use](/reference/tool-use/): the full anatomy of a tool, and forced structured output in depth
+- [Model Context Protocol](/reference/mcp/): MCP roles, the thin-server pattern, and how to configure one
+- [CLI vs MCP](/reference/cli-vs-mcp/): the token math in full, with the measured benchmarks
 
 <CourseNav
   prev={{ slug: '/learn/what-an-agent-is', title: 'What an agent actually is' }}

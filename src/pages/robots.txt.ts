@@ -1,4 +1,4 @@
-// robots.txt that explicitly WELCOMES AI crawlers — the opposite of the
+// robots.txt that explicitly WELCOMES AI crawlers, the opposite of the
 // default-deny posture. The whole point of this site is to be read by LLMs.
 import type { APIRoute } from 'astro';
 import { SITE } from '../../site.config.mjs';
@@ -22,7 +22,7 @@ const AI_CRAWLERS = [
 ];
 
 const body = [
-  '# 80x Docs — free, open source, and built to be read by machines.',
+  '# 80x Docs: free, open source, and built to be read by machines.',
   '# AI crawlers are explicitly welcome. See /llms.txt and append .md to any',
   '# page URL for its raw markdown source.',
   '',

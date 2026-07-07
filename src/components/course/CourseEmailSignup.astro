@@ -1,7 +1,7 @@
 ---
 /**
  * Email-capture card for the drip version of a course. Posts to the landing
- * site's /api/waitlist — same apex origin as the docs (served under /docs via
+ * site's /api/waitlist, same apex origin as the docs (served under /docs via
  * the rewrite), so /api/waitlist resolves to the landing project. The `source`
  * decides the journey there; "ai-spend-course" sends Day 1 inline and enrols
  * days 2–5 of the five-day drip.
@@ -19,7 +19,7 @@ interface Props {
 const {
   source = 'ai-spend-course',
   title = 'Get the 5-day email course',
-  blurb = 'One short lesson each morning for five days — the whole course, in your inbox. No spam; unsubscribe in a click, anytime.',
+  blurb = 'One short lesson each morning for five days: the whole course, in your inbox. No spam; unsubscribe in a click, anytime.',
 } = Astro.props;
 ---
 
@@ -73,7 +73,7 @@ const {
         if (status) {
           status.hidden = false;
           status.textContent =
-            "Check your inbox — Day 1 is on its way, and the next four land one a morning. Reply to any of them; they come to my real inbox.";
+            "Check your inbox: Day 1 is on its way, and the next four land one a morning. Reply to any of them; they come to my real inbox.";
         }
       } catch {
         if (btn) {

@@ -46,7 +46,7 @@ Here is the whole pipeline in one picture:
         Slack / CRM / Notion
 ```
 
-## Step 1 — read notes, and give each one a content hash
+## Step 1: read notes, and give each one a content hash
 
 The reader pulls new notes and normalizes each into a simple shape: `{ id, title, attendees, summaryMarkdown, transcript, contentHash }`. A content hash is a fingerprint computed from the note's text: same text, same fingerprint; any edit, a new one.
 
@@ -54,7 +54,7 @@ The hash matters more than it looks. For "never send twice" purposes, "the same 
 
 After this step, every note in the pipeline carries a fingerprint that changes only when its content does.
 
-## Step 2 — extract with a forced tool call into a typed pour
+## Step 2: extract with a forced tool call into a typed pour
 
 Do not ask the model for JSON in prose and hope. Instead, use [forced tool use](/glossary/#forced-tool-use): define one "tool" whose input schema (a formal description of allowed fields and types) *is* your output type, and tell the API the model must call that tool and nothing else. The model's only possible response is data in your shape.
 
@@ -79,7 +79,7 @@ Three design choices in the schema do quiet safety work. The schema only asks fo
 
 Forcing the tool guarantees shape, not sense, so the output still passes through a validation check (a Zod parse, a library that rejects anything malformed) before it can touch a destination. The full pattern, sharp edges included, is in [tool use](/reference/tool-use/).
 
-## Step 3 — cap the size, and the cost, in code
+## Step 3: cap the size, and the cost, in code
 
 The note-taking app's summary already distills the meeting, so it leads the prompt; the raw transcript comes along only as bounded supporting detail. The code below sets that bound:
 
@@ -97,7 +97,7 @@ Every extraction is a paid API call. The shipped system estimates each call's do
 
 This is [context engineering](/reference/context-engineering/) enforced in code rather than by hoping inputs stay small. After this step, no single note can produce a surprise bill.
 
-## Step 4 — one render path, so the preview is the message
+## Step 4: one render path, so the preview is the message
 
 The core promise to the user: *the preview is the message*. Not a paraphrase, not "roughly this", but byte-for-byte what the destination will receive. Two mechanisms uphold it.
 
@@ -117,13 +117,13 @@ With the cache, approving a previewed pour sends the *same* pour object the prev
 
 After this step, comparing a delivered message with its preview shows them identical, character for character.
 
-## Step 5 — remove private content before anything leaves
+## Step 5: remove private content before anything leaves
 
 Each flavour carries redaction rules: named fields to drop before sending, such as keeping internal `risks` out of a pour that goes to an external CRM. Redaction runs through one shared function applied identically to preview and send, so what you see with a field removed is exactly what goes out with a field removed. Order matters: the removal happens before the connector is invoked, so redacted content never crosses the network at all. It is not "sent, then hidden".
 
 After this step, a redacted field is absent from both the preview and the delivered message.
 
-## Step 6 — never pour twice, and gate the first send
+## Step 6: never pour twice, and gate the first send
 
 Two checks stand between an approved plan and a destination, both enforced in the engine rather than the interface. The code below applies them in order:
 
@@ -171,7 +171,7 @@ Because both checks live in the engine, every interface inherits them. cereal-mi
 
 ## See also
 
-- [Tool use](/reference/tool-use/) — forced tool calls as schema-checked structured output.
-- [Context engineering](/reference/context-engineering/) — transcript budgets and cost ceilings, generalized.
-- [Model Context Protocol](/reference/mcp/) — the thin-adapter pattern that lets every interface inherit the engine's guarantees.
-- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/) — the same extract-with-citations discipline writing CRM fields.
+- [Tool use](/reference/tool-use/), forced tool calls as schema-checked structured output.
+- [Context engineering](/reference/context-engineering/): transcript budgets and cost ceilings, generalized.
+- [Model Context Protocol](/reference/mcp/), the thin-adapter pattern that lets every interface inherit the engine's guarantees.
+- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/), the same extract-with-citations discipline writing CRM fields.

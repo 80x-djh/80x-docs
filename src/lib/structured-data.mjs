@@ -1,7 +1,7 @@
 // Builds a schema.org @graph for a docs page. One JSON-LD block per page so
 // search engines AND answer engines read every page as typed data, not just
-// prose. The article node is typed by section — HowTo for step-structured
-// guides, APIReference for the API field guide — and section-specific nodes are
+// prose. The article node is typed by section. HowTo for step-structured
+// guides, APIReference for the API field guide, and section-specific nodes are
 // added alongside it: a BreadcrumbList everywhere, a SoftwareApplication for the
 // shipped CLI tools, a DefinedTermSet for the glossary, and a FAQPage whenever a
 // page opts in with `faq` frontmatter.
@@ -21,8 +21,8 @@ const SECTION_LABELS = {
 };
 
 // The entries under projects/ that are actually installable tools. The rest of
-// the section is the studio page, a handbook, and a curated link list — not
-// applications — so we do not emit SoftwareApplication for those.
+// the section is the studio page, a handbook, and a curated link list, not
+// applications, so we do not emit SoftwareApplication for those.
 const SOFTWARE_PROJECTS = new Set(['projects/valentine', 'projects/attio-cli']);
 
 // Pages whose article node is an APIReference rather than a generic TechArticle.
@@ -190,7 +190,7 @@ export function buildGraph({ entry, body, url, SITE }) {
     });
   }
 
-  // DefinedTermSet for the glossary — every term as typed data.
+  // DefinedTermSet for the glossary, every term as typed data.
   if (id === 'glossary' && body) {
     const terms = glossaryTerms(body);
     if (terms.length) {

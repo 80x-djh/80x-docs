@@ -79,7 +79,7 @@ If your migration cannot produce the first two tables, it is not finished, no ma
 
 ## See also
 
-- [Attio API field guide](/reference/attio-api-field-guide/) — field types, dropdown and status behavior, and the API traps that shape the conversion rules
-- [The CRM as your fund's database](/reference/crm-as-database/) — why this data deserves database-grade care
-- [Automation safety](/reference/automation-safety/) — dry runs, backups, and idempotency, the same rails every migration script needs
-- [Pipeline hygiene](/playbooks/pipeline-hygiene/) — the continuous enforcement that keeps a clean migration clean
+- [Attio API field guide](/reference/attio-api-field-guide/): field types, dropdown and status behavior, and the API traps that shape the conversion rules
+- [The CRM as your fund's database](/reference/crm-as-database/), why this data deserves database-grade care
+- [Automation safety](/reference/automation-safety/): dry runs, backups, and idempotency, the same rails every migration script needs
+- [Pipeline hygiene](/playbooks/pipeline-hygiene/), the continuous enforcement that keeps a clean migration clean

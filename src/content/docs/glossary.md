@@ -195,6 +195,6 @@ A message one system automatically sends to another the moment something happens
 
 ## See also
 
-- [What is 80x Docs?](/start-here/what-is-80x-docs/) — the site's sections and where each term gets used
-- [What is an agent?](/reference/agents/) — the first reference page, where much of this vocabulary starts
-- [Use this site with an LLM](/start-here/for-llms/) — hand this glossary (or any page) to your AI assistant
+- [What is 80x Docs?](/start-here/what-is-80x-docs/), the site's sections and where each term gets used
+- [What is an agent?](/reference/agents/): the first reference page, where much of this vocabulary starts
+- [Use this site with an LLM](/start-here/for-llms/), hand this glossary (or any page) to your AI assistant

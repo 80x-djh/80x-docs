@@ -36,7 +36,7 @@ The catch: the key holding the actual value is different for nearly every field 
 | `attribute_type` | Where the value actually is |
 |---|---|
 | `text`, `number`, `checkbox`, `date`, `timestamp`, `rating` | `value` |
-| `currency` | `currency_value` — **not** `value` |
+| `currency` | `currency_value`, **not** `value` |
 | `select` | `option.title` (a full option object, not a string) |
 | `status` | `status.title` (same) |
 | `domain` | `domain` (with `root_domain` alongside) |
@@ -112,7 +112,7 @@ Attio offers four ways to write a record, distinguished by their request verbs. 
 |---|---|---|
 | `POST /objects/{o}/records` | Create, always | n/a |
 | `PATCH /objects/{o}/records/{id}` | Update by ID | **Appends** values, keeps existing |
-| `PUT /objects/{o}/records/{id}` | Update by ID | **Overwrites** — removes values you omit |
+| `PUT /objects/{o}/records/{id}` | Update by ID | **Overwrites**, removes values you omit |
 | `PUT /objects/{o}/records?matching_attribute={slug}` | **Assert** (upsert): update the record whose `{slug}` matches, else create | Appends, like assert generally |
 
 The assert endpoint is the workhorse for safe re-runs: match on a unique field (an email, a `stripe_customer_id`, an external ID) and re-running a sync updates the same records instead of duplicating them. That property is called idempotency, and it is the core requirement of [automation safety](/reference/automation-safety/). The same PATCH-appends versus PUT-overwrites split applies to list entries at `/lists/{l}/entries/{id}`.
@@ -163,8 +163,8 @@ The failure this enables at scale: a VC fund's Affinity migration was partially 
 
 ## See also
 
-- [CRM as database](/reference/crm-as-database/) — the architecture these endpoints serve: derived fields, reconcile loops, dashboards
-- [attio-cli](/projects/attio-cli/) — the open-source CLI whose source grounds this page ([GitHub](https://github.com/80x-djh/attio-cli))
-- [The one-file cron sync](/guides/one-file-cron-sync/) — a complete production job that handles the envelope, retries, and idempotency
-- [Automation safety](/reference/automation-safety/) — what to check before any of these write calls runs unattended
-- [Agents that write to your CRM](/reference/writing-agents-safely/) — containment patterns for AI writers on this API
+- [CRM as database](/reference/crm-as-database/), the architecture these endpoints serve: derived fields, reconcile loops, dashboards
+- [attio-cli](/projects/attio-cli/), the open-source CLI whose source grounds this page ([GitHub](https://github.com/80x-djh/attio-cli))
+- [The one-file cron sync](/guides/one-file-cron-sync/): a complete production job that handles the envelope, retries, and idempotency
+- [Automation safety](/reference/automation-safety/), what to check before any of these write calls runs unattended
+- [Agents that write to your CRM](/reference/writing-agents-safely/), containment patterns for AI writers on this API

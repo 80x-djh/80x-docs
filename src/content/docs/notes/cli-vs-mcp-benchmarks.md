@@ -112,7 +112,7 @@ MCP is still the right choice in some situations: chat tools that cannot run com
 
 ## See also
 
-- [CLI vs MCP: when agents should get a command line](/reference/cli-vs-mcp/) — the decision framework these numbers support
-- [attio-cli](/projects/attio-cli/) — the CLI under test ([source and full report on GitHub](https://github.com/80x-djh/attio-cli))
-- [Model Context Protocol](/reference/mcp/) — what MCP is and when it wins
-- [Spec-first agentic engineering](/notes/spec-first-agentic-engineering/) — how the CLI itself was built
+- [CLI vs MCP: when agents should get a command line](/reference/cli-vs-mcp/), the decision framework these numbers support
+- [attio-cli](/projects/attio-cli/), the CLI under test ([source and full report on GitHub](https://github.com/80x-djh/attio-cli))
+- [Model Context Protocol](/reference/mcp/), what MCP is and when it wins
+- [Spec-first agentic engineering](/notes/spec-first-agentic-engineering/), how the CLI itself was built

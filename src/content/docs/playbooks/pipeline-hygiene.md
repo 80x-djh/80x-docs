@@ -64,7 +64,7 @@ Watch the shape of the trend as much as the level. One-shot cleanups produce a s
 
 ## See also
 
-- [Automation safety](/reference/automation-safety/) — dry runs, backups, idempotency, and kill switches for anything unattended
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the smallest complete enforcement job
-- [The CRM as your fund's database](/reference/crm-as-database/) — why hygiene is a database-administration problem
-- [CRM migration](/playbooks/crm-migration/) — how the worst hygiene debt gets created in a single afternoon
+- [Automation safety](/reference/automation-safety/): dry runs, backups, idempotency, and kill switches for anything unattended
+- [The one-file cron sync](/guides/one-file-cron-sync/), the smallest complete enforcement job
+- [The CRM as your fund's database](/reference/crm-as-database/), why hygiene is a database-administration problem
+- [CRM migration](/playbooks/crm-migration/), how the worst hygiene debt gets created in a single afternoon

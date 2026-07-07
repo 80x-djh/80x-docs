@@ -53,7 +53,7 @@ Here is the whole system in one picture. The left path is fast; the right path i
            human edits are never clobbered)
 ```
 
-## Step 1 — register the webhook, filtered to your list
+## Step 1: register the webhook, filtered to your list
 
 You create an Attio webhook through the API: one request to `POST /v2/webhooks` naming the web address to deliver to and which events you want. Subscribe to `list-entry.updated` and filter to the one list you care about, so Attio never sends events you would only throw away.
 
@@ -77,7 +77,7 @@ The response includes a **secret**, a private code Attio will use to prove later
 
 You should now see the webhook listed when you query `GET /v2/webhooks`, with your address and subscription on it.
 
-## Step 2 — verify the signature before trusting anything
+## Step 2: verify the signature before trusting anything
 
 Your receiving address is public, and it leads to a program that writes to your CRM. Anyone who discovers the address can send it fake messages. Attio prevents this by signing each delivery: it computes an HMAC (a cryptographic fingerprint made with the shared secret) of the exact message bytes and sends it in the `x-attio-signature` header. Your service recomputes the fingerprint and rejects anything that does not match.
 
@@ -97,7 +97,7 @@ function verifySignature(req) {
 
 After this step, a genuine delivery passes and anything else is rejected with a 401 ("not authorized") response. Log the rejections: a burst of bad signatures means either the secret was rotated or someone is probing your address.
 
-## Step 3 — fetch fresh state, then fill only if empty
+## Step 3: fetch fresh state, then fill only if empty
 
 The event tells you *that* a deal changed, not reliably what it looks like now. By the time you process a delivery (or a redelivery from an hour ago), the deal may have changed again. So the handler treats the event as a doorbell: it re-fetches the deal from the API, reads the current stage, maps it to a date field, and writes **only when that field is empty**.
 
@@ -128,7 +128,7 @@ That single "is it empty?" check carries three guarantees at once:
 
 Fill-only-if-empty is the webhook counterpart of the compare-before-write habit in [automation safety](/reference/automation-safety/).
 
-## Step 4 — acknowledge fast, process after
+## Step 4: acknowledge fast, process after
 
 Attio expects a quick "received" response (a 200 status) to each delivery. If your program is slow to respond, Attio assumes failure and resends, which multiplies your load for no benefit. So the handler answers first and does the work after:
 
@@ -144,7 +144,7 @@ app.post("/webhook", async (req, res) => {
 
 After this step, deliveries are acknowledged in milliseconds and processed right after. This ordering is safe only because step 3 made processing repeatable: if the program dies after acknowledging but before writing, either a redelivery or the backup job in step 5 picks up the loss. Add a `GET /health` route while you are here (a simple address that answers "I am alive"); you will use it to monitor the failure mode below.
 
-## Step 5 — add the scheduled backup, because the webhook will miss events
+## Step 5: add the scheduled backup, because the webhook will miss events
 
 This step separates a demo from a system, and it exists because of a production failure worth retelling. The shipped webhook ran fine for a while. Then its hosting went away, and nothing complained: deals kept moving through stages, no dates were stamped, and because the funnel reports keyed off those dates, deals silently vanished from the funnel. No error anywhere. Just numbers that were quietly wrong, until a human asked why the funnel counted 81 deals when the list held 134.
 
@@ -192,7 +192,7 @@ With the backup in place, the roles are clear: the webhook is the speed, the sch
 
 ## See also
 
-- [Automation safety](/reference/automation-safety/) — idempotency, loops, and blast radius; redelivery makes it mandatory here.
-- [CRM as database](/reference/crm-as-database/) — why reconciling from status history beats chasing events for correctness.
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the companion scheduled-job pattern, built end to end.
-- [Attio API field guide](/reference/attio-api-field-guide/) — status-value shapes and the `show_historic` parameter.
+- [Automation safety](/reference/automation-safety/): idempotency, loops, and blast radius; redelivery makes it mandatory here.
+- [CRM as database](/reference/crm-as-database/), why reconciling from status history beats chasing events for correctness.
+- [The one-file cron sync](/guides/one-file-cron-sync/): the companion scheduled-job pattern, built end to end.
+- [Attio API field guide](/reference/attio-api-field-guide/), status-value shapes and the `show_historic` parameter.

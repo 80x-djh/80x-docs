@@ -1,6 +1,6 @@
 ---
 title: "Your first system, end to end"
-description: "The capstone of the 80x method — the one-file cron sync ties all five patterns together in about 190 lines: a script that keeps one CRM field correct forever, safely, on a free schedule."
+description: "The capstone of the 80x method, the one-file cron sync ties all five patterns together in about 190 lines: a script that keeps one CRM field correct forever, safely, on a free schedule."
 prev: false
 next: false
 ---
@@ -55,8 +55,8 @@ This is why it is the capstone. One ~190-line file uses all five patterns of the
 
 The test of a safe sync is simple. In order:
 
-1. `DRY_RUN=1 node sync.mjs` — a practice run. Every planned update should be explainable.
-2. `node sync.mjs` — the real run. Note the `updated=` count.
+1. `DRY_RUN=1 node sync.mjs`, a practice run. Every planned update should be explainable.
+2. `node sync.mjs`, the real run. Note the `updated=` count.
 3. `node sync.mjs` again, immediately. This run **must** report `planned updates: 0`. Every record now matches its desired value, so the run reads everything and writes nothing.
 
 If the second live run keeps writing, your comparison in step 3 is broken, almost always a formatting mismatch (a trailing slash, upper versus lower case). Fix the comparison, not the symptom. That third run is [pattern five](/learn/spec-first-and-verify/) in one command, and passing it means your sync now runs itself.
@@ -77,20 +77,20 @@ You can now read any "AI for your fund" pitch and place it inside these patterns
   question="On the third run of a correct one-file cron sync, immediately after a successful live run, what should the summary show?"
   options={[
     'The same number of updates as the second run',
-    'planned updates: 0 and updated=0 — every record already matches its desired value',
+    'planned updates: 0 and updated=0, every record already matches its desired value',
     'An error, because you cannot run it twice',
     'Twice as many updates as the first run',
   ]}
   answer={1}
-  explain="A correct derived-field sync is idempotent: after one live run, every value already matches, so the next run reads everything and writes nothing. A second run that keeps writing means the compare step has a formatting mismatch — the bug the 'run it twice' check is designed to catch."
+  explain="A correct derived-field sync is idempotent: after one live run, every value already matches, so the next run reads everything and writes nothing. A second run that keeps writing means the compare step has a formatting mismatch, the bug the 'run it twice' check is designed to catch."
 />
 
 ## Go deeper
 
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the full guide, every code sample, and the failure modes
-- [Learn the 80x Method](/learn/) — back to the course overview and the full chapter list
-- [Guides](/guides/) — larger builds from the same five patterns, step by step
-- [Reference](/reference/) — the concept-by-concept library behind the whole method
+- [The one-file cron sync](/guides/one-file-cron-sync/): the full guide, every code sample, and the failure modes
+- [Learn the 80x Method](/learn/), back to the course overview and the full chapter list
+- [Guides](/guides/): larger builds from the same five patterns, step by step
+- [Reference](/reference/), the concept-by-concept library behind the whole method
 
 <CourseNav
   prev={{ slug: '/learn/spec-first-and-verify', title: 'Spec-first, and verify everything' }}

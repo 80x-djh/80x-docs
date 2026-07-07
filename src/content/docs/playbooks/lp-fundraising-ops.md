@@ -55,7 +55,7 @@ Set the staleness threshold before the raise gets busy, and measure the baseline
 
 ## See also
 
-- [The CRM as your fund's database](/reference/crm-as-database/) — why the raise belongs in the same system as everything else
-- [Attio API field guide](/reference/attio-api-field-guide/) — the API traps hit while building this exact pipeline
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the template for the last-contact stamp and the reminder job
-- [Pipeline hygiene](/playbooks/pipeline-hygiene/) — the same follow-up discipline, applied to deals instead of LPs
+- [The CRM as your fund's database](/reference/crm-as-database/), why the raise belongs in the same system as everything else
+- [Attio API field guide](/reference/attio-api-field-guide/), the API traps hit while building this exact pipeline
+- [The one-file cron sync](/guides/one-file-cron-sync/), the template for the last-contact stamp and the reminder job
+- [Pipeline hygiene](/playbooks/pipeline-hygiene/): the same follow-up discipline, applied to deals instead of LPs

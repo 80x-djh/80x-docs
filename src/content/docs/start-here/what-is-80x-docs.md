@@ -55,6 +55,6 @@ Exactly one thing is paid: **a call**. If you want these systems built for your 
 
 ## See also
 
-- [The open standard for agentic engineering in VC](/start-here/manifesto/) — why the site exists
-- [What is an agent?](/reference/agents/) — the first reference page
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the smallest complete build on the site
+- [The open standard for agentic engineering in VC](/start-here/manifesto/), why the site exists
+- [What is an agent?](/reference/agents/), the first reference page
+- [The one-file cron sync](/guides/one-file-cron-sync/), the smallest complete build on the site

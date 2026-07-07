@@ -21,7 +21,7 @@ If you are new to the concepts these tools implement, start with the [reference 
 
 ## See also
 
-- [Reference](/reference/) — the concepts behind these tools, defined in plain English
-- [What is an agent?](/reference/agents/) — valentine's decision loop, explained line by line
-- [Read-only agents](/reference/read-only-agents/) — why a tool that cannot write is safe to try on day one
-- [CLI vs MCP](/reference/cli-vs-mcp/) — how to choose an interface for your AI tools
+- [Reference](/reference/): the concepts behind these tools, defined in plain English
+- [What is an agent?](/reference/agents/): valentine's decision loop, explained line by line
+- [Read-only agents](/reference/read-only-agents/), why a tool that cannot write is safe to try on day one
+- [CLI vs MCP](/reference/cli-vs-mcp/), how to choose an interface for your AI tools

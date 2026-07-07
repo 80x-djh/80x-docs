@@ -36,7 +36,7 @@ Notice that most of this definition is written for the model to read, not for a 
 | Part | What it does | Design pressure |
 |---|---|---|
 | `name` | Identifier the model emits in its `tool_use` block | Verb-first, unambiguous among siblings |
-| `description` | Tells the model *when* to call it, not just what it does | This is prompt engineering — "Use this first to find prior contact" is an instruction |
+| `description` | Tells the model *when* to call it, not just what it does | This is prompt engineering, "Use this first to find prior contact" is an instruction |
 | `input_schema` | JSON Schema constraining the arguments | Enums over free strings; per-property descriptions; only fields you actually need |
 
 The description is the piece most people underinvest in. The model reads it the same way it reads its standing instructions, so sequencing hints ("call on a promising match from `search_crm`"), examples ("e.g. acme.com"), and frequency rules ("call this EXACTLY ONCE") all belong there.
@@ -153,8 +153,8 @@ Tool definitions are sent with every request, called or not. cereal-milk budgets
 
 ## See also
 
-- [What is an agent?](/reference/agents/) — the loop these tools plug into
-- [CLI vs MCP](/reference/cli-vs-mcp/) — when a command line beats a toolset, and the token math
-- [Model Context Protocol](/reference/mcp/) — sharing tool definitions across hosts
-- [Meeting notes to CRM, automatically](/guides/meeting-notes-to-crm/) — the forced-extraction pattern end to end
-- [valentine](/projects/valentine/) — the terminal-tool pattern shipped as an open-source CLI
+- [What is an agent?](/reference/agents/), the loop these tools plug into
+- [CLI vs MCP](/reference/cli-vs-mcp/): when a command line beats a toolset, and the token math
+- [Model Context Protocol](/reference/mcp/), sharing tool definitions across hosts
+- [Meeting notes to CRM, automatically](/guides/meeting-notes-to-crm/), the forced-extraction pattern end to end
+- [valentine](/projects/valentine/), the terminal-tool pattern shipped as an open-source CLI

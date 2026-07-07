@@ -1,9 +1,9 @@
 /* ============================================================================
-   80x Docs — Vercel/Geist design system over Starlight (nextjs.org/docs
+   80x Docs. Vercel/Geist design system over Starlight (nextjs.org/docs
    replica). Dark default: pure #000, hairline borders, white→gray ink ramp,
    Geist blue for links and active states, white pill CTAs. Light theme is a
    clean mirror. Type: Geist Sans for everything, Geist Mono for code and
-   labels — both self-hosted variable fonts (no external requests).
+   labels, both self-hosted variable fonts (no external requests).
    Spec: ~/80x-landing/docs/design/VERCEL-GEIST-SPEC.md (§2, §3, §7).
    ========================================================================== */
 
@@ -23,7 +23,7 @@
 }
 
 /* --- Color system ----------------------------------------------------------
-   Dark theme (root, default): Geist dark — pure black, #ededed ink,
+   Dark theme (root, default): Geist dark, pure black, #ededed ink,
    #1f1f1f/#333 hairlines, blue #52a8ff links/active. Light theme: the §2
    mirror. Mapped through Starlight's --sl-color-* custom properties; the
    --x-* layer is kept for site + course components. ------------------------ */
@@ -153,7 +153,7 @@ h1[data-page-title] {
   color: var(--x-ink);
 }
 
-/* Links: Geist blue, quiet — underline appears on hover only. The
+/* Links: Geist blue, quiet, underline appears on hover only. The
    :not(.not-content *) guard mirrors Starlight's own base rule so embedded
    components (the /docs landing, email capture, …) keep their own link colors. */
 .sl-markdown-content a:not(:where(.not-content *)) {
@@ -288,7 +288,7 @@ header.header {
   color: var(--x-ink);
 }
 
-/* Studio nav — the same primary links as the 80x.ai header, left-anchored.
+/* Studio nav, the same primary links as the 80x.ai header, left-anchored.
    Hidden below md; the wordmark stays as the always-visible route to 80x.ai. */
 .studio-nav {
   display: flex;
@@ -370,7 +370,7 @@ button[data-open-modal] kbd kbd {
   color: var(--sl-color-gray-2);
 }
 
-/* --- Buttons: pills — white-on-black (dark) / black-on-white (light) ---------- */
+/* --- Buttons: pills, white-on-black (dark) / black-on-white (light) ---------- */
 .sl-link-button {
   border-radius: var(--x-radius-pill);
   font-weight: 500;
@@ -451,7 +451,7 @@ button[data-open-modal] kbd kbd {
   color: var(--sl-color-gray-2);
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
-  /* Sit first in the right group — [theme] [Contact] [Book a call], like 80x.ai. */
+  /* Sit first in the right group: [theme] [Contact] [Book a call], like 80x.ai. */
   order: -1;
 }
 .x-theme-toggle:hover {
@@ -497,11 +497,11 @@ button[data-open-modal] kbd kbd {
   border-color: var(--sl-color-gray-3);
 }
 /* Mobile header (<50rem). Starlight hides the header's .right-group (social
-   icons + theme select — and with them our CTA) below md. Content pages
+   icons + theme select, and with them our CTA) below md. Content pages
    recover all of it inside the hamburger menu (MobileMenuFooter re-renders
    SocialIcons and the ThemeSelect), so the CTA pill just stays visible there.
    Splash pages (the docs home) have no sidebar and therefore no hamburger at
-   all, so restore the right-group in the header itself — compacted to fit a
+   all, so restore the right-group in the header itself, compacted to fit a
    390px viewport: tighter gaps, no divider, icon links hidden (they remain
    reachable via the hamburger on every other page). */
 @media (max-width: 49.99rem) {
@@ -625,7 +625,7 @@ button[data-open-modal] kbd kbd {
 }
 /* No fixed/min widths at small viewports: the hero hugs the viewport with a
    wrapping action row, and wide tables scroll inside .sl-markdown-content
-   instead of widening the page — nothing may exceed a 390px viewport. */
+   instead of widening the page, nothing may exceed a 390px viewport. */
 @media (max-width: 48rem) {
   [data-has-hero] .hero,
   [data-has-hero] .hero .stack,
@@ -649,7 +649,7 @@ button[data-open-modal] kbd kbd {
 }
 
 /* ============================================================================
-   Course ("The 80x Method") — a guided, linear learning path in the style of
+   Course ("The 80x Method"): a guided, linear learning path in the style of
    nextjs.org/learn, built additively over the reference library. Same Geist
    ink / hairline tokens as the rest of the site; mono labels, blue progress.
    Components: src/components/course/*.astro.
@@ -923,7 +923,7 @@ a.co-link:hover .co-title {
 }
 
 /* ============================================================================
-   Branded diagrams — ```mermaid fences pre-rendered to SVG by
+   Branded diagrams: ```mermaid fences pre-rendered to SVG by
    scripts/render-diagrams.mjs and inlined by scripts/remark-diagrams.mjs.
    The <figure> is a hairline card with a mac-style top bar + Copy button; the
    .mm class on the <svg> lets us re-colour Mermaid's baked-in palette with our

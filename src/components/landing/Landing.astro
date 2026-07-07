@@ -2,7 +2,7 @@
 // Full-width, designed landing for the /docs home. Replaces the old splash
 // hero + three markdown text-walls (bulleted "Choose your path", a plain table,
 // and two trust paragraphs) with a centered hero, the five-pattern method band,
-// and card grids — all in the existing Geist ink / hairline design language.
+// and card grids, all in the existing Geist ink / hairline design language.
 //
 // This component base-prefixes its own links (the remark plugin that adds /docs
 // to authored markdown does not see component markup), so every href goes
@@ -35,7 +35,7 @@ const patterns = [
   { n: '05', title: 'Spec-first, then verify', desc: 'Say what it should do, then check it did.', href: '/learn/spec-first-and-verify/' },
 ];
 
-// "Choose your path" — one card per fund outcome.
+// "Choose your path", one card per fund outcome.
 const paths = [
   {
     title: 'Keep your pipeline clean',
@@ -84,7 +84,7 @@ const paths = [
   },
 ];
 
-// "What's in the library" — the map of the site.
+// "What's in the library", the map of the site.
 const library = [
   { title: 'Start here', desc: 'What the site is, why it exists, and how to use it.', href: '/start-here/what-is-80x-docs/', meta: 'Overview' },
   { title: 'Learn', desc: 'Two guided courses: the 80x method, and cutting your fund AI spend.', href: '/learn/', meta: '2 courses' },
@@ -286,7 +286,7 @@ const trust = [
     gap: 0.75rem;
   }
 
-  /* Pills — reuse the site's white-on-black / black-on-white button language. */
+  /* Pills, reuse the site's white-on-black / black-on-white button language. */
   .x-btn {
     display: inline-flex;
     align-items: center;

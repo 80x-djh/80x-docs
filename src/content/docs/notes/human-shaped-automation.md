@@ -51,7 +51,7 @@ The second lesson is that autonomy is earned task by task. The cleanup tool earn
 
 ## See also
 
-- [Writing agents safely](/reference/writing-agents-safely/) — suggestion fields, promotion gates, and other write-path patterns
-- [Automation safety](/reference/automation-safety/) — dry runs, kill switches, backups, and idempotency for anything unattended
-- [Read-only agents](/reference/read-only-agents/) — the strongest checkpoint of all: no write tools
-- [Cron agents](/reference/cron-agents/) — agents that run on a schedule, the shape two of these systems take
+- [Writing agents safely](/reference/writing-agents-safely/): suggestion fields, promotion gates, and other write-path patterns
+- [Automation safety](/reference/automation-safety/): dry runs, kill switches, backups, and idempotency for anything unattended
+- [Read-only agents](/reference/read-only-agents/), the strongest checkpoint of all: no write tools
+- [Cron agents](/reference/cron-agents/): agents that run on a schedule, the shape two of these systems take

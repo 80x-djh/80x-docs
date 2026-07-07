@@ -1,7 +1,7 @@
 {
   "name": "80x-docs",
   "version": "0.1.0",
-  "description": "80x Docs — the open reference for agentic engineering in venture capital",
+  "description": "80x Docs, the open reference for agentic engineering in venture capital",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

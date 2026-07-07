@@ -24,7 +24,7 @@ A team-facing bot multiplies both value and risk: every rep can now trigger it, 
 
 One nuance to keep honest about, because your security review will rightly raise it: "read-only" means read-only *against the system of record*. The bot necessarily holds permission to post in Slack; it has to send its replies. The boundary that matters is the one around the data you cannot regenerate. The CRM is ten years of relationship history with no reset button; a Slack message is a message. Scope each credential to its side of that line: a read-only CRM token, and the minimum Slack permissions.
 
-## Step 1 — define the tool list, because the tool list is the safety boundary
+## Step 1: define the tool list, because the tool list is the safety boundary
 
 Everything the bot can do is listed in the tools you hand it (a "tool" is one named action the AI is allowed to take, like "fetch this deal's fields"). So this step *is* the security design. The shipped bot's CRM tools are reads only: find a deal by name, fetch its fields, page through its notes. There is no `update_record`, no `create_task`, no `send_email`. Not disabled, not hidden behind a setting: nonexistent. Concretely, the code module the bot imports contains no function that issues a write request (`POST`, `PUT`, `PATCH`, or `DELETE`) against the CRM.
 
@@ -32,7 +32,7 @@ Enforce it where it can be checked. Put the read functions behind one small inte
 
 When this step is done, you can point at the one file that proves the bot cannot write.
 
-## Step 2 — build the answer path: find, read, summarize with citations
+## Step 2, build the answer path: find, read, summarize with citations
 
 The interaction shape is fixed: mention, find the deal, read its data, reply with a cited answer in the thread.
 
@@ -43,7 +43,7 @@ The interaction shape is fixed: mention, find the deal, read its data, reply wit
 
 When this step works, asking about a deal you know returns a summary you can verify line by line.
 
-## Step 3 — make the refusals explicit
+## Step 3: make the refusals explicit
 
 A read-only bot in a team channel will be asked to write. "Update the close date to March", "mark Acme as champion-confirmed", "remind me Friday". The dangerous responses are the polite ones: a cheerful "Done" or "I'll take care of it" from a bot that structurally cannot, which quietly corrupts the team's picture of what got recorded.
 
@@ -51,7 +51,7 @@ So the refusal is part of the product. Instruct the answering model that it is r
 
 Note what the instruction is doing. It is not the safety mechanism (the absent tools are); it is honesty about the mechanism.
 
-## Step 4 — set up the Slack app with minimal permissions
+## Step 4: set up the Slack app with minimal permissions
 
 Create the Slack app and grant only what the interaction needs. Slack permissions are called scopes: `app_mentions:read` (hear mentions), `chat:write` (reply), and, only if you want the bot to read threads it did not start, the history scope for the channel types you allow.
 
@@ -59,7 +59,7 @@ Use **Socket Mode**, Slack's option where the bot opens an outbound connection t
 
 You should now see the bot appear in your workspace and respond to being added to a channel.
 
-## Step 5 — deploy it as a small always-on service
+## Step 5: deploy it as a small always-on service
 
 The bot is one long-running program with no memory of its own: every answer is computed fresh from the CRM, so there is no database to maintain and restarts are free. That makes deployment deliberately boring. On a Linux machine, a systemd unit (the standard way to tell Linux "keep this program running and restart it if it dies"); on a Mac that stays awake, the equivalent launchd agent; or one small container on a platform like Fly.io. The shipped system runs as exactly that, a single small always-on container, and ships sample systemd and launchd files for self-hosters.
 
@@ -88,7 +88,7 @@ Two operational notes. First, having no memory means the process is also *dispos
 
 ## See also
 
-- [Read-only agents](/reference/read-only-agents/) — the structural-safety argument this bot deploys.
-- [What is an agent?](/reference/agents/) — the loop underneath the answer path.
-- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/) — the writing sibling over the same engine.
-- [Agents that write to your CRM](/reference/writing-agents-safely/) — the escalation path when read-only stops being enough.
+- [Read-only agents](/reference/read-only-agents/), the structural-safety argument this bot deploys.
+- [What is an agent?](/reference/agents/), the loop underneath the answer path.
+- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/), the writing sibling over the same engine.
+- [Agents that write to your CRM](/reference/writing-agents-safely/), the escalation path when read-only stops being enough.

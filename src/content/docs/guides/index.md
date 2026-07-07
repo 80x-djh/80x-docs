@@ -19,14 +19,14 @@ Start with **[the one-file cron sync](/guides/one-file-cron-sync/)**. It is the 
 
 After the first guide, take these roughly in order of ambition. Each one is a complete lesson on its own, so you can also jump straight to the problem you have.
 
-1. **[The one-file cron sync](/guides/one-file-cron-sync/)** — one script keeps one CRM field correct, forever, on a daily schedule. The foundation for everything else here. Start with this.
-2. **[Sync Stripe revenue into your CRM daily](/guides/stripe-to-crm-sync/)** — pull what each customer has actually paid out of Stripe (the payment system) and write it into the CRM, so portfolio monitoring and pipeline reviews argue about strategy instead of numbers.
-3. **[Build an Attio webhook automation](/guides/attio-webhook-automation/)** — stamp a date field the moment a deal changes stage, so your deal-flow funnel and velocity reports have real dates to stand on. Includes the backup job that catches anything the instant path misses.
-4. **[A self-updating KPI dashboard from CRM data](/guides/kpi-dashboard-from-crm/)** — a dashboard of your deal funnel and pipeline speed that rebuilds itself every weekday morning. One web page behind a password, with no server and no BI subscription.
-5. **[A read-only Slack bot over your CRM](/guides/read-only-slack-bot/)** — a bot your team can ask about any deal in Slack, for meeting prep and quick deal lookups. It answers with citations and cannot change your CRM, because it has no way to write to it. The safest first AI system to put in front of a team.
-6. **[Meeting notes to CRM, automatically](/guides/meeting-notes-to-crm/)** — turn meeting notes into decisions, action items, and risks delivered to Slack, your CRM, and Notion, with a preview before anything is sent and a guarantee nothing is sent twice.
-7. **[Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/)** — an AI agent that reads the notes on every deal and suggests qualification values, each backed by a quote from the source, so screening stays current without the chore. Humans stay in charge of the real fields. The full write-safety model, applied.
-8. **[Capture WhatsApp conversations into your CRM](/guides/whatsapp-to-crm/)** — sourcing and deal conversations reach your pipeline instead of dying in chat. The privacy-first architecture behind [80x](/projects/80x/): the conversation is read on your machine, shared to the CRM only when you click, and the privacy rule is enforced on the server.
+1. **[The one-file cron sync](/guides/one-file-cron-sync/)**: one script keeps one CRM field correct, forever, on a daily schedule. The foundation for everything else here. Start with this.
+2. **[Sync Stripe revenue into your CRM daily](/guides/stripe-to-crm-sync/)**: pull what each customer has actually paid out of Stripe (the payment system) and write it into the CRM, so portfolio monitoring and pipeline reviews argue about strategy instead of numbers.
+3. **[Build an Attio webhook automation](/guides/attio-webhook-automation/)**: stamp a date field the moment a deal changes stage, so your deal-flow funnel and velocity reports have real dates to stand on. Includes the backup job that catches anything the instant path misses.
+4. **[A self-updating KPI dashboard from CRM data](/guides/kpi-dashboard-from-crm/)**, a dashboard of your deal funnel and pipeline speed that rebuilds itself every weekday morning. One web page behind a password, with no server and no BI subscription.
+5. **[A read-only Slack bot over your CRM](/guides/read-only-slack-bot/)**: a bot your team can ask about any deal in Slack, for meeting prep and quick deal lookups. It answers with citations and cannot change your CRM, because it has no way to write to it. The safest first AI system to put in front of a team.
+6. **[Meeting notes to CRM, automatically](/guides/meeting-notes-to-crm/)**: turn meeting notes into decisions, action items, and risks delivered to Slack, your CRM, and Notion, with a preview before anything is sent and a guarantee nothing is sent twice.
+7. **[Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/)**: an AI agent that reads the notes on every deal and suggests qualification values, each backed by a quote from the source, so screening stays current without the chore. Humans stay in charge of the real fields. The full write-safety model, applied.
+8. **[Capture WhatsApp conversations into your CRM](/guides/whatsapp-to-crm/)**, sourcing and deal conversations reach your pipeline instead of dying in chat. The privacy-first architecture behind [80x](/projects/80x/): the conversation is read on your machine, shared to the CRM only when you click, and the privacy rule is enforced on the server.
 
 The first four builds use no AI at all. That is deliberate: most of what a fund needs from automation is a script, a schedule, and discipline. Guides 5 through 8 add AI only where the task genuinely requires judgment over prose; the test for when that is true is in [what is an agent?](/reference/agents/).
 
@@ -51,6 +51,6 @@ The guides share a safety posture: nothing writes to production data without a [
 
 ## See also
 
-- [VC playbooks](/playbooks/) — if you are still deciding *what* to automate rather than *how*, start there.
-- [Reference](/reference/) — the concepts behind the guides, each defined in plain English.
-- [Glossary](/glossary/) — every technical term on the site, one paragraph each.
+- [VC playbooks](/playbooks/): if you are still deciding *what* to automate rather than *how*, start there.
+- [Reference](/reference/): the concepts behind the guides, each defined in plain English.
+- [Glossary](/glossary/): every technical term on the site, one paragraph each.

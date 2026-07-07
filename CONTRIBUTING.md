@@ -1,6 +1,6 @@
 # Contributing to 80x Docs
 
-Contributions are welcome — this site is an open reference, and it gets
+Contributions are welcome. This site is an open reference, and it gets
 better the way open references do: corrections, sharper explanations, and
 new pages grounded in real systems.
 
@@ -8,8 +8,8 @@ new pages grounded in real systems.
 
 - **Fix an error**: every page has an "Edit page" link straight to the
   source file on GitHub. Open a PR.
-- **Propose a page**: open an issue describing what the page covers and —
-  this is the bar — what you built/ran that grounds it.
+- **Propose a page**: open an issue describing what the page covers and,
+  this is the bar, what you built/ran that grounds it.
 - **Add a term**: PRs to `src/content/docs/glossary.md` are the easiest
   first contribution.
 
@@ -34,7 +34,7 @@ npm run dev
 
 Pages are markdown files under `src/content/docs/`. Frontmatter needs
 `title` and `description`; the sidebar picks new files up automatically.
-Run `npm run build` before submitting — it must pass clean.
+Run `npm run build` before submitting. It must pass clean.
 
 ## Licensing of contributions
 

@@ -29,9 +29,9 @@ An agent needs all four parts below. A system missing any one of them is somethi
 | Part | What it is | What breaks without it |
 |---|---|---|
 | **A model** | An LLM capable of tool use (deciding *which* tool, with *what* arguments) | You have a script, not an agent |
-| **Tools** | Functions the program runs on the model's behalf — the model's only way to touch the world | You have a chatbot: it can talk, not act |
+| **Tools** | Functions the program runs on the model's behalf, the model's only way to touch the world | You have a chatbot: it can talk, not act |
 | **A loop** | Feed each tool result back; let the model decide the next step from the new state | You have a chain: one fixed sequence, no adaptation |
-| **A termination condition** | A defined way for the run to end — ideally several | You have a bill and a hung process |
+| **A termination condition** | A defined way for the run to end, ideally several | You have a bill and a hung process |
 
 A quick word on tools, which have [their own page](/reference/tool-use/). A tool is a name, a description, and a list of allowed inputs, written as a JSON Schema. JSON is a simple text format for structured data that programs can read; a schema is a machine-readable rulebook saying which fields are allowed and which are required. The model emits a request to use a tool, then *your code* runs the real function and returns the result. The model never executes anything itself. So an agent's abilities are defined entirely by the tool list you hand it, and that is what makes [read-only agents](/reference/read-only-agents/) a real safety guarantee rather than a polite request.
 
@@ -75,7 +75,7 @@ export async function lookup(client, model, crm, target): Promise<Verdict> {
 
     const toolUses = res.content.filter((b) => b.type === "tool_use");
 
-    // The model finished early without a verdict — treat its text as ambiguous.
+    // The model finished early without a verdict, treat its text as ambiguous.
     if (toolUses.length === 0) {
       const text = res.content
         .filter((b) => b.type === "text")
@@ -112,7 +112,7 @@ The most common defect in homemade agents is a loop with exactly one exit: "the 
 
 | Exit | Trigger | Result |
 |---|---|---|
-| **Verdict submitted** | Model calls `submit_verdict` | The structured verdict — the happy path |
+| **Verdict submitted** | Model calls `submit_verdict` | The structured verdict, the happy path |
 | **Early text stop** | Model returns a turn with no tool calls | Its prose is wrapped as an `ambiguous` verdict rather than trusted as an answer |
 | **Step cap** | 10 turns elapse without a verdict | An explicit `ambiguous` verdict: "Couldn't reach a verdict within the step limit." |
 
@@ -154,8 +154,8 @@ The word gets applied to almost anything with an LLM in it. Three boundaries wor
 
 ## See also
 
-- [Tool use](/reference/tool-use/) — the tool interface in depth, including forcing tool calls for structured output.
-- [Read-only agents](/reference/read-only-agents/) — safety by structural absence of write tools, valentine's core guarantee.
-- [Model Context Protocol](/reference/mcp/) — exposing an agent (or its tools) to other AI applications.
-- [Automation safety](/reference/automation-safety/) — step caps, idempotency, and kill switches for anything that runs unattended.
-- [valentine](/projects/valentine/) — the full project this page's loop is taken from ([source on GitHub](https://github.com/80x-djh/valentine)).
+- [Tool use](/reference/tool-use/): the tool interface in depth, including forcing tool calls for structured output.
+- [Read-only agents](/reference/read-only-agents/): safety by structural absence of write tools, valentine's core guarantee.
+- [Model Context Protocol](/reference/mcp/), exposing an agent (or its tools) to other AI applications.
+- [Automation safety](/reference/automation-safety/): step caps, idempotency, and kill switches for anything that runs unattended.
+- [valentine](/projects/valentine/), the full project this page's loop is taken from ([source on GitHub](https://github.com/80x-djh/valentine)).

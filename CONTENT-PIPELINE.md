@@ -1,8 +1,8 @@
-# 80x Docs — content pipeline
+# 80x Docs, content pipeline
 
 The publishing backlog: which shipped systems and repos feed which future
 pages. Editorial rules in [EDITORIAL.md](./EDITORIAL.md) apply to everything
-here — a page ships only when it can be grounded in something that actually
+here, a page ships only when it can be grounded in something that actually
 ran.
 
 Status key: **next** (grounding exists, write it) · **needs grounding**
@@ -13,7 +13,7 @@ underlying system).
 
 | Page | Grounding source | Status |
 |---|---|---|
-| Affinity → Attio migration, step by step | The migration behind the [CRM migration playbook](src/content/docs/playbooks/crm-migration.md) — dry-runs, checkpoints, resume | needs grounding |
+| Affinity → Attio migration, step by step | The migration behind the [CRM migration playbook](src/content/docs/playbooks/crm-migration.md): dry-runs, checkpoints, resume | needs grounding |
 
 ## Reference
 
@@ -26,8 +26,8 @@ underlying system).
 
 | Page | Grounding source | Status |
 |---|---|---|
-| memelord-stripe-attio-sync | The repo (public) — currently a "variation" in the cron-sync guide; give it a full project page if it grows | needs grounding |
-| artemis-lp-logo-sync | The repo (public) — already the worked example in [the one-file cron sync](src/content/docs/guides/one-file-cron-sync.md); a separate page only if it diverges | blocked |
+| memelord-stripe-attio-sync | The repo (public), currently a "variation" in the cron-sync guide; give it a full project page if it grows | needs grounding |
+| artemis-lp-logo-sync | The repo (public), already the worked example in [the one-file cron sync](src/content/docs/guides/one-file-cron-sync.md); a separate page only if it diverges | blocked |
 
 ## Field notes
 
@@ -39,7 +39,7 @@ underlying system).
 ## How a page graduates
 
 1. Grounding collected (repo, run logs, or anonymized architecture notes).
-2. Drafted per [EDITORIAL.md](./EDITORIAL.md) — self-contained, no invented
+2. Drafted per [EDITORIAL.md](./EDITORIAL.md): self-contained, no invented
    numbers, clients anonymized.
 3. Linked from its section index and any sibling pages that reference it.
 4. `npm run build` passes; the page reads correctly at its `.md` URL.

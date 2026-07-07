@@ -64,6 +64,6 @@ The handbook lives at [github.com/80x-djh/attio-workflows-handbook](https://gith
 
 ## See also
 
-- [awesome-attio](https://github.com/80x-djh/awesome-attio) — a community-maintained link list on GitHub; the handbook is one entry in it
-- [attio-cli](/projects/attio-cli/) — for the automations that outgrow the Workflows engine and become scripts or agents
-- [CRM as database](/reference/crm-as-database/) — the mental model underneath both workflows and API automation
+- [awesome-attio](https://github.com/80x-djh/awesome-attio), a community-maintained link list on GitHub; the handbook is one entry in it
+- [attio-cli](/projects/attio-cli/), for the automations that outgrow the Workflows engine and become scripts or agents
+- [CRM as database](/reference/crm-as-database/), the mental model underneath both workflows and API automation

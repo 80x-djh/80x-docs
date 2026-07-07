@@ -32,11 +32,11 @@ Most funds should run a mix: CRM-native for what the vendor does well, agentic f
 
 Five are live:
 
-- **[Sourcing and signals](/playbooks/sourcing-and-signals/)** — the best signal your fund has is its own history: the meetings taken, the decks received, the founders already met. Capture every touch, check for prior contact before each call, and make warmth visible in every pipeline view.
-- **[Pipeline hygiene](/playbooks/pipeline-hygiene/)** — when the CRM is wrong, every report built on it is wrong. Keep it accurate with checks that run continuously, not with quarterly cleanups.
-- **[CRM migration](/playbooks/crm-migration/)** — switching CRMs looks like a purchasing decision, but it moves the only copy of your fund's history. Treat the move with the care it deserves, or spend the next year cleaning up after it.
-- **[Deal qualification](/playbooks/qualification/)** — the answers that qualify a deal live in call notes nobody rereads. Extract them into suggestion fields with citations, cover the whole pipeline, and leave the judgment with the partner.
-- **[LP fundraising operations](/playbooks/lp-fundraising-ops/)** — run the raise from limited partners (LPs, the investors in your fund) like deal flow in reverse: stages, owners, a commitment-weighted pipeline against target, and stale-contact hygiene.
+- **[Sourcing and signals](/playbooks/sourcing-and-signals/)**, the best signal your fund has is its own history: the meetings taken, the decks received, the founders already met. Capture every touch, check for prior contact before each call, and make warmth visible in every pipeline view.
+- **[Pipeline hygiene](/playbooks/pipeline-hygiene/)**: when the CRM is wrong, every report built on it is wrong. Keep it accurate with checks that run continuously, not with quarterly cleanups.
+- **[CRM migration](/playbooks/crm-migration/)**: switching CRMs looks like a purchasing decision, but it moves the only copy of your fund's history. Treat the move with the care it deserves, or spend the next year cleaning up after it.
+- **[Deal qualification](/playbooks/qualification/)**, the answers that qualify a deal live in call notes nobody rereads. Extract them into suggestion fields with citations, cover the whole pipeline, and leave the judgment with the partner.
+- **[LP fundraising operations](/playbooks/lp-fundraising-ops/)**, run the raise from limited partners (LPs, the investors in your fund) like deal flow in reverse: stages, owners, a commitment-weighted pipeline against target, and stale-contact hygiene.
 
 ## How to use a playbook
 
@@ -46,7 +46,7 @@ Every playbook links onward to the reference pages that explain its concepts and
 
 ## See also
 
-- [Reference](/reference/) — the concepts behind every play, defined in plain English
-- [Guides](/guides/) — step-by-step builds that implement the plays
-- [The CRM as your fund's database](/reference/crm-as-database/) — the mental model every playbook rests on
-- [Automation safety](/reference/automation-safety/) — the habits that keep the agentic tier safe
+- [Reference](/reference/): the concepts behind every play, defined in plain English
+- [Guides](/guides/), step-by-step builds that implement the plays
+- [The CRM as your fund's database](/reference/crm-as-database/), the mental model every playbook rests on
+- [Automation safety](/reference/automation-safety/), the habits that keep the agentic tier safe

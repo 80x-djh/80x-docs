@@ -1,4 +1,4 @@
-// Section-scoped llms.txt — e.g. /reference/llms.txt, /guides/llms.txt.
+// Section-scoped llms.txt, e.g. /reference/llms.txt, /guides/llms.txt.
 // The root /llms.txt (from starlight-llms-txt) and /llms-full.txt cover the
 // whole corpus; these give an agent working a narrow task a small, cheap index
 // of just one section instead of pulling the ~566 KB full file. Each entry links
@@ -40,7 +40,7 @@ export const GET: APIRoute = async ({ params }) => {
     });
 
   const lines = [
-    `# ${SITE.name} — ${label}`,
+    `# ${SITE.name}: ${label}`,
     '',
     `> ${label} section of ${SITE.name}. ${SITE.tagline}.`,
     '',

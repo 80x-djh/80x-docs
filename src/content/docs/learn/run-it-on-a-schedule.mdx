@@ -1,6 +1,6 @@
 ---
 title: Run it on a schedule
-description: Pattern four of the 80x method — most fund software is a small job that wakes on a timer, reconciles the truth, and sleeps, with no server to maintain and no run that a repeat can break.
+description: Pattern four of the 80x method, most fund software is a small job that wakes on a timer, reconciles the truth, and sleeps, with no server to maintain and no run that a repeat can break.
 prev: false
 next: false
 ---
@@ -64,7 +64,7 @@ Idempotency and scheduling reliability are the same insurance policy viewed from
   question="A scheduled sync sometimes runs twice on the same records because of a retry. What design makes that harmless?"
   options={[
     'Running it less often so retries are rare',
-    'Making every write idempotent — compute the desired value and change nothing if it already matches',
+    'Making every write idempotent: compute the desired value and change nothing if it already matches',
     'Turning off retries in the scheduler',
     'Emailing an admin after every run',
   ]}
@@ -74,9 +74,9 @@ Idempotency and scheduling reliability are the same insurance policy viewed from
 
 ## Go deeper
 
-- [Cron agents](/reference/cron-agents/) — the full reference, with four live systems and every GitHub Actions gotcha
-- [Automation safety](/reference/automation-safety/) — loops, idempotency, and blast-radius thinking as general doctrine
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the build you will walk through in the final chapter
+- [Cron agents](/reference/cron-agents/): the full reference, with four live systems and every GitHub Actions gotcha
+- [Automation safety](/reference/automation-safety/): loops, idempotency, and blast-radius thinking as general doctrine
+- [The one-file cron sync](/guides/one-file-cron-sync/), the build you will walk through in the final chapter
 
 <CourseNav
   prev={{ slug: '/learn/read-only-before-write', title: 'Read-only before write' }}

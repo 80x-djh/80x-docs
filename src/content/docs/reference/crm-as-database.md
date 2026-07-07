@@ -26,7 +26,7 @@ flowchart TB
   stripe["Stripe"] -->|upsert| crm
   logos["logos …"] -->|patch| crm
   jobs["crons, derived fields<br/>stage dates, display mirrors<br/>diff → PATCH"] <-->|read + write| crm
-  crm["CRM — single source of truth"] -->|full list payload, once a day| dash["static dashboard<br/>metrics computed from the rows"]
+  crm["CRM: single source of truth"] -->|full list payload, once a day| dash["static dashboard<br/>metrics computed from the rows"]
 ```
 
 Notice that every arrow points into or out of one box. The CRM is the only place data lives; everything else computes and passes through.
@@ -98,8 +98,8 @@ What comes back is every stage the deal has ever held, each with the date it bec
 
 The same reconcile shape handles data that starts life outside the CRM. Two public examples:
 
-- [memelord-stripe-attio-sync](https://github.com/80x-djh/memelord-stripe-attio-sync) — a daily Python job with no outside dependencies that totals each Stripe customer's lifetime revenue (succeeded charges net of refunds) and per-product spend (paid invoice lines, split pro-rata across discounts), then upserts into a custom Attio object keyed on `stripe_customer_id` and links to the matching person by lower-cased email. Covered in [Sync Stripe revenue into your CRM daily](/guides/stripe-to-crm-sync/).
-- [artemis-lp-logo-sync](https://github.com/80x-djh/artemis-lp-logo-sync) — a ~200-line Node script, run every 15 minutes, that fills a `logo_url` field on a fund's custom LP object via a three-tier fallback (linked company's logo → favicon service for the root domain → generated initials avatar), updating only when the value differs. The smallest complete example of the whole pattern; see [The one-file cron sync](/guides/one-file-cron-sync/).
+- [memelord-stripe-attio-sync](https://github.com/80x-djh/memelord-stripe-attio-sync): a daily Python job with no outside dependencies that totals each Stripe customer's lifetime revenue (succeeded charges net of refunds) and per-product spend (paid invoice lines, split pro-rata across discounts), then upserts into a custom Attio object keyed on `stripe_customer_id` and links to the matching person by lower-cased email. Covered in [Sync Stripe revenue into your CRM daily](/guides/stripe-to-crm-sync/).
+- [artemis-lp-logo-sync](https://github.com/80x-djh/artemis-lp-logo-sync): a ~200-line Node script, run every 15 minutes, that fills a `logo_url` field on a fund's custom LP object via a three-tier fallback (linked company's logo → favicon service for the root domain → generated initials avatar), updating only when the value differs. The smallest complete example of the whole pattern; see [The one-file cron sync](/guides/one-file-cron-sync/).
 
 Both jobs are stateless: they remember nothing between runs. All state lives in the CRM, and the job holds nothing but its API keys.
 
@@ -140,8 +140,8 @@ The rule of thumb: if the data is something a human would want to see next to a 
 
 ## See also
 
-- [Cron agents](/reference/cron-agents/) — how these jobs run without any always-on infrastructure
-- [Automation safety](/reference/automation-safety/) — idempotency, dry-run gates, "what if it runs twice"
-- [Agents that write to your CRM](/reference/writing-agents-safely/) — extending machine ownership to AI agents
-- [Attio API field guide](/reference/attio-api-field-guide/) — value envelopes, historic values, and other gotchas these jobs hit
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the smallest complete implementation of this pattern
+- [Cron agents](/reference/cron-agents/), how these jobs run without any always-on infrastructure
+- [Automation safety](/reference/automation-safety/): idempotency, dry-run gates, "what if it runs twice"
+- [Agents that write to your CRM](/reference/writing-agents-safely/), extending machine ownership to AI agents
+- [Attio API field guide](/reference/attio-api-field-guide/): value envelopes, historic values, and other gotchas these jobs hit
+- [The one-file cron sync](/guides/one-file-cron-sync/), the smallest complete implementation of this pattern

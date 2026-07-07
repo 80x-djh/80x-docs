@@ -1,5 +1,5 @@
 // ============================================================================
-// 80x Docs — single place for every site-level setting.
+// 80x Docs, single place for every site-level setting.
 // Everything the site links to or posts to is configured here, so forks and
 // future-you never hunt through components for a hardcoded URL.
 // ============================================================================
@@ -24,7 +24,7 @@ export const SITE = {
   repo: 'https://github.com/80x-djh/80x-docs',
 
   // ---------------------------------------------------------------------------
-  // Monetisation surface #1 — book a call. The ONLY paid pathway on the site.
+  // Monetisation surface #1, book a call. The ONLY paid pathway on the site.
   // Routed through the studio's booking page (80x.ai/book) so every path to a
   // call runs through one funnel; ?src=docs attributes the click. That page
   // hosts the mailto CTA today and the Cal.com embed slot later.
@@ -32,7 +32,7 @@ export const SITE = {
   bookCall: 'https://80x.ai/book?src=docs',
   bookCallLabel: 'Book a call',
   // Daniel's WhatsApp, for the floating "chat with the founder" button on every
-  // docs page (src/components/WhatsAppButton.astro) — matches the 80x.ai studio.
+  // docs page (src/components/WhatsAppButton.astro), matches the 80x.ai studio.
   whatsapp: 'https://wa.me/447960957063?text=Hi%20Daniel%2C%20',
 
   // The studio the docs belong to. The wordmark, the header "Contact" pill, and
@@ -53,7 +53,7 @@ export const SITE = {
   ],
 
   // ---------------------------------------------------------------------------
-  // Monetisation surface #2 — email capture. Provider-agnostic, zero-JS.
+  // Monetisation surface #2, email capture. Provider-agnostic, zero-JS.
   // The form does a plain HTML POST to whatever endpoint is set here, so it
   // works with no client JavaScript and no CORS preflight.
   //
@@ -61,7 +61,7 @@ export const SITE = {
   //   • Your own endpoint (e.g. the 80x-landing /api/waitlist route once it
   //     accepts form posts / sets CORS): any URL that accepts a POSTed
   //     `email` field.
-  //   • null: the form renders as a mailto capture instead — still works,
+  //   • null: the form renders as a mailto capture instead, still works,
   //     still loses zero leads.
   // ---------------------------------------------------------------------------
   // The landing site's /api/waitlist accepts form-encoded posts (2026-07) and

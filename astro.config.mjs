@@ -81,7 +81,7 @@ export default defineConfig({
         ThemeSelect: './src/components/ThemeSelect.astro',
       },
       plugins: [
-        // /llms.txt, /llms-full.txt, /llms-small.txt — the site as an
+        // /llms.txt, /llms-full.txt, /llms-small.txt, the site as an
         // LLM-ingestible corpus. See also the per-page raw markdown routes
         // in src/pages/[...slug].md.ts.
         starlightLlmsTxt({

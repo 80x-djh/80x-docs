@@ -13,12 +13,12 @@ When a conclusion changes, the old note is not quietly edited. A new note says w
 
 ## All notes
 
-- **2026-07-02**: [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/) — the measured comparison behind the [CLI vs MCP](/reference/cli-vs-mcp/) reference page, and the numbers behind any cost and ROI conversation about running agents against your pipeline. It walks through what each approach costs in time and money, and it explains every caveat.
-- **2026-07-02**: [Human-shaped automation](/notes/human-shaped-automation/) — why the automations that survive in production keep a person in charge of the final decision before anything lands in the pipeline. Drawn from three shipped systems.
-- **2026-07-02**: [Spec-first agentic engineering](/notes/spec-first-agentic-engineering/) — when AI agents write the code, the written plan becomes the most important document. What that looks like in two real builds.
+- **2026-07-02**: [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/), the measured comparison behind the [CLI vs MCP](/reference/cli-vs-mcp/) reference page, and the numbers behind any cost and ROI conversation about running agents against your pipeline. It walks through what each approach costs in time and money, and it explains every caveat.
+- **2026-07-02**: [Human-shaped automation](/notes/human-shaped-automation/), why the automations that survive in production keep a person in charge of the final decision before anything lands in the pipeline. Drawn from three shipped systems.
+- **2026-07-02**: [Spec-first agentic engineering](/notes/spec-first-agentic-engineering/), when AI agents write the code, the written plan becomes the most important document. What that looks like in two real builds.
 
 ## See also
 
-- [Reference](/reference/) — the concept pages these notes build on, kept current
-- [Glossary](/glossary/) — every technical term on the site, defined in one paragraph
-- [VC playbooks](/playbooks/) — what to run in your fund, described in fund terms
+- [Reference](/reference/): the concept pages these notes build on, kept current
+- [Glossary](/glossary/): every technical term on the site, defined in one paragraph
+- [VC playbooks](/playbooks/): what to run in your fund, described in fund terms

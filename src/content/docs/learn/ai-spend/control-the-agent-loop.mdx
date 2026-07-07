@@ -74,7 +74,7 @@ The fix is a feature called [structured output](/glossary/#structured-output), w
     'A daily cap is cheaper to set up',
     'A monthly cap still lets a single runaway spend the whole month’s budget in one day, while a daily cap limits any one incident to $500',
     'Daily caps make the model faster',
-    'They are equivalent — only the total matters',
+    'They are equivalent: only the total matters',
   ]}
   answer={1}
   explain="The period of the cap sets the blast radius. A runaway loop can exhaust an entire monthly allowance in a single night, and the monthly cap will not have stopped it. A daily cap turns the same incident into a bounded, survivable $500 event."
@@ -82,9 +82,9 @@ The fix is a feature called [structured output](/glossary/#structured-output), w
 
 ## Go deeper
 
-- [Automation safety](/reference/automation-safety/) — the three questions to ask before you switch any automation on, cost included
-- [Read-only agents](/reference/read-only-agents/) — the safest first version of any agent, which also cannot run up an expensive write loop
-- [Kill switch](/glossary/#kill-switch) and [termination condition](/glossary/#termination-condition) — the mechanics of making a loop stop
+- [Automation safety](/reference/automation-safety/): the three questions to ask before you switch any automation on, cost included
+- [Read-only agents](/reference/read-only-agents/): the safest first version of any agent, which also cannot run up an expensive write loop
+- [Kill switch](/glossary/#kill-switch) and [termination condition](/glossary/#termination-condition), the mechanics of making a loop stop
 
 <CourseNav
   prev={{ slug: '/learn/ai-spend/shrink-the-input', title: 'Shrink the input: retrieve, don’t stuff' }}

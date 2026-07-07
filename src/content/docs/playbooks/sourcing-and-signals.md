@@ -55,7 +55,7 @@ Measure all three before you change anything, so the baseline is honest. Funds t
 
 ## See also
 
-- [Read-only agents](/reference/read-only-agents/) — why the pre-call check is safe by construction, not by policy
-- [valentine](/projects/valentine/) — the open-source prior-contact checker ([source](https://github.com/80x-djh/valentine))
-- [WhatsApp to CRM capture](/guides/whatsapp-to-crm/) — the message-capture build
-- [Pipeline hygiene](/playbooks/pipeline-hygiene/) — the play that keeps the captured data trustworthy
+- [Read-only agents](/reference/read-only-agents/): why the pre-call check is safe by construction, not by policy
+- [valentine](/projects/valentine/), the open-source prior-contact checker ([source](https://github.com/80x-djh/valentine))
+- [WhatsApp to CRM capture](/guides/whatsapp-to-crm/), the message-capture build
+- [Pipeline hygiene](/playbooks/pipeline-hygiene/), the play that keeps the captured data trustworthy

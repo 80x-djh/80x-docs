@@ -32,21 +32,21 @@ Two totals per customer, taken from different Stripe records because each is tru
 
 The pro-rata step is the subtle one, so here it is in plain words. An invoice's line items say what was *billed*; `amount_paid` says what was actually *collected*. Discounts and partial payments make those two differ. If you credited each product with its full billed amount, the product totals would overstate reality. Splitting the collected amount across the lines, in proportion to what each line billed, handles both cases correctly.
 
-## Step 1 — create the custom object, once
+## Step 1: create the custom object, once
 
 Revenue does not belong on the person record. A person is a relationship; a Stripe customer is a billing identity; one email address can map to several billing identities. So the sync owns a separate custom object in Attio called `stripe_customers`, whose fields are maintained entirely by the machine:
 
-- `stripe_customer_id` (text, **unique**) — the match key, meaning the one field the sync uses to recognize "this record is that customer"
+- `stripe_customer_id` (text, **unique**): the match key, meaning the one field the sync uses to recognize "this record is that customer"
 - `total_revenue`, plus one `spend_<product>` currency field per product
-- `person` — a link to the matching record in People
-- `first_charge_at`, `last_charge_at`, `last_synced_at` — timestamps
-- `stripe_url` — a link straight to the customer in the Stripe dashboard
+- `person`: a link to the matching record in People
+- `first_charge_at`, `last_charge_at`, `last_synced_at`: timestamps
+- `stripe_url`: a link straight to the customer in the Stripe dashboard
 
 The shipped repo creates all of this in a separate script, `bootstrap_attio.py`, which checks whether each field already exists before creating it, so running it again is harmless. Set the structure up once, then leave it; the daily job only maintains values.
 
 You should now see the `stripe_customers` object in Attio with all its fields, empty.
 
-## Step 2 — add up lifetime revenue from charges
+## Step 2: add up lifetime revenue from charges
 
 The script walks through every charge in Stripe's history (Stripe serves them in pages; the script keeps asking for the next page until there are none left), keeps the successful ones, and sums each customer's total net of refunds.
 
@@ -68,7 +68,7 @@ for ch in stripe_paginate("/charges", {"limit": 100}):
 
 After this step the script holds, in memory, one running total per customer. Everything stays in whole cents until the final write: adding fractions of dollars invites rounding errors, so decimals are for display, not accounting. The same loop also records each customer's earliest and latest charge dates, which become `first_charge_at` and `last_charge_at`.
 
-## Step 3 — split spend by product from paid invoices
+## Step 3: split spend by product from paid invoices
 
 Next, the script fetches every paid invoice and distributes each invoice's collected amount across its line items, in proportion to what each line billed:
 
@@ -95,7 +95,7 @@ After this step, each customer's totals also carry a per-product breakdown. `PRO
 
 One known, documented gap: charges that have no invoice count toward `total_revenue` but toward no product. For this business almost everything flows through checkout, invoice, then subscription, so the gap is negligible. Write your equivalent caveat down in the project's README (the notes file every repo carries), because someone will eventually ask why the columns do not sum to the total.
 
-## Step 4 — write to the CRM as an upsert
+## Step 4: write to the CRM as an upsert
 
 This is where the safety lives. An **upsert** is a write that means "update the record if it exists, create it if it does not". Attio does this in one call when you name a `matching_attribute`: if a record with this `stripe_customer_id` exists, it is updated in place; if not, one is created. Run the job twice and the second run rewrites the same records with the same values, so duplicates are impossible.
 
@@ -114,7 +114,7 @@ After a run, every paying customer has exactly one record in `stripe_customers`,
 
 The helper that makes these calls retries temporary failures with growing pauses between attempts, including a quirk found in the field: Attio occasionally returns a spurious "not authorized" error under load, and the script treats it as temporary, alongside genuine rate-limit and server errors. Retrying inside the script is precise; re-running the whole job is a blunt instrument.
 
-## Step 5 — link the person by email
+## Step 5: link the person by email
 
 The revenue record is most useful joined to the human being. The script looks up each customer's email in Attio's People object, matching only on the exact address in lower case, and caches lookups so a repeated email costs one query:
 
@@ -130,7 +130,7 @@ if res.get("data"):
 
 After this step, customers whose email exists in the CRM show a `person` link on their record. No match is fine: the record simply carries no link until the person appears in the CRM, and the next day's run links it. Exact-match on a normalized email is deliberately cautious, because attaching revenue to the wrong person is worse than attaching it to no one.
 
-## Step 6 — schedule it daily
+## Step 6: schedule it daily
 
 A workflow is the small text file that tells GitHub Actions when and how to run your script; the schedule line uses cron syntax, a five-part time pattern where `"0 7 * * *"` means "at 07:00 every day". The shipped workflow, trimmed:
 
@@ -190,7 +190,7 @@ Scheduled workflows in private repos consume paid Actions minutes, and a billing
 
 ## See also
 
-- [The one-file cron sync](/guides/one-file-cron-sync/) — the smaller build this guide extends.
-- [Cron agents](/reference/cron-agents/) — scheduling, retries, and the GitHub Actions sharp edges in full.
-- [Attio API field guide](/reference/attio-api-field-guide/) — value wrappers, upserts, and rate limits.
-- [CRM as database](/reference/crm-as-database/) — why the CRM is the right home for this number.
+- [The one-file cron sync](/guides/one-file-cron-sync/), the smaller build this guide extends.
+- [Cron agents](/reference/cron-agents/): scheduling, retries, and the GitHub Actions sharp edges in full.
+- [Attio API field guide](/reference/attio-api-field-guide/): value wrappers, upserts, and rate limits.
+- [CRM as database](/reference/crm-as-database/), why the CRM is the right home for this number.

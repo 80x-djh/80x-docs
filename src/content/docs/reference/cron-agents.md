@@ -11,7 +11,7 @@ This is the workhorse pattern for pipeline hygiene and portfolio monitoring in a
 
 Here is the shape as a diagram: a schedule fires a runner, the runner executes the script, the script talks to the CRM, and then everything shuts down until the next tick.
 
-```mermaid caption="No always-on process — nothing runs between ticks."
+```mermaid caption="No always-on process, nothing runs between ticks."
 flowchart LR
   trigger["scheduled trigger<br/>(cron expression)"] --> runner["runner<br/>GitHub Actions, launchd"]
   runner --> script["script / agent<br/>gather, decide, act, log, exit"]
@@ -37,8 +37,8 @@ Every cron agent breaks down into five stages:
 | Stage | What it does | Deterministic? |
 |---|---|---|
 | Trigger | Scheduler fires (GitHub Actions cron, launchd, systemd timer) | Yes |
-| Gather | Pull current state — paginate CRM records, fetch upstream API data | Yes |
-| Decide | Compute what should change; call an LLM only if the decision needs reading | Usually — LLM only where judgment is needed |
+| Gather | Pull current state: paginate CRM records, fetch upstream API data | Yes |
+| Decide | Compute what should change; call an LLM only if the decision needs reading | Usually. LLM only where judgment is needed |
 | Act | Write the diff (or print it, in dry-run mode) | Yes, and gated |
 | Log | Summary line per run; per-action provenance if the agent writes | Yes |
 
@@ -87,7 +87,7 @@ GitHub Actions is the default free scheduler for this pattern, and it has sharp 
 on:
   schedule:
     # Twice an hour during business hours (Mon-Fri).
-    # Off-peak minutes (:07/:37) — GitHub drops on-the-hour/half-hour scheduled
+    # Off-peak minutes (:07/:37). GitHub drops on-the-hour/half-hour scheduled
     # jobs first under load, so avoid :00 and :30 to keep stamping reliable.
     - cron: "7,37 5-18 * * 1-5"
   workflow_dispatch: # manual trigger
@@ -134,9 +134,9 @@ The `2 ** i` line is the polite part: each retry waits twice as long as the last
 
 ## See also
 
-- [Automation safety](/reference/automation-safety/) — idempotency, kill switches, and dry-run gates as general doctrine
-- [Agents that write to your CRM](/reference/writing-agents-safely/) — the two-lock, namespace, and citation rules the MEDIC pass implements
-- [The one-file cron sync](/guides/one-file-cron-sync/) — build the smallest complete cron agent
-- [Sync Stripe revenue into your CRM daily](/guides/stripe-to-crm-sync/) — the daily-sync example in full
-- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/) — the LLM-in-the-decide-step example in full
-- [CRM as database](/reference/crm-as-database/) — why the CRM is the state these jobs maintain
+- [Automation safety](/reference/automation-safety/): idempotency, kill switches, and dry-run gates as general doctrine
+- [Agents that write to your CRM](/reference/writing-agents-safely/): the two-lock, namespace, and citation rules the MEDIC pass implements
+- [The one-file cron sync](/guides/one-file-cron-sync/), build the smallest complete cron agent
+- [Sync Stripe revenue into your CRM daily](/guides/stripe-to-crm-sync/), the daily-sync example in full
+- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/), the LLM-in-the-decide-step example in full
+- [CRM as database](/reference/crm-as-database/), why the CRM is the state these jobs maintain

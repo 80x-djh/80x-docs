@@ -11,7 +11,7 @@ For most of software history, the code was the thing that mattered. The spec, th
 
 [attio-cli](https://github.com/80x-djh/attio-cli) is a CLI, short for command-line interface: a program you operate by typing text commands instead of clicking buttons. It is the tool measured in [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/). A coding agent generated the whole tool from a single specification, committed in the repository as [`SPEC.md`](https://github.com/80x-djh/attio-cli/blob/main/SPEC.md). The file is about 1,200 lines, and its title literally describes it as a one-shot prompt, meaning it was written so an agent could build the entire tool from it in one pass. What is instructive is what those 1,200 lines contain, because almost none of it is code:
 
-- **What the tool is, and what it is not, stated first.** The spec opens: "A developer tool designed for scripting, automation, and agentic workflows — NOT a replacement for the Attio UI. Think `gh` or `stripe` CLI in spirit." One sentence of intent plus one explicit non-goal settles hundreds of small decisions later. Whenever the agent hits an ambiguous choice, it resolves the choice against that opening.
+- **What the tool is, and what it is not, stated first.** The spec opens: "A developer tool designed for scripting, automation, and agentic workflows. NOT a replacement for the Attio UI. Think `gh` or `stripe` CLI in spirit." One sentence of intent plus one explicit non-goal settles hundreds of small decisions later. Whenever the agent hits an ambiguous choice, it resolves the choice against that opening.
 - **Where the truth lives, stated plainly.** The spec's first hard instruction tells the agent to fetch Attio's OpenAPI document and treat that as the authority on request and response shapes. (An API is the interface programs use to talk to a service like Attio; an OpenAPI document is a machine-readable file, published by the service, that describes every request the API accepts.) The spec itself only adds what that file cannot say. Pointing the agent at the source of truth works better than copying the truth into the prompt, because copies drift out of date.
 - **Behavior and constraints, not implementation.** The spec fixes what the tool must do: which commands and flags exist and what they print, the exit codes (the number a program returns to signal success or failure), how output changes when a script is reading it instead of a person, and the exact folder structure. How to write the code inside is left to the agent.
 
@@ -57,7 +57,7 @@ This is [context engineering](/reference/context-engineering/), the discipline o
 
 ## See also
 
-- [Context engineering](/reference/context-engineering/) — the discipline of deciding what an agent gets to read
-- [Writing for LLMs](/start-here/for-llms/) — how this site applies the same principle to itself
-- [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/) — measuring the tool that SPEC.md one-shotted
-- [attio-cli](/projects/attio-cli/) — the project page, with the spec linked from the repo
+- [Context engineering](/reference/context-engineering/), the discipline of deciding what an agent gets to read
+- [Writing for LLMs](/start-here/for-llms/), how this site applies the same principle to itself
+- [CLI vs MCP: real benchmarks](/notes/cli-vs-mcp-benchmarks/), measuring the tool that SPEC.md one-shotted
+- [attio-cli](/projects/attio-cli/): the project page, with the spec linked from the repo

@@ -39,7 +39,7 @@ The architecture below is a set of refusals of those two options.
 | Human-initiated | Nothing happens until the user clicks. No background jobs, no scheduled scraping |
 | On-screen only | The client reads *only the chat currently open*, when asked. It never enumerates chats or scrolls history unattended |
 | Human-paced | The user acts at human speed in the real client; snippets insert into the composer but *the user* hits send |
-| Official client underneath | The app wraps the real `web.whatsapp.com` — no unofficial API of any kind. To WhatsApp it is indistinguishable from a browser |
+| Official client underneath | The app wraps the real `web.whatsapp.com`, no unofficial API of any kind. To WhatsApp it is indistinguishable from a browser |
 | Privacy gated server-side | Whether a conversation syncs is enforced by the backend, so nothing private leaks even on a client bug |
 
 The reasoning behind the first four: ban risk is **behavioral, not technological**. A wrapped official client whose behavior is identical to a person using WhatsApp Web presents nothing to detect. That constraint (behave exactly like a human) turns out to produce the right *privacy* architecture too, which is the deeper lesson of this guide.
@@ -52,7 +52,7 @@ flowchart TB
   backend["backend contract, /api/ext/*<br/>privacy gate enforced server-side<br/>Private stays on the user's machine"] --> record["Attio / Affinity record<br/>transcript note + logged activity"]
 ```
 
-## Step 1 — capture at the client, on the user's machine
+## Step 1: capture at the client, on the user's machine
 
 The capture surface is a native Mac app hosting the official WhatsApp Web inside a `WKWebView` (the Mac's built-in browser engine, the one Safari uses), set to identify itself as desktop Safari so WhatsApp serves the full client. A browser extension mirrors the same flow for users who prefer the browser: one backend, two front ends.
 
@@ -66,7 +66,7 @@ Wrapping someone else's web app safely means hardening the shell against hostile
 
 If you are evaluating a wrapper rather than building one, these three items are the checklist to ask about.
 
-## Step 2 — read only the open chat, on an explicit click
+## Step 2: read only the open chat, on an explicit click
 
 A small script injected into the page reads the *open* chat's content on demand: the user opens a conversation and clicks **Sync this chat to CRM**. That click is the only trigger. There is no crawler, no walking the chat list, no unattended scrolling through history.
 
@@ -74,7 +74,7 @@ An honest caveat from the product's own docs: the reader depends on WhatsApp Web
 
 The verifiable property of this step: with the app open all day and no clicks, nothing is captured. The check for that is in "Check your work" below.
 
-## Step 3 — send it through an authenticated backend contract
+## Step 3: send it through an authenticated backend contract
 
 The client is deliberately thin: a small piece of code that talks to the backend's `/api/ext/*` endpoints (the fixed set of addresses the backend answers on), authenticated with a workspace API token (`Bearer x80_…`), a password-like credential the user creates in the web app once. On a Mac it is stored in the Keychain, the system's encrypted password store. The flow on that click: read the open chat, send the conversation to the backend, get back CRM match suggestions, then let the user link, set privacy, and sync.
 
@@ -83,7 +83,7 @@ Two conventions in that contract generalize to any client-capture system:
 - **Values sent over the wire are plain strings, never fixed lists.** Field kinds, activity kinds, CRM names: all strings, so a newer backend value can never break an older client, and unknown kinds display with a sensible fallback. Apps installed on users' machines update more slowly than servers.
 - **Reads degrade quietly; writes fail loudly.** A background read that hits a route the backend does not serve yet simply hides its panel and raises no alarm. But a failure on an *explicit user action* (Save, Log) shows an error, because silently swallowing something the human deliberately did is worse than a visible failure.
 
-## Step 4 — match and link against the CRM
+## Step 4: match and link against the CRM
 
 A captured conversation is useless until it is attached to the right record. On receiving one, the backend returns **match suggestions** from the CRM (people and companies); the user confirms a match, searches manually, or creates a new contact on the spot. Linking is a human decision with machine-suggested candidates, the same suggest-don't-act posture as the [MEDIC qualification agent](/guides/medic-qualification-agent/).
 
@@ -93,7 +93,7 @@ One subtle correctness point: the "last contacted" date shown in the client is r
 
 After this step, syncing a chat ends with a concrete, checkable result: the conversation attached to the right person or company in the CRM.
 
-## Step 5 — enforce privacy server-side, per conversation
+## Step 5: enforce privacy server-side, per conversation
 
 Each conversation carries a privacy state (**Private** or **Shared**) that the user can flip at any time, plus a per-message share for surfacing a single relevant message out of an otherwise private thread. The gate is enforced by the backend, not the client.
 
@@ -101,9 +101,9 @@ The threat model in plain terms: client software has bugs, and the injected read
 
 What is and is not stored: the CRM and the backend hold only what the user explicitly transmitted, meaning shared conversations, individually shared messages, and the notes and activities logged against records. **"Sync now" rebuilds the CRM note from everything transmitted**, so the record's transcript note always reflects the shared history. Private conversations, and every chat never shared, stay on the user's machine inside WhatsApp Web.
 
-## Step 6 — write summaries and activities, not dumps
+## Step 6: write summaries and activities, not dumps
 
-Two distinct write shapes reach the CRM, and keeping them distinct is a design decision. **Transcript sync** maintains a clean conversation note on the linked record. **Activity logging** records that a conversation happened, as an entry on the relationship timeline. For activities, the client deliberately sends a short human-readable summary as the body ("WhatsApp conversation — 24 messages") with the conversation ID and channel attached as metadata for attribution and duplicate detection, rather than dumping transcript text into the activity stream. Activities are for the timeline; transcripts are for the record's note. Mixing them makes both unreadable.
+Two distinct write shapes reach the CRM, and keeping them distinct is a design decision. **Transcript sync** maintains a clean conversation note on the linked record. **Activity logging** records that a conversation happened, as an entry on the relationship timeline. For activities, the client deliberately sends a short human-readable summary as the body ("WhatsApp conversation: 24 messages") with the conversation ID and channel attached as metadata for attribution and duplicate detection, rather than dumping transcript text into the activity stream. Activities are for the timeline; transcripts are for the record's note. Mixing them makes both unreadable.
 
 The backend then writes to Attio or Affinity through its connectors; the client does not know or care which CRM it is talking to, it just displays which one.
 
@@ -131,6 +131,6 @@ If you are building your own capture pipeline on this architecture, verify the t
 
 ## See also
 
-- [80x](/projects/80x/) — the shipped product this architecture comes from.
-- [CRM as database](/reference/crm-as-database/) — why captured conversations belong in the CRM, and what compounds on top once they are there.
-- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/) — an agent that reads exactly the notes this pipeline creates.
+- [80x](/projects/80x/), the shipped product this architecture comes from.
+- [CRM as database](/reference/crm-as-database/): why captured conversations belong in the CRM, and what compounds on top once they are there.
+- [Build a MEDIC deal-qualification agent](/guides/medic-qualification-agent/), an agent that reads exactly the notes this pipeline creates.

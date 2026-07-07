@@ -1,7 +1,7 @@
 ---
 // Override of Starlight's PageTitle: renders the default H1, then a small row of
 // agent affordances under it. Every page is already available as raw markdown
-// (append .md — see src/pages/[...slug].md.ts); this surfaces that to the human
+// (append .md, see src/pages/[...slug].md.ts); this surfaces that to the human
 // AND to any agent scraping the DOM, plus one-click hand-off into Claude/ChatGPT
 // pre-loaded with the page's markdown URL.
 import Default from '@astrojs/starlight/components/PageTitle.astro';
@@ -18,7 +18,7 @@ const showActions = id && !isHome;
 // The raw-markdown URL for this page: page path with the trailing slash → `.md`.
 const mdPath = `${path}.md`;
 const mdAbs = new URL(mdPath, SITE.url).href;
-const prompt = `Read ${mdAbs} — a page from 80x Docs (agentic engineering for VC funds). Help me apply it to my fund's setup.`;
+const prompt = `Read ${mdAbs}, a page from 80x Docs (agentic engineering for VC funds). Help me apply it to my fund's setup.`;
 const claudeUrl = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
 const chatgptUrl = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 ---
