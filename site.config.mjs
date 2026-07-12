@@ -25,16 +25,17 @@ export const SITE = {
 
   // ---------------------------------------------------------------------------
   // Monetisation surface #1, book a call. The ONLY paid pathway on the site.
-  // Routed through the studio's booking page (80x.ai/book) so every path to a
-  // call runs through one funnel; ?src=docs attributes the click. That page
-  // hosts the mailto CTA today and the Cal.com embed slot later.
+  // Points directly at the product site's demo page (80x.ai/demo, form-first
+  // lead capture that hands off to Cal.com) so every path to a call runs
+  // through one funnel; ?src=docs attributes the click. The old 80x.ai/book
+  // route is retired (it 308-redirects to /demo), so link /demo directly.
   // ---------------------------------------------------------------------------
-  bookCall: 'https://80x.ai/book?src=docs',
+  bookCall: 'https://80x.ai/demo?src=docs',
   bookCallLabel: 'Book a call',
-  // The primary conversion across 80x is now a booked dealflow teardown. Same
-  // funnel as bookCall (80x.ai/book, ?src=docs attributes the click); this is
+  // The primary conversion across 80x is a booked dealflow teardown. Same
+  // funnel as bookCall (80x.ai/demo, ?src=docs attributes the click); this is
   // the label + URL the persistent header pill and the home-page CTA use.
-  bookTeardown: 'https://80x.ai/book?src=docs',
+  bookTeardown: 'https://80x.ai/demo?src=docs',
   bookTeardownLabel: 'Book a teardown',
   // Daniel's WhatsApp, for the floating "chat with the founder" button on every
   // docs page (src/components/WhatsAppButton.astro), matches the 80x.ai studio.
