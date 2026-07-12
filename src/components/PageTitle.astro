@@ -18,7 +18,7 @@ const showActions = id && !isHome;
 // The raw-markdown URL for this page: page path with the trailing slash → `.md`.
 const mdPath = `${path}.md`;
 const mdAbs = new URL(mdPath, SITE.url).href;
-const prompt = `Read ${mdAbs}, a page from 80x Docs (agentic engineering for VC funds). Help me apply it to my fund's setup.`;
+const prompt = `Read ${mdAbs}, a page from 80x Docs (agentic engineering, born in venture capital). Help me apply it to my firm's setup.`;
 const claudeUrl = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
 const chatgptUrl = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
 ---

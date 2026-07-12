@@ -8,9 +8,9 @@ export const SITE = {
   title: '80x',
   name: '80x Docs',
   tagline:
-    'The open standard for agentic engineering and frontier technology in venture capital',
+    'The open standard for agentic engineering, born in venture capital',
   description:
-    'The open standard for agentic engineering and frontier technology in venture capital: a free, open-source knowledge base of reference pages, guides, playbooks, and working tools.',
+    'The open standard for agentic engineering, born in venture capital: a free, open-source knowledge base of reference pages, guides, playbooks, and working tools for any firm that runs on relationships.',
 
   // Production origin + base path. The docs are published as a sub-directory
   // of the main product domain (80x.ai/docs), served via a rewrite from the
