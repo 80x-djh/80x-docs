@@ -8,9 +8,9 @@ export const SITE = {
   title: '80x',
   name: '80x Docs',
   tagline:
-    'The open standard for agentic engineering and frontier technology in venture capital',
+    'The open standard for agentic engineering, born in venture capital',
   description:
-    'The open standard for agentic engineering and frontier technology in venture capital: a free, open-source knowledge base of reference pages, guides, playbooks, and working tools.',
+    'The open standard for agentic engineering, born in venture capital: a free, open-source knowledge base of reference pages, guides, playbooks, and working tools for any firm that runs on relationships.',
 
   // Production origin + base path. The docs are published as a sub-directory
   // of the main product domain (80x.ai/docs), served via a rewrite from the
@@ -25,36 +25,36 @@ export const SITE = {
 
   // ---------------------------------------------------------------------------
   // Monetisation surface #1, book a call. The ONLY paid pathway on the site.
-  // Routed through the studio's booking page (80x.ai/book) so every path to a
-  // call runs through one funnel; ?src=docs attributes the click. That page
-  // hosts the mailto CTA today and the Cal.com embed slot later.
+  // Points directly at the product site's demo page (80x.ai/demo, form-first
+  // lead capture that hands off to Cal.com) so every path to a call runs
+  // through one funnel; ?src=docs attributes the click. The old 80x.ai/book
+  // route is retired (it 308-redirects to /demo), so link /demo directly.
   // ---------------------------------------------------------------------------
-  bookCall: 'https://80x.ai/book?src=docs',
+  bookCall: 'https://80x.ai/demo?src=docs',
   bookCallLabel: 'Book a call',
-  // The primary conversion across 80x is now a booked dealflow teardown. Same
-  // funnel as bookCall (80x.ai/book, ?src=docs attributes the click); this is
+  // The primary conversion across 80x is a booked dealflow teardown. Same
+  // funnel as bookCall (80x.ai/demo, ?src=docs attributes the click); this is
   // the label + URL the persistent header pill and the home-page CTA use.
-  bookTeardown: 'https://80x.ai/book?src=docs',
+  bookTeardown: 'https://80x.ai/demo?src=docs',
   bookTeardownLabel: 'Book a teardown',
   // Daniel's WhatsApp, for the floating "chat with the founder" button on every
   // docs page (src/components/WhatsAppButton.astro), matches the 80x.ai studio.
   whatsapp: 'https://wa.me/447960957063?text=Hi%20Daniel%2C%20',
 
-  // The studio the docs belong to. The wordmark, the header "Contact" pill, and
-  // the studio nav links all point back into 80x.ai so the docs read as one
-  // property with the landing site (they share the 80x.ai origin via a rewrite).
-  studioUrl: 'https://80x.ai',
+  // The product site the docs belong to. The wordmark, the header "Contact"
+  // pill, and the header nav links all point back into 80x.ai so the docs read
+  // as one property with the landing site (they share the 80x.ai origin via a
+  // rewrite).
+  productUrl: 'https://80x.ai',
   contact: 'https://80x.ai/contact?src=docs',
-  // Mirrored across 80x.ai, /docs, and /sentry so the header reads the same on
-  // every property. Keep in sync with the Sentry topnav (skill-audit
-  // public/sentry/index.html) and the landing header groups.
-  studioNav: [
-    { label: 'Services', href: 'https://80x.ai/services' },
-    { label: 'Work', href: 'https://80x.ai/work' },
-    { label: 'Tools', href: 'https://80x.ai/tools' },
-    { label: 'Docs', href: 'https://80x.ai/docs' },
-    { label: 'Writing', href: 'https://80x.ai/writing' },
-    { label: 'About', href: 'https://80x.ai/about' },
+  // The product IA, mirrored from the 80x.ai landing header, so a prospect on
+  // any docs page can reach the product page, pricing, security, or a demo
+  // without leaving the header. Keep in sync with the landing header groups.
+  productNav: [
+    { label: 'Product', href: 'https://80x.ai/' },
+    { label: 'Pricing', href: 'https://80x.ai/pricing' },
+    { label: 'Security', href: 'https://80x.ai/security' },
+    { label: 'Demo', href: 'https://80x.ai/demo' },
   ],
 
   // ---------------------------------------------------------------------------
