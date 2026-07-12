@@ -40,21 +40,20 @@ export const SITE = {
   // docs page (src/components/WhatsAppButton.astro), matches the 80x.ai studio.
   whatsapp: 'https://wa.me/447960957063?text=Hi%20Daniel%2C%20',
 
-  // The studio the docs belong to. The wordmark, the header "Contact" pill, and
-  // the studio nav links all point back into 80x.ai so the docs read as one
-  // property with the landing site (they share the 80x.ai origin via a rewrite).
-  studioUrl: 'https://80x.ai',
+  // The product site the docs belong to. The wordmark, the header "Contact"
+  // pill, and the header nav links all point back into 80x.ai so the docs read
+  // as one property with the landing site (they share the 80x.ai origin via a
+  // rewrite).
+  productUrl: 'https://80x.ai',
   contact: 'https://80x.ai/contact?src=docs',
-  // Mirrored across 80x.ai, /docs, and /sentry so the header reads the same on
-  // every property. Keep in sync with the Sentry topnav (skill-audit
-  // public/sentry/index.html) and the landing header groups.
-  studioNav: [
-    { label: 'Services', href: 'https://80x.ai/services' },
-    { label: 'Work', href: 'https://80x.ai/work' },
-    { label: 'Tools', href: 'https://80x.ai/tools' },
-    { label: 'Docs', href: 'https://80x.ai/docs' },
-    { label: 'Writing', href: 'https://80x.ai/writing' },
-    { label: 'About', href: 'https://80x.ai/about' },
+  // The product IA, mirrored from the 80x.ai landing header, so a prospect on
+  // any docs page can reach the product page, pricing, security, or a demo
+  // without leaving the header. Keep in sync with the landing header groups.
+  productNav: [
+    { label: 'Product', href: 'https://80x.ai/' },
+    { label: 'Pricing', href: 'https://80x.ai/pricing' },
+    { label: 'Security', href: 'https://80x.ai/security' },
+    { label: 'Demo', href: 'https://80x.ai/demo' },
   ],
 
   // ---------------------------------------------------------------------------

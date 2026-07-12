@@ -293,22 +293,22 @@ header.header {
   color: var(--x-ink);
 }
 
-/* Studio nav, the same primary links as the 80x.ai header, left-anchored.
+/* Product nav, the same primary links as the 80x.ai header, left-anchored.
    Hidden below md; the wordmark stays as the always-visible route to 80x.ai. */
-.studio-nav {
+.product-nav {
   display: flex;
   align-items: center;
   gap: 1.25rem;
   margin-inline-start: 1.5rem;
 }
-.studio-nav a {
+.product-nav a {
   font-size: 0.875rem;
   color: var(--x-ink-secondary);
   text-decoration: none;
   white-space: nowrap;
   transition: color 120ms ease;
 }
-.studio-nav a:hover {
+.product-nav a:hover {
   color: var(--x-ink);
 }
 @media (min-width: 50rem) {
@@ -318,7 +318,7 @@ header.header {
   }
 }
 @media (max-width: 60rem) {
-  .studio-nav {
+  .product-nav {
     display: none;
   }
 }
