@@ -38,7 +38,13 @@ export default defineConfig({
     starlight({
       title: SITE.title,
       description: SITE.description,
-      customCss: ['@fontsource-variable/inter', './src/styles/custom.css'],
+      customCss: [
+        '@fontsource-variable/inter',
+        '@fontsource/ibm-plex-mono/400.css',
+        '@fontsource/ibm-plex-mono/500.css',
+        '@fontsource/ibm-plex-mono/600.css',
+        './src/styles/custom.css',
+      ],
       social: [
         { icon: 'github', label: 'GitHub', href: SITE.social.github },
         ...(SITE.social.youtube

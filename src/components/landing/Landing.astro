@@ -2,7 +2,7 @@
 // Full-width, designed landing for the /docs home. Replaces the old splash
 // hero + three markdown text-walls (bulleted "Choose your path", a plain table,
 // and two trust paragraphs) with a centered hero, the five-pattern method band,
-// and card grids, all in the existing Geist ink / hairline design language.
+// and card grids, all in the site's ink / hairline design language.
 //
 // This component base-prefixes its own links (the remark plugin that adds /docs
 // to authored markdown does not see component markup), so every href goes
@@ -276,13 +276,15 @@ const trust = [
     letter-spacing: 0.01em;
     color: var(--x-ink-secondary);
   }
+  /* The hero headline wears the display mono, echoing the 80x.ai
+     typewriter hero (same face, same weight, same tracking). */
   .x-hero-title {
     margin: 0;
-    font-family: var(--x-font-display);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
-    font-size: clamp(2.4rem, 1.4rem + 3.6vw, 4rem);
+    font-family: var(--x-font-mono-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    font-size: clamp(2.1rem, 1.3rem + 3.2vw, 3.6rem);
     color: var(--sl-color-white);
     text-wrap: balance;
   }
@@ -302,7 +304,7 @@ const trust = [
     gap: 0.75rem;
   }
 
-  /* Pills, reuse the site's white-on-black / black-on-white button language. */
+  /* Buttons, the site's square translucent brand-tinted grammar. */
   .x-btn {
     display: inline-flex;
     align-items: center;
@@ -311,7 +313,7 @@ const trust = [
     padding: 0 1.35rem;
     border-radius: var(--x-radius-pill);
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 400;
     text-decoration: none;
     white-space: nowrap;
     transition: opacity 120ms ease, background 120ms ease, border-color 120ms ease, transform 120ms ease;
@@ -320,19 +322,21 @@ const trust = [
     transform: translateY(1px);
   }
   .x-btn--primary {
+    border: 1px solid var(--x-pill-edge);
     background: var(--x-pill-bg);
     color: var(--x-pill-ink);
   }
   .x-btn--primary:hover {
-    opacity: 0.85;
+    background: var(--x-pill-bg-hover);
+    border-color: var(--x-pill-edge-hover);
   }
   .x-btn--secondary {
-    border: 1px solid var(--x-edge-2);
+    border: 1px solid var(--x-surface-edge);
     color: var(--x-ink);
   }
   .x-btn--secondary:hover {
     background: var(--x-surface-2);
-    border-color: var(--sl-color-gray-3);
+    border-color: var(--x-edge-2);
   }
   .x-btn--minimal {
     color: var(--x-ink);
@@ -627,17 +631,19 @@ const trust = [
     margin-top: 1.75rem;
     height: 2.75rem;
     padding: 0 1.6rem;
+    border: 1px solid var(--x-pill-edge);
     border-radius: var(--x-radius-pill);
-    background: var(--x-lime);
-    color: var(--x-lime-ink);
+    background: var(--x-pill-bg);
+    color: var(--x-pill-ink);
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 400;
     text-decoration: none;
     white-space: nowrap;
-    transition: opacity 120ms ease, transform 120ms ease;
+    transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
   }
   .x-cta-btn:hover {
-    opacity: 0.85;
+    background: var(--x-pill-bg-hover);
+    border-color: var(--x-pill-edge-hover);
   }
   .x-cta-btn:hover .x-btn-arrow {
     transform: translateX(2px);

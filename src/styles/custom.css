@@ -1,131 +1,85 @@
 /* ============================================================================
-   80x Docs. Vercel/Geist design system over Starlight (nextjs.org/docs
-   replica). Dark default: pure #000, hairline borders, white→gray ink ramp,
-   Geist blue for links and active states, white pill CTAs. Light theme is a
-   clean mirror. Type: Geist Sans for everything, Geist Mono for code and
-   labels, both self-hosted variable fonts (no external requests).
-   Spec: ~/80x-landing/docs/design/VERCEL-GEIST-SPEC.md (§2, §3, §7).
+   80x Docs. The reference design system over Starlight, matching the
+   2026-07-21 80x.ai restyle: dark-only, #111 canvas, #171717 cards,
+   white/10 hairlines, #fafafa→#a1a1a1 ink ramp, the brand lime in the
+   accent role (links, active states, progress), and square translucent
+   brand-tinted CTAs. Type: Inter for prose, IBM Plex Mono for code,
+   labels, and display accents (both via @fontsource, no external requests).
+   Source of truth: growth-landing src/app/globals.css + vercel-kit.tsx.
    ========================================================================== */
 
-@font-face {
-  font-family: 'Geist Sans';
-  src: url('/docs/fonts/Geist-Variable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Geist Mono';
-  src: url('/docs/fonts/GeistMono-Variable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* --- Color system ----------------------------------------------------------
-   Dark theme (root, default): Geist dark, pure black, #ededed ink,
-   #1f1f1f/#333 hairlines, blue #52a8ff links/active. Light theme: the §2
-   mirror. Mapped through Starlight's --sl-color-* custom properties; the
+   Dark only (the property dropped its light theme with the 2026-07-21
+   restyle). Mapped through Starlight's --sl-color-* custom properties; the
    --x-* layer is kept for site + course components. ------------------------ */
 
 :root {
-  /* Starlight palette (dark) */
+  /* Starlight palette (dark-only) */
   --sl-color-white: #fafafa;
   --sl-color-gray-1: #ededed;
   --sl-color-gray-2: #a1a1a1;
   --sl-color-gray-3: #6f6f6f;
   --sl-color-gray-4: #3f3f3f;
   --sl-color-gray-5: #333333;
-  --sl-color-gray-6: #1f1f1f;
-  --sl-color-gray-7: #111111;
-  --sl-color-black: #000000;
+  --sl-color-gray-6: #262626;
+  --sl-color-gray-7: #171717;
+  --sl-color-black: #111111;
 
-  --sl-color-accent-low: #10233d;
-  --sl-color-accent: #0070f3;
-  --sl-color-accent-high: #52a8ff;
+  --sl-color-accent-low: #262b00;
+  --sl-color-accent: #aab800;
+  --sl-color-accent-high: #e4f222;
 
-  --sl-color-text: #dcdcdc;
-  --sl-color-text-accent: #52a8ff;
-  --sl-color-text-invert: #000000;
-  --sl-color-bg: #000000;
-  --sl-color-bg-nav: #000000;
-  --sl-color-bg-sidebar: #000000;
-  --sl-color-bg-inline-code: #0a0a0a;
-  --sl-color-bg-accent: #ffffff;
-  --sl-color-hairline-light: #1f1f1f;
-  --sl-color-hairline: #1f1f1f;
-  --sl-color-hairline-shade: #1f1f1f;
+  --sl-color-text: #d4d4d4;
+  --sl-color-text-accent: #e4f222;
+  --sl-color-text-invert: #111111;
+  --sl-color-bg: #111111;
+  --sl-color-bg-nav: #111111;
+  --sl-color-bg-sidebar: #111111;
+  --sl-color-bg-inline-code: #1a1a1a;
+  /* Solid lime + near-black ink for any Starlight internals we don't
+     override (badges, search highlights); our own CTAs use the translucent
+     pill tokens below. */
+  --sl-color-bg-accent: #aab800;
+  --sl-color-hairline-light: rgba(255, 255, 255, 0.1);
+  --sl-color-hairline: rgba(255, 255, 255, 0.1);
+  --sl-color-hairline-shade: rgba(255, 255, 255, 0.1);
 
-  /* 80x design tokens */
+  /* 80x design tokens. Names are stable (components consume them); values
+     are the reference system. --x-blue is a legacy alias: the accent role
+     it named is now the brand lime. */
   --x-ink: #ededed;
   --x-ink-secondary: #a1a1a1;
-  --x-surface: #0a0a0a;
-  --x-surface-2: #111111;
-  --x-surface-edge: #1f1f1f;
-  --x-edge-2: #333333;
-  --x-blue: #52a8ff;
-  --x-blue-dim: #0070f3;
-  --x-code-bg: #0a0a0a;
-  --x-code-edge: #2e2e2e;
-  --x-pill-bg: #ffffff;
-  --x-pill-ink: #000000;
-  /* Brand lime accent (the canonical 80x mark). Reserved for the one primary
-     conversion, the "Book a teardown" CTA. Constant across both themes: the
-     saturated lime + near-black ink reads on light and dark chrome alike. */
+  --x-surface: #171717;
+  --x-surface-2: #1a1a1a;
+  --x-surface-edge: rgba(255, 255, 255, 0.1);
+  --x-edge-2: rgba(255, 255, 255, 0.15);
+  --x-accent: #e4f222;
+  --x-accent-dim: #aab800;
+  --x-blue: var(--x-accent);
+  --x-blue-dim: var(--x-accent-dim);
+  --x-code-bg: #161616;
+  --x-code-edge: rgba(255, 255, 255, 0.1);
+  /* CTA grammar: translucent brand fill + tinted hairline + bright label
+     (the reference button, lime slotted into the brand-hue role). */
+  --x-pill-bg: rgba(170, 184, 0, 0.1);
+  --x-pill-bg-hover: rgba(170, 184, 0, 0.15);
+  --x-pill-edge: rgba(170, 184, 0, 0.2);
+  --x-pill-edge-hover: rgba(170, 184, 0, 0.35);
+  --x-pill-ink: #e4f222;
   --x-lime: #e4f222;
   --x-lime-ink: #0b0b09;
 
-  --x-radius-card: 0.75rem;
-  --x-radius-block: 0.5rem;
-  --x-radius-pill: 999px;
-}
-
-:root[data-theme='light'] {
-  --sl-color-white: #171717;
-  --sl-color-gray-1: #262626;
-  --sl-color-gray-2: #666666;
-  --sl-color-gray-3: #999999;
-  --sl-color-gray-4: #d4d4d4;
-  --sl-color-gray-5: #d4d4d4;
-  --sl-color-gray-6: #eaeaea;
-  --sl-color-gray-7: #fafafa;
-  --sl-color-black: #ffffff;
-
-  --sl-color-accent-low: #e5f0ff;
-  --sl-color-accent: #0070f3;
-  --sl-color-accent-high: #0070f3;
-
-  --sl-color-text: #404040;
-  --sl-color-text-accent: #0070f3;
-  --sl-color-text-invert: #ffffff;
-  --sl-color-bg: #ffffff;
-  --sl-color-bg-nav: #ffffff;
-  --sl-color-bg-sidebar: #ffffff;
-  --sl-color-bg-inline-code: #fafafa;
-  --sl-color-bg-accent: #171717;
-  --sl-color-hairline-light: #eaeaea;
-  --sl-color-hairline: #eaeaea;
-  --sl-color-hairline-shade: #eaeaea;
-
-  --x-ink: #171717;
-  --x-ink-secondary: #666666;
-  --x-surface: #fafafa;
-  --x-surface-2: #f2f2f2;
-  --x-surface-edge: #eaeaea;
-  --x-edge-2: #d4d4d4;
-  --x-blue: #0070f3;
-  --x-blue-dim: #0070f3;
-  --x-code-bg: #fafafa;
-  --x-code-edge: #eaeaea;
-  --x-pill-bg: #171717;
-  --x-pill-ink: #ffffff;
+  --x-radius-card: 0.625rem;
+  --x-radius-block: 0.375rem;
+  --x-radius-pill: 0;
 }
 
 /* --- Typography ------------------------------------------------------------ */
 :root {
-  --sl-font: 'Geist Sans';
-  --sl-font-mono: 'Geist Mono';
-  --x-font-display: 'Geist Sans', system-ui, sans-serif;
+  --sl-font: 'Inter Variable';
+  --sl-font-mono: 'IBM Plex Mono';
+  --x-font-display: 'Inter Variable', system-ui, sans-serif;
+  --x-font-mono-display: 'IBM Plex Mono', ui-monospace, monospace;
   --sl-text-base: 1rem;
   --sl-line-height: 1.65;
   --sl-content-width: 48rem;
@@ -141,21 +95,27 @@
 .sl-markdown-content h4,
 h1[data-page-title] {
   font-family: var(--x-font-display);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  letter-spacing: -0.025em;
   color: var(--sl-color-white);
   border: 0; /* whitespace, not rules, separates sections */
 }
 h1[data-page-title] {
   font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem);
-  letter-spacing: -0.03em;
 }
 .sl-markdown-content h2 {
   margin-top: 2.5em;
-  letter-spacing: -0.03em;
 }
 .sl-markdown-content strong {
   color: var(--x-ink);
+}
+/* The docs-home hero title (Landing.astro) wears the display mono, echoing
+   the 80x.ai typewriter hero. Declared here because the component's scoped
+   rule (.x-hero-title:where(...)) can't outrank the heading rule above. */
+.sl-markdown-content h1.x-hero-title {
+  font-family: var(--x-font-mono-display);
+  font-weight: 500;
+  letter-spacing: -0.025em;
 }
 
 /* Links: Geist blue, quiet, underline appears on hover only. The
@@ -375,116 +335,85 @@ button[data-open-modal] kbd kbd {
   color: var(--sl-color-gray-2);
 }
 
-/* --- Buttons: pills, white-on-black (dark) / black-on-white (light) ---------- */
+/* --- Buttons: square, translucent brand-tinted (the reference grammar) ------- */
 .sl-link-button {
   border-radius: var(--x-radius-pill);
-  font-weight: 500;
+  font-weight: 400;
   border: 0;
 }
 .sl-link-button.primary {
+  border: 1px solid var(--x-pill-edge);
   background: var(--x-pill-bg);
   color: var(--x-pill-ink);
+  transition: background 120ms ease, border-color 120ms ease;
 }
 .sl-link-button.primary:hover {
-  opacity: 0.85;
+  background: var(--x-pill-bg-hover);
+  border-color: var(--x-pill-edge-hover);
+  color: var(--x-pill-ink);
 }
 .sl-link-button.secondary {
-  border: 1px solid var(--x-edge-2);
+  border: 1px solid var(--x-surface-edge);
   color: var(--x-ink);
-  background: transparent;
+  background: var(--sl-color-bg);
 }
 .sl-link-button.secondary:hover {
-  background: var(--x-surface-2);
-  border-color: var(--sl-color-gray-3);
+  background: var(--sl-color-gray-6);
+  border-color: var(--x-edge-2);
 }
 .sl-link-button.minimal {
   color: var(--x-ink);
 }
 
-/* --- Header CTA (Book a teardown): primary lime pill --------------------------
-   The one primary conversion across 80x. Lime brand accent (echoes the wordmark
-   badge) so it reads as the action, near-black ink for contrast on lime. */
+/* --- Header CTA (Book a teardown): primary brand button -----------------------
+   The one primary conversion across 80x. The reference primary: translucent
+   brand fill, tinted hairline, bright lime label. */
 .header-cta {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
   height: 2rem;
   padding: 0 0.9rem;
-  border-radius: var(--x-radius-pill);
-  background: var(--x-lime);
-  color: var(--x-lime-ink);
+  border: 1px solid var(--x-pill-edge);
+  background: var(--x-pill-bg);
+  color: var(--x-pill-ink);
   font-size: var(--sl-text-xs);
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: none;
-  transition: opacity 120ms ease;
+  transition: background 120ms ease, border-color 120ms ease;
 }
 .header-cta:hover {
-  opacity: 0.85;
-  color: var(--x-lime-ink);
+  background: var(--x-pill-bg-hover);
+  border-color: var(--x-pill-edge-hover);
+  color: var(--x-pill-ink);
 }
 .header-cta:focus-visible {
   outline: 2px solid var(--x-lime);
   outline-offset: 2px;
 }
 
-/* --- Header "Contact": secondary bordered pill (matches the 80x.ai header) --- */
+/* --- Header "Contact": secondary bordered button (matches the 80x.ai header) - */
 .header-contact {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
   height: 2rem;
   padding: 0 0.9rem;
-  border-radius: var(--x-radius-pill);
-  border: 1px solid var(--x-edge-2);
+  border: 1px solid var(--x-surface-edge);
   background: transparent;
   color: var(--x-ink);
   font-size: var(--sl-text-xs);
-  font-weight: 500;
+  font-weight: 400;
   text-decoration: none;
   transition: background 120ms ease, border-color 120ms ease;
 }
 .header-contact:hover {
-  background: var(--x-surface-2);
-  border-color: var(--sl-color-gray-3);
+  background: var(--sl-color-gray-6);
+  border-color: var(--x-edge-2);
   color: var(--x-ink);
 }
 
-/* --- Theme toggle: quiet bordered icon button (matches the 80x.ai toggle) ---- */
-.x-theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid var(--x-edge-2);
-  border-radius: 0.5rem;
-  background: transparent;
-  color: var(--sl-color-gray-2);
-  cursor: pointer;
-  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
-  /* Sit first in the right group: [theme] [Contact] [Book a teardown], like 80x.ai. */
-  order: -1;
-}
-.x-theme-toggle:hover {
-  background: var(--x-surface-2);
-  color: var(--x-ink);
-  border-color: var(--sl-color-gray-3);
-}
-.x-theme-toggle .ico {
-  display: none;
-}
-/* Dark (default): show the sun (switch-to-light). Light: show the moon. */
-.x-theme-toggle .ico-sun {
-  display: inline-flex;
-}
-:root[data-theme='light'] .x-theme-toggle .ico-sun {
-  display: none;
-}
-:root[data-theme='light'] .x-theme-toggle .ico-moon {
-  display: inline-flex;
-}
-
-/* The right group now holds two pills + the toggle; drop Starlight's divider. */
+/* The right group holds the two CTAs; drop Starlight's divider. */
 .header .right-group .social-icons::after {
   display: none;
 }
@@ -587,22 +516,23 @@ button[data-open-modal] kbd kbd {
 .email-capture .ec-mailto {
   height: 2.5rem;
   padding: 0 1.1rem;
-  border: 0;
+  border: 1px solid var(--x-pill-edge);
   border-radius: var(--x-radius-pill);
   background: var(--x-pill-bg);
   color: var(--x-pill-ink);
-  font-weight: 500;
+  font-weight: 400;
   font-size: var(--sl-text-sm);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
-  transition: opacity 120ms ease;
+  transition: background 120ms ease, border-color 120ms ease;
 }
 .email-capture button:hover,
 .email-capture .ec-mailto:hover {
-  opacity: 0.85;
+  background: var(--x-pill-bg-hover);
+  border-color: var(--x-pill-edge-hover);
   color: var(--x-pill-ink);
 }
 
@@ -623,11 +553,14 @@ button[data-open-modal] kbd kbd {
 }
 
 /* --- Landing page -------------------------------------------------------------- */
+/* The docs hero headline wears the display mono, echoing the 80x.ai
+   typewriter hero (same face, same weight, same tracking). */
 [data-has-hero] .hero h1 {
-  font-family: var(--x-font-display);
-  letter-spacing: -0.035em;
-  font-weight: 600;
+  font-family: var(--x-font-mono-display);
+  letter-spacing: -0.025em;
+  font-weight: 500;
   font-size: clamp(1.9rem, 1.3rem + 2vw, 3.1rem);
+  line-height: 1.1;
   color: var(--sl-color-white);
 }
 [data-has-hero] .hero .tagline {
@@ -761,7 +694,7 @@ button[data-open-modal] kbd kbd {
   border-radius: 999px;
 }
 .quiz-opt.is-correct {
-  border-color: var(--x-ink);
+  border-color: var(--x-pill-edge-hover);
   background: var(--x-pill-bg);
   color: var(--x-pill-ink);
 }
@@ -777,7 +710,7 @@ button[data-open-modal] kbd kbd {
   top: 0.16rem;
   width: 0.28rem;
   height: 0.5rem;
-  border: solid var(--x-pill-bg);
+  border: solid var(--x-lime-ink);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
@@ -819,13 +752,15 @@ button[data-open-modal] kbd kbd {
 .course-nav-card.next {
   text-align: right;
   background: var(--x-pill-bg);
-  border-color: var(--x-pill-bg);
+  border-color: var(--x-pill-edge);
 }
 .course-nav-card.prev:hover {
-  border-color: var(--sl-color-gray-3);
+  border-color: var(--x-edge-2);
 }
 .course-nav-card.next:hover {
-  opacity: 0.85;
+  background: var(--x-pill-bg-hover);
+  border-color: var(--x-pill-edge-hover);
+  opacity: 1;
 }
 .course-nav-dir {
   font-family: var(--__sl-font-mono);

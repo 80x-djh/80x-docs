@@ -8,16 +8,16 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const MERMAID_JS = require.resolve('mermaid/dist/mermaid.min.js');
-const FONT_DIR = new URL('../public/fonts/', import.meta.url);
-const b64 = (name) =>
-  readFileSync(new URL(name, FONT_DIR)).toString('base64');
+const b64 = (pkgPath) =>
+  readFileSync(require.resolve(pkgPath)).toString('base64');
 // Load the real brand fonts into the render page so Mermaid measures label
 // widths with the SAME metrics used on the live site (otherwise boxes are
-// sized for a fallback font and the text overflows once Geist Mono applies).
+// sized for a fallback font and the text overflows once IBM Plex Mono applies).
 const FONT_CSS = `
-@font-face{font-family:'Geist Sans';src:url(data:font/woff2;base64,${b64('Geist-Variable.woff2')}) format('woff2');font-weight:100 900}
-@font-face{font-family:'Geist Mono';src:url(data:font/woff2;base64,${b64('GeistMono-Variable.woff2')}) format('woff2');font-weight:100 900}
-body{font-family:'Geist Mono',monospace}`;
+@font-face{font-family:'IBM Plex Mono';src:url(data:font/woff2;base64,${b64('@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2')}) format('woff2');font-weight:400}
+@font-face{font-family:'IBM Plex Mono';src:url(data:font/woff2;base64,${b64('@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2')}) format('woff2');font-weight:500}
+@font-face{font-family:'Inter Variable';src:url(data:font/woff2;base64,${b64('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')}) format('woff2');font-weight:100 900}
+body{font-family:'IBM Plex Mono',monospace}`;
 
 const CHROME =
   process.env.CHROME_PATH ||
@@ -35,20 +35,20 @@ export const MERMAID_CONFIG = {
   // <br/> tags when the inlined SVG is re-parsed at build time.
   htmlLabels: false,
   themeVariables: {
-    fontFamily: "'Geist Mono', ui-monospace, 'SF Mono', monospace",
+    fontFamily: "'IBM Plex Mono', ui-monospace, 'SF Mono', monospace",
     fontSize: '13px',
-    primaryColor: '#101010',
+    primaryColor: '#171717',
     primaryBorderColor: '#333333',
     primaryTextColor: '#ededed',
-    secondaryColor: '#101010',
-    tertiaryColor: '#0a0a0a',
-    lineColor: '#52a8ff',
-    edgeLabelBackground: '#0a0a0a',
-    clusterBkg: '#0a0a0a',
-    clusterBorder: '#1f1f1f',
+    secondaryColor: '#171717',
+    tertiaryColor: '#161616',
+    lineColor: '#aab800',
+    edgeLabelBackground: '#171717',
+    clusterBkg: '#1a1a1a',
+    clusterBorder: '#2a2a2a',
     titleColor: '#ededed',
     nodeTextColor: '#ededed',
-    background: '#000000',
+    background: '#111111',
   },
   flowchart: {
     htmlLabels: false,
@@ -83,8 +83,8 @@ export async function withRenderer(fn) {
     await page.addScriptTag({ content: readFileSync(MERMAID_JS, 'utf8') });
     // Ensure the brand fonts are decoded before Mermaid measures any text.
     await page.evaluate(async () => {
-      await document.fonts.load("13px 'Geist Mono'");
-      await document.fonts.load("13px 'Geist Sans'");
+      await document.fonts.load("13px 'IBM Plex Mono'");
+      await document.fonts.load("13px 'Inter Variable'");
       await document.fonts.ready;
     });
     const render = async (def, id) => {

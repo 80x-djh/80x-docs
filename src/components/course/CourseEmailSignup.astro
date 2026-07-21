@@ -147,14 +147,14 @@ const {
     flex: 0 0 auto;
     height: 2.75rem;
     padding: 0 1.4rem;
-    border: 1px solid var(--x-pill-bg);
-    border-radius: 999px;
+    border: 1px solid var(--x-pill-edge);
+    border-radius: var(--x-radius-pill);
     background: var(--x-pill-bg);
     color: var(--x-pill-ink);
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 400;
     cursor: pointer;
-    transition: opacity 120ms ease;
+    transition: background 120ms ease, border-color 120ms ease, opacity 120ms ease;
   }
   .cs-btn:hover:not(:disabled) {
     opacity: 0.85;

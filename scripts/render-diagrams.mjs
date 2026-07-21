@@ -3,7 +3,7 @@
 // Scans every doc under src/content/docs for ```mermaid fenced blocks, renders
 // each one to a content-hashed, brand-themed SVG under src/diagrams/, and prunes
 // any committed SVG that is no longer referenced by a fence. The low-level render
-// (system Chrome via puppeteer-core, inlined Geist fonts, SVG normalisation) lives
+// (system Chrome via puppeteer-core, inlined brand fonts, SVG normalisation) lives
 // in scripts/mermaid-render.mjs; this file only orchestrates it.
 //
 // The filename is a hash of the fence body ALONE, so the remark plugin
